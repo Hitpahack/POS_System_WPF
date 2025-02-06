@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="FalcaPOS.AddInventory.Views.AddCategory"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.AddInventory.Views"
+              xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+    </UserControl.Resources>
+    <materialDesign:PopupBox IsPopupOpen="{Binding PopupClose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StaysOpen="True">
+        <materialDesign:PopupBox.ToggleContent>
+            <materialDesign:PackIcon Kind="PlusThick"  AutomationProperties.AutomationId="btnManageCategoryAddCategoryId" />
+        </materialDesign:PopupBox.ToggleContent>
+        <Grid Width="200" Margin="8,8,8,8">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="8,8,8,8"
+                FontSize="20"
+                Text="Add Category" AutomationProperties.AutomationId="tbManageCategoryAddCategoryId" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBox
+                    Width="180"
+                    Margin="0,0,0,10"
+                    materialDesign:HintAssist.Hint="Category *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtManageCategoryAddCategoryId"
+                    Text="{Binding CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0 5 0 0 ">
+                <TextBlock>Certificate Category</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                    <RadioButton AutomationProperties.AutomationId="rbManageCategoryCertificateCategoryYesId"  IsChecked="{Binding  Certificate, Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter='Yes'}" Content="Yes"></RadioButton>
+                    <RadioButton AutomationProperties.AutomationId="rbManageCategoryCertificateCategoryNoId" Margin="10 0 0 0" IsChecked="{Binding Certificate , Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter='No'}" Content="No"></RadioButton>
+                </StackPanel>
+            </StackPanel>
+            <Button
+                Grid.Row="4"
+                Width="80"
+                Margin="10"
+                HorizontalAlignment="Right"
+                AutomationProperties.AutomationId="btnManageCategoryAddId"
+                Command="{Binding AddCategoryCommand}"
+                Style="{StaticResource RoundTextButton}">
+                Add
+            </Button>
+        </Grid>
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Opened">
+                <prism:InvokeCommandAction Command="{Binding PopUpOpendCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+    </materialDesign:PopupBox>
+
+</UserControl>

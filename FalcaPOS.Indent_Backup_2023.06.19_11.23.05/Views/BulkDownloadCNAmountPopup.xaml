@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.BulkDownloadCNAmountPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common" 
+             xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Background="White" Orientation="Vertical" Width="500">
+        <Button HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Foreground="Red" Content="X" FontSize="20" >
+        </Button>
+        <ItemsControl Height="220" ItemsSource="{Binding CNAmountPopups}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="{Binding Path=Suppplier}"></TextBlock>
+                        <ItemsControl  Grid.Row="1" Height="130" Style="{DynamicResource itemcontrolstyleforindentpop}" Margin="0 0 0 0"  ItemsSource="{Binding SelectedReturnModels,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0 0 10 5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:Card Padding="3" Margin="5 5 0 0">
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock VerticalAlignment="Center" ToolTip="{Binding CreditNoteNumber}" Grid.Column="0" Margin="10 0 0 0" Text="{Binding CreditNoteNumber}"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Grid.Column="1"  Margin="10  0 0 0"  Text="{Binding CreditNoteDate}"></TextBlock>
+                                                <StackPanel Orientation="Horizontal" Grid.Column="2" >
+                                                    <materialDesign:PackIcon Margin="5 0 0 0"  Kind="Rupee" VerticalAlignment="Center" Style="{StaticResource IconMargin}" />
+                                                    <TextBlock VerticalAlignment="Center"  Margin="5 0 0 0" FontSize="14" FontWeight="Bold" Text="{Binding Total}"></TextBlock>
+                                                </StackPanel>
+
+
+                                            </Grid>
+                                        </materialDesign:Card>
+
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+                        <TextBlock Grid.Row="2" Text="Are you sure you want to continue" HorizontalAlignment="Center" FontWeight="Bold" FontSize="13"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Width="120" Margin="0 0 0 10" Content="Confirm" Style="{StaticResource RoundTextButton}"  Command="{Binding DataContext.ConfirmCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownloadCNAmountPopup}}}" 
+                         CommandParameter="{Binding ElementName=btnclose}" VerticalAlignment="Bottom" x:Name="btnupdate" ></Button>
+    </StackPanel>
+</UserControl>

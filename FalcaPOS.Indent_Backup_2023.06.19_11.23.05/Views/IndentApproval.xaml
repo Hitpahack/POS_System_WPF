@@ -1,0 +1,860 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.IndentApproval"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+             xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d"
+             Background="White"
+             d:DesignHeight="450" d:DesignWidth="1800"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="12"></Setter>
+        </Style>
+       
+        <converters:IndentPaymentConverter x:Key="Indentpaymentconvert"/>
+        <converters:NullToBooleanConverter x:Key="NulltoBoolconverter"></converters:NullToBooleanConverter>
+        <converters:NotNullToBooleanConverter x:Key="notnullbooleanconverter"/>
+        <converters:ZeroToVisiblityConverter x:Key="zerovisiblityconverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="Inversbooleanconverter"></converters:InverseBooleanToVisibilityConverter>
+       
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6.9*"></ColumnDefinition>
+            <ColumnDefinition Width="3.1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="*" ></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid  Grid.Row="0" Grid.ColumnSpan="2" Margin="5 10 5 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <materialDesign:PackIcon Foreground="{DynamicResource MahApps.Brushes.Badged.Background}" Margin="10 8 0 0"  Kind="FormatListNumbers"></materialDesign:PackIcon>
+                <TextBlock  Margin="5 8 0 0" Text="INDENT NO : "></TextBlock>
+                <TextBlock  Margin="0 8 0 0"  Text="{Binding ProcessindentView.PoNumber}"></TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <materialDesign:PackIcon Foreground="{DynamicResource MahApps.Brushes.Badged.Background}" Margin="10 8 0 0"  Kind="DateRange"></materialDesign:PackIcon>
+                <TextBlock  Margin="5 8 0 0" Text="INDENT DATE : "></TextBlock>
+                <TextBlock Margin="5 8 0 0" Text="{Binding ProcessindentView.Date}"></TextBlock>
+
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <materialDesign:PackIcon Margin="5 8 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"  Kind="Store"></materialDesign:PackIcon>
+                <TextBlock  Margin="5 8 0 0" ToolTip ="{Binding ProcessindentView.StoreName}" Text="{Binding ProcessindentView.StoreName}"></TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="3" Orientation="Horizontal">
+                <Button Margin="20 0 0 0"  Style="{StaticResource MaterialDesignIconButton}"  HorizontalAlignment="Right"   IsEnabled="{Binding IsExportEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Download Purchase Order" Height="30" Width="50"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:IndentApproval}}, Path=DataContext.ExportCommand}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Download" />
+                    </Button.Content>
+                </Button>
+
+                <Button  Margin="5 0 0 0"
+                         Height="40"
+                         Width="140" Content="Change Status"
+                         Style="{DynamicResource RoundTextButton}"
+                         IsEnabled="{Binding IsEnableBtnChangeStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                         HorizontalAlignment="Right" 
+                         VerticalAlignment="Center" 
+                         Command="{Binding DataContext.ChangeStatusCommand,RelativeSource={RelativeSource AncestorType={x:Type local:IndentApproval}}}" 
+                         CommandParameter="{Binding ProcessindentView}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEnableBtnChangeStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" Value="False">
+                                    <Setter Property="Background" Value="Gray"></Setter>
+                                    <Setter Property="Opacity" Value="0.1"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+            </StackPanel>
+
+        </Grid>
+
+        <StackPanel Grid.Row="1" Margin="5 0 0 0" Grid.ColumnSpan="2">
+            <!--<mde:Stepper x:Name="stepper" IsLinear="False"
+                         BlockNavigationOnValidationErrors="False"                        
+                         Steps="{Binding Path=Steps, Mode=OneTime}"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         DoneIconTemplate="{DynamicResource MaterialDesignStepDoneIconTemplate}"
+                         ValidationErrorIconTemplate="{DynamicResource MaterialDesignStepValidationErrorIconTemplate}">
+            </mde:Stepper>-->
+            <mde:TabControlStepper x:Name="m_stepper"  IsLinear="True"
+                                      ContentAnimationsEnabled="True"
+                                       DoneIconTemplate="{DynamicResource MaterialDesignStepDoneIconTemplate}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Plan" SecondLevelTitle="Store Person" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Review" SecondLevelTitle="Territory Manager" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Approve" SecondLevelTitle="Regional Manager" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Add Supplier" SecondLevelTitle="Purchase manager" />
+                    </TabItem.Header>
+                </TabItem>
+                <!--<TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Approve/Reject" SecondLevelTitle="Director" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Approved" SecondLevelTitle="Director" />
+                    </TabItem.Header>
+                </TabItem>-->
+              
+                <TabItem FontSize="13">
+                    <TabItem.Header>
+                        <mde:StepTitleHeader  FirstLevelTitle="Placed" SecondLevelTitle="Purchase manager" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem FontSize="13">
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="In Transit" SecondLevelTitle="Purchase manager" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Received" SecondLevelTitle="Store Person" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Payment" SecondLevelTitle="Finance" />
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <mde:StepTitleHeader FirstLevelTitle="Closed" SecondLevelTitle="Purchase manager" />
+                    </TabItem.Header>
+                </TabItem>
+               
+
+            </mde:TabControlStepper>
+        </StackPanel>
+
+
+        <Grid Grid.Row="2" Grid.Column="0" Margin="10 10 0 0 ">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Controls:MetroTabControl Grid.Row="0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="Segoe UI"
+        Controls:HeaderedControlHelper.HeaderFontSize="13"
+        Controls:TabControlHelper.Underlined="TabItems"
+        AutomationProperties.AutomationId="tcSalesHomeId"
+        Background="White"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+                <Controls:MetroTabItem Header="PRODUCT LIST" Selector.IsSelected="True" >
+                    <ContentControl>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+                            </Grid.RowDefinitions>
+                            <telerik:RadGridView Grid.Row="1"   
+                                                 Background="White"  
+                                                 ScrollViewer.CanContentScroll="True"   
+                                                 Margin="10 10 0 300" 
+                                                 IsReadOnly="True" 
+                                                 AutoGenerateColumns="False"  
+                                                 RowIndicatorVisibility="Collapsed"
+                                                 ShowGroupPanel="False"
+                                                 ItemsSource="{Binding ProcessindentView.Products,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                                <telerik:RadGridView.Columns>
+
+                                    <telerik:GridViewColumn Width="*" Header="SKU">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding SKU}"></Label>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="ProductName">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding ProductName}"></Label>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*"  Header="BrandName">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding BrandName}"></Label>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="Sub Categroy">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding ProductType}"></Label>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                   
+                                    <telerik:GridViewColumn Width="*" Header="Quantity">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Quantity}"></Label>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="Tm Qty">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource InverseBoolToVisConverter}}" Content="{Binding TmQty}"></Label>
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource boolToVisibilityConverter}}" Content="NA"></Label>
+                                                </StackPanel>
+                                              
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="Rm Qty">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+
+
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource InverseBoolToVisConverter}}" Content="{Binding RmQty}"></Label>
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource boolToVisibilityConverter}}" Content="NA"></Label>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="RSP">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource InverseBoolToVisConverter}}" Content="{Binding Rsp}"></Label>
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource boolToVisibilityConverter}}" Content="NA"></Label>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="GST(%)">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <Label Visibility="{Binding IsInclusiveGstdatagrid,Converter={StaticResource InverseBoolToVisConverter}}" Content="{Binding SelectedGSTslab.Name}"></Label>
+                                                    <Label Visibility="{Binding IsInclusiveGstdatagrid,Converter={StaticResource boolToVisibilityConverter}}" Content="NA"></Label>
+                                                </StackPanel>
+
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="EstimatedPrice/Qty" >
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <Label Visibility="{Binding IsEstimatePrice, Converter={StaticResource InverseBoolToVisConverter}}" Content="{Binding EstimatedPrice}"></Label>
+                                                    <Label  Visibility="{Binding IsEstimatePrice, Converter={StaticResource boolToVisibilityConverter}}" Content="NA"></Label>
+                                                </StackPanel>
+
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                    <telerik:GridViewColumn Width="*" Header="AvailableQty">
+                                        <telerik:GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding AvailableQty}"></Label>
+                                            </DataTemplate>
+                                        </telerik:GridViewColumn.CellTemplate>
+                                    </telerik:GridViewColumn>
+                                </telerik:RadGridView.Columns>
+                            </telerik:RadGridView>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Left">
+                                <Label HorizontalContentAlignment="Center" Foreground="Red" Margin="5 2 0 0" Visibility="{Binding ProcessindentView.IsInclusiveGST,Converter={StaticResource boolToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">Note: All prices are inclusive of GST</Label>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Right">
+                                <TextBlock FontSize="14" Visibility="{Binding ProcessindentView.IsTotalEstimantedAmount,Converter={StaticResource boolToVisibilityConverter}}"  Text="{Binding ProcessindentView.TotalEstimantedAmount,StringFormat='Total estimated amount: {0} ' }"></TextBlock>
+                                <TextBlock FontSize="14" Visibility="{Binding ProcessindentView.IsTotalEstimantedAmount,Converter={StaticResource boolToVisibilityConverter}}"  Text="{Binding ProcessindentView.TotalAvailableQty,StringFormat='Total available qty: {0} ' }" Margin="40 0 20 0"></TextBlock>
+                            </StackPanel>
+                         
+                        </Grid>
+                      
+                    </ContentControl>
+                </Controls:MetroTabItem>
+                <Controls:MetroTabItem Header="SUPPLIER AND PAYMENT DETAILS">
+                    <ContentControl>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>                               
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.ColumnSpan="2" Margin="20 20 0 0" Text="BASIC DETAILS" Style="{StaticResource MaterialDesignBody2TextBlock}" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="0"></TextBlock>
+                            <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Visibility="Collapsed" Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="ARRIVING DATE :"></TextBlock>
+                                <TextBlock Margin="10 0 0 0" Text="{Binding ProcessindentView.ArrivingDate,StringFormat='{}{0:dd-MM-yyyy}'}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Margin="0 20 0 0" Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="CREDIT PERIOD :"></TextBlock>
+                                <TextBlock Margin="10 0 0 0" Text="{Binding ProcessindentView.CreditPeriod}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding ProcessindentView.SupplierDetails,Converter={StaticResource notNullToVisibileConverter}}"  Grid.Column="0" Grid.Row="1" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="OfficeBuilding"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SupplierDetails.SupplierName}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="SupplierName"></TextBox>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding ProcessindentView.SupplierDetails,Converter={StaticResource notNullToVisibileConverter}}"   Margin="10 0 0 0"  Grid.Column="1" Grid.Row="1"  IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="SackPercent"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SupplierDetails.GST}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="GST"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel  Visibility="{Binding ProcessindentView.SupplierDetails,Converter={StaticResource notNullToVisibileConverter}}"  Margin="7 0 0 0"  Grid.Column="2" Grid.Row="1"  IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SupplierDetails.Category}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="Type"></TextBox>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding ProcessindentView.SupplierDetails,Converter={StaticResource notNullToVisibileConverter}}"   Margin="10 0 0 0"  Grid.Column="0" Grid.Row="2" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SupplierDetails.District}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="District"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel  Visibility="{Binding ProcessindentView.SupplierDetails,Converter={StaticResource notNullToVisibileConverter}}"  Margin="10 0 0 0"  Grid.Column="1"  Grid.Row="2" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SupplierDetails.State}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="State"></TextBox>
+                            </StackPanel>
+                            <Label Grid.Column="1"  Grid.Row="1" Visibility="{Binding ProcessindentView.SupplierDetails,Converter={StaticResource nullToVisibleConverter}}">YET TO ADD</Label>
+
+                            <TextBlock Grid.ColumnSpan="2" Margin="20 20 0 0" Text="PAYMENT DETAILS" Style="{StaticResource MaterialDesignBody2TextBlock}" FontSize="12" FontWeight="Bold" Grid.Row="3" Grid.Column="0"></TextBlock>
+
+                            <!--<StackPanel  Visibility="{Binding ProcessindentView.SelectedBankDetail,Converter={StaticResource notNullToVisibileConverter}}"   Grid.Column="0" Grid.Row="4" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="OfficeBuilding"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SelectedBankDetail.AccountNo}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="AC No"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel  Visibility="{Binding ProcessindentView.SelectedBankDetail,Converter={StaticResource notNullToVisibileConverter}}" Margin="10 0 0 0"  Grid.Column="1" Grid.Row="4"  IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SelectedBankDetail.BrnachName}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="Branch"></TextBox>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding ProcessindentView.SelectedBankDetail,Converter={StaticResource notNullToVisibileConverter}}"  Margin="10 0 0 0"  Grid.Column="2" Grid.Row="4" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SelectedBankDetail.AccountType}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="Ac Type"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding ProcessindentView.SelectedBankDetail,Converter={StaticResource notNullToVisibileConverter}}"  Margin="10 0 0 0"  Grid.Column="0"  Grid.Row="5" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SelectedBankDetail.IFSC}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="IFSC"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding ProcessindentView.SelectedBankDetail,Converter={StaticResource notNullToVisibileConverter}}"  Margin="10 0 0 0"  Grid.Column="1"  Grid.Row="5" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200" 
+                               Text="{Binding ProcessindentView.SelectedBankDetail.BankName}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="Bank"></TextBox>
+                            </StackPanel>
+                            <Label Grid.Column="1"  Grid.Row="4" Visibility="{Binding ProcessindentView.SelectedBankDetail,Converter={StaticResource nullToVisibleConverter}}">YET TO ADD</Label>
+                          <TextBlock Grid.ColumnSpan="2" Margin="20 20 0 0" Text="PAYMENT DETAILS" Style="{StaticResource MaterialDesignBody2TextBlock}" FontSize="12" FontWeight="Bold" Grid.Row="6" Grid.Column="0"></TextBlock>
+                           
+                            <StackPanel   Margin="10 0 0 0"  Grid.Column="0"  Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <TextBox   Width="200"  IsEnabled="{Binding ProcessindentView.IsRefrenceNo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                               Text="{Binding ProcessindentView.RefrenceNo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="Reference No"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel  Margin="10 0 0 0"  Grid.Column="1"  Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon 
+                         Kind="EventNote"  
+                        Margin="0 30 0 0"
+                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                <DatePicker   Width="200" IsEnabled="{Binding  ProcessindentView.IsPaymentDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                               Text="{Binding ProcessindentView.PaymentDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"                           
+                          Margin="3 10 0 0"
+                          materialDesign:HintAssist.IsFloating="True" 
+                          materialDesign:HintAssist.Hint="Payment Date"></DatePicker>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon
+                                Width="25" Margin="0 10 0 0"
+                            Height="25"
+                                Kind="Rupee" VerticalAlignment="Center"
+                                Style="{StaticResource IconMargin}" />
+                                <TextBlock
+                           Margin="0 10 0 0"
+                         HorizontalAlignment="Center"
+                            materialDesign:HintAssist.Hint="Payable Amount"
+                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                            materialDesign:HintAssist.IsFloating="True"
+                            AutomationProperties.AutomationId="txtSalesViewPaybleAmountId"
+                            FontSize="25"    FontWeight="Bold"                    
+                            Text="{Binding ProcessindentView.PayableAmount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <Button Visibility="{Binding ProcessindentView.IsUpateBtnVisiblity,Converter={StaticResource boolToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="8" Margin="0 20 0 0" HorizontalAlignment="Right" Width="140" 
+                                    Command="{Binding AddPaymentCommand}" CommandParameter="{Binding}">Update Payment</Button>-->
+                            <StackPanel Grid.Row="3" Grid.Column="1" Margin="0 20 0 0" Orientation="Horizontal">
+                                <TextBlock >BALANCE :  </TextBlock>
+                                <TextBlock Text="{Binding ProcessindentView.Balance,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                            </StackPanel>
+                           
+                            <Button Grid.Column="2" HorizontalAlignment="Right" Visibility="{Binding ProcessindentView.IsUpateBtnVisiblity,Converter={StaticResource boolToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    Grid.Row="3" Command="{Binding DataContext.AddRemainPartialPaymentsCommand,RelativeSource={RelativeSource AncestorType={x:Type local:IndentApproval}}}"  Foreground="#249225" Background="{x:Null}" Cursor="Hand" FontSize="12" Style="{StaticResource MahApps.Styles.Button.Flat}" Width="130" 
+                                    CommandParameter="{Binding}">+ ADD PAYMENT</Button>
+
+                            <ItemsControl  Style="{StaticResource itemcontrolstyleuploadinvoice}" ItemsSource="{Binding ProcessindentView.PaymentsList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="20 5 0 0" Grid.ColumnSpan="3" Grid.Row="4">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Card  Padding="4" Margin="5 5 0 0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition />                                                    
+                                                    <ColumnDefinition />                                                    
+                                                    <ColumnDefinition />                                                    
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="5*"/>
+                                                    <RowDefinition Height="5*"/>                            
+                                                </Grid.RowDefinitions>
+
+                                                <StackPanel   Grid.Column="0" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon  Kind="Rupee"  Margin="0 30 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                                    <TextBox Width="120" Text="{Binding PaymentTotal}" VerticalAlignment="Center" materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.Hint="Amount"></TextBox>
+                                                </StackPanel>
+
+                                                <StackPanel  Margin="5 0 0 0"  Grid.Column="1" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                   <DatePicker Width="120" Text="{Binding PaymentDate}" VerticalAlignment="Center" materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.Hint="Payment Date"></DatePicker>
+                                                </StackPanel>
+
+                                                <StackPanel Margin="5 0 0 0" Visibility="{Binding PayrefNo,Converter={StaticResource notNullToVisibilityConverter}}" Grid.Column="2"  IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon  Kind="BankTransfer"  Margin="0 30 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                                    <TextBox Width="120" Text="{Binding PayrefNo}" VerticalAlignment="Center" materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.Hint="UTR"></TextBox>
+                                                </StackPanel>
+
+                                                <StackPanel Margin="5 0 0 0"  Visibility="{Binding PayrefNo,Converter={StaticResource notNullToVisibilityConverter}}" Grid.Column="3" Grid.Row="0" IsEnabled="False" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <DatePicker Width="120" Text="{Binding PaidDate}" VerticalAlignment="Center" materialDesign:HintAssist.IsFloating="True"  materialDesign:HintAssist.Hint="UTR Date"></DatePicker>
+                                                </StackPanel>
+
+
+                                                <StackPanel Grid.Row="0" Grid.RowSpan="2" Margin="5 0 0 0" Visibility="{Binding NetPaidAmount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource NotZeroToVisibilityConverter}}" VerticalAlignment="Center" Grid.Column="4" IsEnabled="False" Orientation="Vertical" HorizontalAlignment="Center">
+                                                    <TextBlock Margin="25 0 0 0" FontSize="8" Text="(Amount - C/N Redeem)"></TextBlock>
+                                                    <TextBlock Margin="20 3 0 0" FontSize="10.5">
+                                                        <TextBlock.Style>
+                                                            <Style>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding PayrefNo}" Value="{x:Null}">
+                                                                        <Setter Property="TextBlock.Text" Value="NET PAYABLE AMOUNT"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding PayrefNo,Converter={StaticResource notnullbooleanconverter}}" Value="False">
+                                                                        <Setter Property="TextBlock.Text" Value="NET PAID AMOUNT"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <materialDesign:PackIcon  Kind="Rupee"  VerticalAlignment="Center" Margin="0 5 0 0 " Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                                                        <TextBlock Text="{Binding NetPaidAmount}" HorizontalAlignment="Center" Margin="0 5 0 0 "  Grid.Column="0" FontSize="14" FontWeight="Bold"></TextBlock>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+
+                                                <TextBlock Visibility="{Binding SelectedReturnModels.Count,Converter={StaticResource NotZeroToVisibilityConverter} }" Text="REDEEMED C/N :" Grid.Row="1" Margin="7 15 0 0 " Grid.Column="0"></TextBlock>
+
+                                                <ItemsControl  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"   ItemsSource="{Binding  SelectedReturnModels}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                                                                </Grid.ColumnDefinitions>
+                                                                <materialDesign:Chip Margin="0 5 5 5"  
+                                                 Content="{Binding CreditNoteNumber,Mode=TwoWay}" ToolTip="CreditNote Number"></materialDesign:Chip>
+                                                                <TextBlock Grid.Column="1" Margin="0 5 5 5" FontSize="14" VerticalAlignment="Center" Text=":"></TextBlock>
+                                                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                                    <materialDesign:PackIcon
+                                Margin="0 0 0 0"
+                                Kind="Rupee" VerticalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                Style="{StaticResource IconMargin}" />
+                                                                    <TextBlock  Margin="0 5 5 5"    ToolTip="Credit Amount" FontSize="14" VerticalAlignment="Center" Text="{Binding Total,Mode=TwoWay}"></TextBlock>
+                                                                </StackPanel>
+
+                                                            </Grid>
+
+
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+
+                                                </ItemsControl>
+                                            </Grid>
+                                        </materialDesign:Card>
+
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                           
+                        </Grid>
+                    </ContentControl>
+                </Controls:MetroTabItem>
+                <Controls:MetroTabItem Header="INVENTORY DETAILS">
+                    <ContentControl>
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <materialDesign:Card Grid.Row="0" Height="40" Margin="5 10 5 5">
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition  Width="80"/>
+                                        </Grid.ColumnDefinitions>
+                                       
+
+                                        <StackPanel HorizontalAlignment="Center" Grid.ColumnSpan="5" Orientation="Horizontal">
+                                            <Label FontWeight="Bold" FontSize="12" Margin="0 10 0 0">PROFORMA INVOICE(Optional):</Label>
+                                            <Button Margin="0 0 0 0"  Style="{StaticResource MaterialDesignIconButton}" IsEnabled="{Binding ProcessindentView.IsProformaDownloadbtnEnabled}"   HorizontalAlignment="Right"  ToolTip="Proforma Invoice" Height="20" Width="50" 
+                                                    CommandParameter="{Binding ProcessindentView.FileAttachments.FileId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:IndentApproval}}, Path=DataContext.DownloadFileCommand}">
+                                                <Button.Content>
+                                                    <materialDesign:PackIcon Kind="Download" />
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+
+                                    </Grid>
+
+
+
+                                </materialDesign:Card>
+
+                                <ItemsControl   Margin="0 10 0 0" Grid.Row="1" ItemsSource="{Binding ProcessindentView.IndentInventoryDCDetails}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card Padding="10" Margin="3">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition  Width="80"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="Invoice"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="DC NO : "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding DcNo}" FontSize="12"  Margin="5 0 0 0" Text="{Binding Path=DcNo}"></TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="DateRange"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="DC DATE : "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding DcDate,StringFormat='{}{0:dd-MM-yyyy}'}" FontSize="12"  Margin="5 0 0 0">
+                                                            <TextBlock.Resources>
+                                                                <Style TargetType="{x:Type TextBlock}">
+                                                                    <Setter Property="Text" Value="{Binding Path=DcDate,StringFormat='{}{0:dd-MM-yyyy}'}"></Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=DcDate,Mode=TwoWay}" Value="{x:Null}">
+                                                                            <Setter Property="Text" Value="Yet to add"></Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Resources>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="DateRange"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="POS ENTRY DATE : "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding POSEntryDate,StringFormat='{}{0:dd-MM-yyyy}'}" FontSize="12"  Margin="5 0 0 0">
+                                                            <TextBlock.Resources>
+                                                                <Style TargetType="{x:Type TextBlock}">
+                                                                    <Setter Property="Text" Value="{Binding Path=POSEntryDate,StringFormat='{}{0:dd-MM-yyyy}'}"></Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=POSEntryDate,Mode=TwoWay}" Value="{x:Null}">
+                                                                            <Setter Property="Text" Value="Yet to add"></Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Resources>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="3" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="Numbers"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="QTY/SUBQTY: "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding Path=Qty}" FontSize="12"  Margin="10 0 0 0">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                                    <Binding Path="Qty"></Binding>
+                                                                    <Binding Path="SubQty"></Binding>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+
+                                                        </TextBlock>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Column="4" Orientation="Horizontal">
+                                                        <Button Margin="20 0 0 0"  Style="{StaticResource MaterialDesignIconButton}" IsEnabled="{Binding IsInventoryDownloadBtnEnabled}"  HorizontalAlignment="Right"  ToolTip="Download Inward Invoice" Height="20" Width="50" CommandParameter="{Binding FileID}"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:IndentApproval}}, Path=DataContext.DownloadIndentInvoiceCommand}">
+                                                            <Button.Content>
+                                                                <materialDesign:PackIcon Kind="Download" />
+                                                            </Button.Content>
+                                                        </Button>
+                                                    </StackPanel>
+
+                                                </Grid>
+
+                                            </materialDesign:Card>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <ItemsControl   Margin="0 10 0 0" Grid.Row="2" ItemsSource="{Binding ProcessindentView.IndentInventoryDetails}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card Padding="10" Margin="3">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition  Width="80"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="Invoice"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="INVOICE NO : "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding InvoiceNo}" FontSize="12"  Margin="5 0 0 0" Text="{Binding Path=InvoiceNo}"></TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="DateRange"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="INVOICE DATE : "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding InvoiceDate,StringFormat='{}{0:dd-MM-yyyy}'}" FontSize="12"  Margin="5 0 0 0">
+                                                            <TextBlock.Resources>
+                                                                <Style TargetType="{x:Type TextBlock}">
+                                                                    <Setter Property="Text" Value="{Binding Path=InvoiceDate,StringFormat='{}{0:dd-MM-yyyy}'}"></Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=InvoiceDate,Mode=TwoWay}" Value="{x:Null}">
+                                                                            <Setter Property="Text" Value="Yet to add"></Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Resources>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="DateRange"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="POS ENTRY DATE : "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding POSEntryDate,StringFormat='{}{0:dd-MM-yyyy}'}" FontSize="12"  Margin="5 0 0 0">
+                                                            <TextBlock.Resources>
+                                                                <Style TargetType="{x:Type TextBlock}">
+                                                                    <Setter Property="Text" Value="{Binding Path=POSEntryDate,StringFormat='{}{0:dd-MM-yyyy}'}"></Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=POSEntryDate,Mode=TwoWay}" Value="{x:Null}">
+                                                                            <Setter Property="Text" Value="Yet to add"></Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Resources>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="3" VerticalAlignment="Center" Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Margin="10 0 0 0"   Kind="Numbers"></materialDesign:PackIcon>
+                                                        <TextBlock FontSize="12" Margin="5 0 0 0" Text="QTY/SUBQTY: "></TextBlock>
+                                                        <TextBlock ToolTip="{Binding Path=Qty}" FontSize="12"  Margin="10 0 0 0">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0}/{1}">
+                                                                    <Binding Path="Qty"></Binding>
+                                                                    <Binding Path="SubQty"></Binding>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+
+                                                        </TextBlock>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Column="4" Orientation="Horizontal">
+                                                        <Button Margin="20 0 0 0"  Style="{StaticResource MaterialDesignIconButton}" IsEnabled="{Binding IsInventoryDownloadBtnEnabled}"  HorizontalAlignment="Right"  ToolTip="Download Inward Invoice" Height="20" Width="50" CommandParameter="{Binding FileID}"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:IndentApproval}}, Path=DataContext.DownloadIndentInvoiceCommand}">
+                                                            <Button.Content>
+                                                                <materialDesign:PackIcon Kind="Download" />
+                                                            </Button.Content>
+                                                        </Button>
+                                                    </StackPanel>
+
+                                                </Grid>
+
+                                            </materialDesign:Card>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+
+                          
+                        </Grid>
+                       
+                    </ContentControl>
+
+
+                </Controls:MetroTabItem>                
+            </Controls:MetroTabControl>
+        </Grid>
+
+        <TextBlock Text="ACTIVITY LOGS" FontSize="13" Grid.Row="2" Grid.Column="1" Margin="20 20 0 0"  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"></TextBlock>
+
+
+        <ItemsControl  Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Margin="5 40 0 0" Style="{StaticResource itemcontrolstyle}" ItemsSource="{Binding ProcessindentView.AcivityLogs,Mode=TwoWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <materialDesign:Card Padding="7" Margin="10" MinWidth="350" materialDesign:ShadowAssist.ShadowDepth="Depth1" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4.5*"></ColumnDefinition>
+                                <ColumnDefinition  Width="5.5*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Date}" ToolTip="{Binding Date}" Style="{DynamicResource MaterialDesignBody2TextBlock}" Grid.Column="0"></TextBlock>
+                            <TextBlock  HorizontalAlignment="Center" ToolTip="{Binding UserAndRole}" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding UserAndRole}" Grid.Column="1"></TextBlock>
+                            <TextBlock Margin="0 20 0 0 " ToolTip="{Binding Status}" Foreground="{DynamicResource InformationColorBrush}" Style="{DynamicResource MaterialDesignBody2TextBlock}" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Status}" ></TextBlock>
+                        </Grid>
+                    </materialDesign:Card>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+
+
+    </Grid>
+
+</UserControl>

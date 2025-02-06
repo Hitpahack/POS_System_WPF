@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="FalcaPOS.Stock.Views.StockTransferHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+              xmlns:GlobalConverter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/"
+    Padding="10"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="white"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Controls:MetroTabControl
+        Margin="0,5,0,0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="Segoe UI"
+        Controls:HeaderedControlHelper.HeaderFontSize="15"
+        Controls:TabControlHelper.Underlined="TabItems"
+        AutomationProperties.AutomationId="tcStocktransferHomeId"
+        SelectedIndex="{Binding SelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Background="white"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tirsptransferId" Header="RSP Request">
+            <ContentControl prism:RegionManager.RegionName="RSPRequestRegion" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tistocksrequesId"  Header="Store Request">
+            <ContentControl prism:RegionManager.RegionName="StockReuestRegion" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tistockstransferId" Header="Transfer">
+            <ContentControl prism:RegionManager.RegionName="StockTransferRegion"/>
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tiStockreceiverId"  Header="Receive">
+            <ContentControl prism:RegionManager.RegionName="StockReceiverRegion"/>
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tiStockreceiverId" Visibility="Collapsed" Header="Stock Approval">
+            <ContentControl prism:RegionManager.RegionName="StockApprovalRegion"/>
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tiStockCompletedId"  Header="Completed">
+            <ContentControl prism:RegionManager.RegionName="StockcompletedRegion"/>
+        </Controls:MetroTabItem>
+    </Controls:MetroTabControl>
+</UserControl>

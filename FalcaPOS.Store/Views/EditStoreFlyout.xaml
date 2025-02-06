@@ -1,0 +1,290 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Store.Views.EditStoreFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+    xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.Store.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UserControl="clr-namespace:FalcaPOS.Store.Views"
+    xmlns:prism="http://prismlibrary.com/" 
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+   
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="stylelabel" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{DynamicResource Poppins}"/>
+            <Setter Property="Margin" Value="5 5 0 0"></Setter>
+        </Style>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+        <converters:ArrayToVisibilityConverter x:Key="ArrayToVisibilityConverter" />
+        <converters:ArrayToVisibilityInverseConverter x:Key="ArrayToVisibilityInverseConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        <SolidColorBrush x:Key="MaterialCardColour" Color="#F5F5F5"/>
+    </UserControl.Resources>
+    <ScrollViewer AutomationProperties.AutomationId="addUserScrollId" 
+        CanContentScroll="True"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <Grid Margin="30,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBox
+                    Width="200"  Margin="0 10 0 0"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Store Name *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreStoreNameId"
+                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                </TextBox>              
+                <TextBox
+                    Width="200"  Margin="10 10 0 0" VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Phone Number *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStorePhoneNumberId"
+                    MaxLength="10"
+                    Text="{Binding Path=Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                <TextBox
+                    Width="200"  Margin="10 10 0 0" VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Alternate Phone"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreAlternatePhoneId"
+                    MaxLength="10"
+                    Text="{Binding Path=Alternatephone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBox
+                    Width="200"
+                    materialDesign:HintAssist.Hint="Email *"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreEmailId"
+                    Text="{Binding Path=Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox
+                    Width="200"
+                    materialDesign:HintAssist.Hint="State"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreStateId"
+                    IsReadOnly="True"
+                    Text="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <ComboBox
+                    Width="200"
+                    Margin="10 15 0 0"
+                    materialDesign:HintAssist.Hint="Select Zone *"  VerticalAlignment="Center"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbOurStoreEditStoreSelectZoneId"
+                    ItemsSource="{Binding Zones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedZone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction Command="{Binding ZoneSelectionChanged}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <ComboBox
+                    Width="200"
+                    Margin="10 15 0 0"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Select Territory *"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbOurStoreEditStoreSelectTerritoryId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Territories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedTerritory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction Command="{Binding TerritorySelectionChanged}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                <TextBox
+                    Width="200"
+                    materialDesign:HintAssist.Hint="District"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreDistrictId"
+                    IsReadOnly="True"
+                    Text="{Binding Path=District, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox
+                    Width="200" Margin="10 0 0 0"
+                    materialDesign:HintAssist.Hint="City *"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreCityId"
+                    Text="{Binding Path=City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox
+                    Width="200" Margin="10 0 0 0"
+                    materialDesign:HintAssist.Hint="Street"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreStreetId"
+                    Text="{Binding Path=Street, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Grid.Row="4" Orientation="Horizontal">
+                <TextBox
+                    Width="200" Margin="0 0 0 0"
+                    materialDesign:HintAssist.Hint="PinCode *"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStorePinCodeId"
+                    MaxLength="6"
+                    Text="{Binding Path=Pincode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                <TextBox
+                    Width="200" Margin="10 0 0 0"
+                    materialDesign:HintAssist.Hint="Invoice Format"  VerticalAlignment="Center"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreInvoiceFormatId"
+                    IsReadOnly="True"
+                    Text="{Binding Path=StoreInvoiceFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <RadioButton Content="F-Shop" IsEnabled="False" Margin="10 20 0 0" Foreground="#333333" Opacity="1" FontFamily="{DynamicResource Poppins}" AutomationProperties.AutomationId="rbEODDenominationId" IsChecked="{Binding IsFshop}"/>
+                <RadioButton Content="RSP" IsEnabled="False" Margin="10 20 0 0" Foreground="#333333" Opacity="1" FontFamily="{DynamicResource Poppins}" AutomationProperties.AutomationId="rbEODDenominationId"  IsChecked="{Binding IsRsp}"  />
+            </StackPanel>
+            <!--<StackPanel Grid.Row="5" Orientation="Horizontal">
+                
+
+                -->
+            <!--<TextBox
+                    Width="200"
+                    materialDesign:HintAssist.Hint="ZoneName"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreZoneId"
+                    IsReadOnly="True"
+                    Text="{Binding Path=Zone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+            <!--
+            </StackPanel>
+            <StackPanel Grid.Row="6" Orientation="Horizontal">
+               
+                -->
+            <!--<TextBox
+                    Width="200"
+                    materialDesign:HintAssist.Hint="TerritoryName"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtOurStoreEditStoreTerritoryId"
+                    IsReadOnly="True"
+                    Text="{Binding Path=Territory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+            <!--
+
+            </StackPanel>
+            <StackPanel Grid.Row="7" Orientation="Horizontal">
+                -->
+            <!--<ComboBox
+                    Width="200"
+                    materialDesign:HintAssist.Hint="Select District *"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Districts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedDistrict}" />-->
+            <!--
+               
+
+            </StackPanel>
+            <StackPanel Grid.Row="8" Orientation="Horizontal">
+                
+            </StackPanel>
+            <StackPanel Grid.Row="9" Orientation="Horizontal">
+               
+            </StackPanel>
+            <StackPanel Grid.Row="10" Orientation="Horizontal">                
+            </StackPanel>
+            <StackPanel Grid.Row="11" Orientation="Horizontal">
+               
+            </StackPanel>-->
+            <!--<StackPanel Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal">
+                <Button Margin="0,5,0,0"  
+                    HorizontalAlignment="Center"
+                   AutomationProperties.AutomationId="btnEditStoreLicenseId"
+                    Command="{Binding EditStoreLicenseCommand}"
+                   Style="{StaticResource ActionButton}" 
+                    ToolTip="Edit Store License"                    
+                    Visibility="{Binding StoreLicenses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ArrayToVisibilityInverseConverter}}">
+                    <materialDesign:PackIcon Kind="Plus" />
+                </Button>
+            </StackPanel>-->
+            <StackPanel Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal">
+            <Label Margin="-5,5,0,0"  FontWeight="Bold">Edit Store License</Label>
+                <Button Margin="5,5,0,0"  
+                    HorizontalAlignment="Center"
+                   AutomationProperties.AutomationId="btnAddStoreLicenseId"
+                    Command="{Binding AddEditStoreLicenseCommand}"
+                   Style="{StaticResource ActionButton}" 
+                    ToolTip="Add Store License"                    
+                    Visibility="{Binding StoreLicenseCard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ArrayToVisibilityInverseConverter}}">
+                    <materialDesign:PackIcon Kind="Plus" />
+                </Button>
+            </StackPanel>
+            <ItemsControl Grid.Row="6" Grid.ColumnSpan="4"    ItemsSource="{Binding Path=StoreLicenseCard, Mode=TwoWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:EditStoreLicense 
+                                    EditStoreLicenseCommand="{Binding DataContext.AddEditStoreLicenseCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EditStoreFlyout}}}"
+                                    DataContext="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    RemoveEditStoreLicenseCommand="{Binding DataContext.RemoveEditStoreLicenseCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EditStoreFlyout}}}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+
+            <StackPanel
+                Grid.Row="15"
+                Margin="0,10,15,0"
+                Orientation="Horizontal">
+                <Button
+                    Width="90"
+                    Margin="0,0,15,0"
+                    HorizontalAlignment="Right"
+                    AutomationProperties.AutomationId="btnOurStoreEditStoreUpdateId"
+                    Command="{Binding UpdateStoreCommand}"
+                    Style="{StaticResource MaterialDesignRaisedDarkButton}">
+                    Update
+                </Button>
+                <Button
+                    Width="90"
+                    HorizontalAlignment="Right"
+                    AutomationProperties.AutomationId="btnOurStoreEditStoreCancelId"
+                    Command="{Binding CancelCommnad}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                    Cancel
+                </Button>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+   
+</UserControl>
+

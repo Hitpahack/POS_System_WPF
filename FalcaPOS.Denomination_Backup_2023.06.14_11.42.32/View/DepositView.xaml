@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="FalcaPOS.Denomination.View.DepositView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:local="clr-namespace:FalcaPOS.Denomination.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <!--<Converter:StringToShortDateConverter x:Key="ShortDateConverter" />-->
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+        <Converter:GridWidthConverter x:Key="GridWidthConverter"/>
+
+    </UserControl.Resources>
+
+    
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition  Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ComboBox Visibility="{Binding IsStoreVisibile,Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Width="200"
+                    Margin="0,0,40,0"
+                HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Store Name"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Stores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedStore}"
+                    />
+            <DatePicker Width="160"
+                        Margin="0 0 40 0"
+                        DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:HintAssist.Hint="From Date" 
+                        materialDesign:TextFieldAssist.HasClearButton="True" 
+                        Text="{Binding FromDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </DatePicker>
+
+            <DatePicker Width="160"
+                        Margin="0 0 40 0"
+                        DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:HintAssist.Hint="To Date" 
+                        materialDesign:TextFieldAssist.HasClearButton="True" 
+                        Text="{Binding ToDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </DatePicker>
+            <Button  Margin="10 0 20 0" 
+                     Height="40" 
+                     Width="120"  
+                   Command="{Binding DepositSearchCommad}"
+                     Style="{DynamicResource RoundTextButton}"
+                     CommandParameter="{Binding}">SEARCH</Button>
+            <!--<Button  Margin="10 10 20 0"
+                     Height="30" Width="110" 
+                    Command="{Binding DepositResetCommand}"
+                     CommandParameter="{Binding}"  
+                     Style="{StaticResource MaterialDesignOutlinedButton}" >RESET</Button>
+
+            <Button Margin="10 10 0 0" Style="{StaticResource MaterialDesignOutlinedButton}"   IsEnabled="{Binding IsExportEnabled}" ToolTip="Download XL File" Height="30" Width="50"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DepositView}}, Path=DataContext.DepositExportCommand}"  CommandParameter="{Binding}">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Download" />
+                </Button.Content>
+            </Button>-->
+
+
+            <Button  
+                Width="38" Height="38" 
+                Margin="0,5,20,0" 
+                Style="{DynamicResource RoundButton}" 
+                 Command="{Binding DepositResetCommand}"  
+                VerticalAlignment="Top">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh" />
+                </Button.Content>
+            </Button>
+            <Button Grid.Column="1" 
+                  Margin="0 0 20 0" 
+                Style="{DynamicResource RoundButton }"                
+                IsEnabled="{Binding IsExportEnabled}" ToolTip="Download XL File" Height="38" Width="38"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DepositView}}, Path=DataContext.DepositExportCommand}"  CommandParameter="{Binding}">
+                <Button.Content>
+                    <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                </Button.Content>
+            </Button>
+
+            <!--<Button Visibility="{Binding IsStoreVisibile,Converter={StaticResource InverseBoolToVisConverter}}" Margin="10 10 0 0" Style="{StaticResource MaterialDesignOutlinedButton}"    Height="30" Width="140"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DepositView}}, Path=DataContext.AddDepositCommad}"  CommandParameter="{Binding}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" />
+                        <TextBlock  >ADD DEPOSIT</TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>-->
+            
+        </StackPanel>
+
+        <telerik:RadGridView
+            CanUserReorderColumns="False"  
+            RowIndicatorVisibility="Collapsed"
+           ShowColumnFooters="True" ShowGroupFooters="True"
+            x:Name="dgdepositgrid" Margin="0 10 0 200" 
+                  Visibility="{Binding DepositViews, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1"  
+                  ItemsSource="{Binding DepositViews,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Width="*"  IsFilterable="True" Header="POS Date" DataMemberBinding="{Binding PosDepositDate}" >
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:CountFunction ResultFormatString="Total Records: {0}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Deposit Date"  DataMemberBinding="{Binding DepositDate}" />
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="DocumentNo" DataMemberBinding="{Binding DocumnetNo}" />
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="StoreName" DataMemberBinding="{Binding StoreName}" />
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Deposit Amount" DataMemberBinding="{Binding DepositAmount}" >
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:SumFunction SourceField="DepositAmount" ResultFormatString="Total: {0:c}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="BankName" DataMemberBinding="{Binding BankName}" />
+                <!--<telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Account Type" DataMemberBinding="{Binding AccountType }" />-->
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="AccountNo" DataMemberBinding="{Binding AccountNo}" />
+                <!--<telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="IFSC" DataMemberBinding="{Binding IFSCCode}" />-->
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Branch" DataMemberBinding="{Binding Branch}" />
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="VerifiedDate" DataMemberBinding="{Binding VerifiedDate}" />
+                <telerik:GridViewColumn Width="*" Header="Attachment">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Margin="0 0 0 0" Style="{StaticResource MaterialDesignOutlinedButton}"  ToolTip="Download"  Width="50"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DepositView}}, Path=DataContext.DownloadFileDepositCommand}"  CommandParameter="{Binding FileId}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon Kind="Download" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="Update">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Margin="0 0 0 0" Visibility="{Binding IsVerified,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedButton}"  ToolTip="Edit"  Width="50"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DepositView}}, Path=DataContext.CaseDepositApprovepopupCommand}"  CommandParameter="{Binding}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon Kind="Pencil" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+        
+    </Grid>
+</UserControl>

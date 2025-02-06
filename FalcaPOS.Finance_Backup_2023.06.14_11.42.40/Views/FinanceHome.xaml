@@ -1,0 +1,332 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Finance.Views.FinanceHome"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:local="clr-namespace:FalcaPOS.Finance.Views"
+     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <Converter:StringToShortDateConverter x:Key="ShortDateConverter" />
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+    </UserControl.Resources>
+
+    
+    <!--<materialDesign:Card MinHeight="800" Margin="10,20,10,10">
+      
+    </materialDesign:Card>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+                Grid.Row="0"
+                Margin="0,10,0,0"
+                VerticalAlignment="Top">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    Text="Sales Report's"
+                  Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                    />
+
+                <Label Visibility="{Binding SalesItems, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="10,0,0,0"
+                            Content="{Binding SalesItems.Count}"
+                            ContentStringFormat="No of Record's : {0}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Width="45"
+                        Height="45"
+                        Margin="0,0,10,0"
+                        Style="{StaticResource RoundButton}"
+                        Command="{Binding RefreshFinanceCommand}"
+                         >
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+                <StackPanel Margin="10" HorizontalAlignment="Right" Visibility="{Binding SalesItems, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <Button Style="{StaticResource RoundButton}"
+                            Height="45"
+                            Width="45"
+                            Command="{Binding ExportToXLCommand}"
+                            IsEnabled="{Binding IsDownloadEnabled}"
+                            ToolTip="Download XL File">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="Download" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+               
+                <Button Width="120"
+                        Margin="0,0,10,0"
+                        Style="{StaticResource RoundTextButton}"
+                        Command="{Binding SearchFinanceCommand}"
+                        Content="Search" />
+               
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Row="1" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+            </Grid.RowDefinitions>
+
+          
+
+            <telerik:RadGridView
+                    x:Name="dgFinancesales"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    AutoGenerateColumns="False"
+                    AutomationProperties.AutomationId="dgFinancesalesId"
+                   
+                    CanUserDeleteRows="False"
+                    CanUserReorderColumns="False"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="True"
+                   ShowGroupPanel="False"
+                RowIndicatorVisibility="Collapsed"
+                    IsReadOnly="False"
+                    ItemsSource="{Binding SalesItems, Mode=TwoWay}"
+                    RowDetailsVisibilityMode="VisibleWhenSelected"
+                    ScrollViewer.CanContentScroll="True"
+                    
+                    Margin="0 0 0 200"
+                    Visibility="{Binding SalesItems, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <telerik:RadGridView.Columns>
+
+                    <telerik:GridViewColumn Width="*" Header="Invoice Type">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding SalesType}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Invoice Number">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding InvNo}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Invoice Date">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding InvDate, Converter={StaticResource ShortDateConverter}}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Zone">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Zone}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Territory">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Territory}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Store Name">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Store}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Store Location">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Location}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+
+                    <telerik:GridViewColumn Width="*" Header="Billing Name">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding BillingName}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="GSTIN">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding GSTIN}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Product Name">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding ProductName}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Category">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Category}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Sub Category">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding ItemName}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="HSN Code">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding HSNCode}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="UOM">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding UOM}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Qty">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Qty}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Rate Per(Inc Gst)">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Rate}" ContentStringFormat="C" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Rate Per(Without Gst)">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding RatePerQty}" ContentStringFormat="C" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Tax Rate %">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding TaxRate}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Taxable Value">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding TaxableValue}" ContentStringFormat="C" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+
+                    <telerik:GridViewColumn Width="*" Header="CGST">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding CGST}" ContentStringFormat="C" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+
+                    <telerik:GridViewColumn Width="*" Header="SGST">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding SGST}" ContentStringFormat="C" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+
+                    <telerik:GridViewColumn Width="*" Header="Total">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Total}" ContentStringFormat="C" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Visibility="{Binding IsServiceInvoice,Converter={StaticResource InverseBoolToVisConverter}}"
+                                    Name="btnSave"
+                                    Width="50"
+                                     Command="{Binding DataContext.GetInvoicePDFCommand, RelativeSource={RelativeSource AncestorType={x:Type local:FinanceHome}}}"                                   
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    ToolTip="Download Invoice">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Download" />
+
+                                        </StackPanel>
+
+                                    </Button.Content>
+                                </Button>
+
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+
+
+                </telerik:RadGridView.Columns>
+
+
+
+
+
+            </telerik:RadGridView>
+
+
+
+        </Grid>
+
+        <Label Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="No Records found"
+                FontSize="20"
+                FontStyle="Normal"
+                Visibility="{Binding SalesItems, Converter={StaticResource InverseArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+
+    </Grid>
+
+</UserControl>

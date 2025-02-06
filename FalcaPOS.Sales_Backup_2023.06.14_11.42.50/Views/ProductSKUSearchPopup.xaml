@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="FalcaPOS.Sales.Views.ProductSKUSearchPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Sales.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+   
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,15,0,0" />
+        </Style>
+       
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical" Width="1000">
+        <Button HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}"  ToolTip="Close" Foreground="Red" Content="X" FontSize="15" >
+        </Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <ItemsControl Style="{StaticResource itemcontrolstyleforindentpop}" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding SkuSearchProduct,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card Height="40" Margin="3">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton Grid.Column="0" HorizontalAlignment="Center"  IsChecked="{Binding SelectedProduct,Mode=TwoWay}" GroupName="Properties">
+                                      
+                                    </RadioButton>
+                                    
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                        <materialDesign:PackIcon 
+                                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                            Kind="Barcode"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox  Width="120" IsReadOnly="True" IsEnabled="False" Text="{Binding SKU}" materialDesign:HintAssist.Hint="ProductSKU" materialDesign:HintAssist.IsFloating="True"></TextBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                                        <materialDesign:PackIcon 
+                                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                            Kind="Cart"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox  Width="120" IsReadOnly="True" x:Name="name" IsEnabled="False" Text="{Binding ProductName}" materialDesign:HintAssist.Hint="Product Name" materialDesign:HintAssist.IsFloating="True"></TextBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="3">
+                                        <materialDesign:PackIcon 
+                                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                            Kind="Tag"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox  Width="120" IsReadOnly="True" IsEnabled="False" Text="{Binding Manufacturer.Name}" materialDesign:HintAssist.Hint="Brand" materialDesign:HintAssist.IsFloating="True"></TextBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="4">
+                                        <materialDesign:PackIcon 
+                                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                            Kind="Category"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox  Width="120" IsReadOnly="True" IsEnabled="False"  Text="{Binding ProductType.Name}" materialDesign:HintAssist.Hint="Sub Category" materialDesign:HintAssist.IsFloating="True"></TextBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="5">
+                                        <materialDesign:PackIcon 
+                                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                            Kind="Stocking"
+                                            Style="{StaticResource IconMargin}" />
+
+                                        <TextBox  Width="120" IsReadOnly="True" IsEnabled="False"  Text="{Binding AvailableQuantity}" materialDesign:HintAssist.Hint="StockQty" materialDesign:HintAssist.IsFloating="True"></TextBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="6">
+                                        <materialDesign:PackIcon 
+                                           
+                                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                            Kind="Rupee"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox  Width="120" IsReadOnly="True" IsEnabled="False" FontWeight="Bold" Text="{Binding ProductSellingPrice}" materialDesign:HintAssist.Hint="SellingPrice" materialDesign:HintAssist.IsFloating="True"></TextBox>
+
+                                    </StackPanel>
+                                    
+                                   
+                                </Grid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button  Width="120" Margin="0 0 0 5"     Grid.Row="1" Command="{Binding DataContext.ProductAddCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ProductSKUSearchPopup}}}" CommandParameter="{Binding ElementName=btnclose}" VerticalAlignment="Bottom" x:Name="btnaddproduct"  >
+                Add
+            </Button >
+        </Grid>
+       
+    </StackPanel>
+   
+</UserControl>

@@ -1,0 +1,119 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Login.Views.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FalcaPOS.Login.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:password="clr-namespace:FalcaPOS.Common.AttachedProperties;assembly=FalcaPOS.Common"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    AutomationProperties.AutomationId="txtLoginPageId"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    mc:Ignorable="d">
+
+
+
+    <Grid
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        FocusManager.FocusedElement="{Binding ElementName=txtLogin}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Image
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Source="{DynamicResource loginbanner}"
+            Stretch="UniformToFill"
+            StretchDirection="Both" />
+        <materialDesign:Card
+            Grid.Column="1"
+            Width="400"
+            Padding="32"
+            Background="#F5F5F5"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Center">
+            <StackPanel VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock  Style="{DynamicResource PoppinsBold}">Welcome Back!</TextBlock>
+                    <StackPanel
+                        Margin="10,5,0,0"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding IsQABuild, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Label Background="LightGreen">(QA Build)</Label>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="10,5,0,0"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding IsPreProdBuild, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Label Background="Red">(PreProd Build)</Label>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock  Foreground="#9B9B9A" Style="{DynamicResource PoppinsRegular}" >Please enter your details</TextBlock>
+
+                </StackPanel>
+
+
+
+                <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <TextBox
+                        x:Name="txtLogin"
+                        Width="250"
+                        Margin="5,0,0,20"
+                        materialDesign:HintAssist.Hint="Username *"
+                        materialDesign:HintAssist.IsFloating="True"
+                        AutomationProperties.AutomationId="txtLoginUserNameId"
+                        Focusable="True"
+                        KeyboardNavigation.TabIndex="0"
+                        Text="{Binding Path=UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, NotifyOnValidationError=True}" />
+                </StackPanel>
+
+
+
+                <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+
+                    <PasswordBox
+                        x:Name="passwordBox"
+                        Width="250"
+                        Margin="5,0,0,20"
+                        materialDesign:HintAssist.Hint="Password *"
+                        materialDesign:HintAssist.IsFloating="True"
+                        password:PasswordUtil.Password="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        AutomationProperties.AutomationId="txtLoginUserPasswordId"
+                        KeyboardNavigation.TabIndex="1" />
+                </StackPanel>
+
+
+
+                <Button
+                        Margin="0 20 0 0"
+                       Width="80"
+                    x:Name="btnlogin"
+                        Style="{DynamicResource RoundTextButton}"
+                    Foreground="white"
+                    Background="Transparent"
+                        BorderThickness="0"
+                    AutomationProperties.AutomationId="btnLoginUserId"
+                    Command="{Binding Path=LoginCommand}"
+                    Content="Login"
+                    IsDefault="True"
+                    HorizontalAlignment="Left"
+                    KeyboardNavigation.TabIndex="2"
+                    />
+                <!--IsEnabled="{Binding IsLoginEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+
+            </StackPanel>
+        </materialDesign:Card>
+
+
+
+    </Grid>
+</UserControl>

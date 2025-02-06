@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Dashboard.Views.DashboardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FalcaPOS.Dashboard.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <ScrollViewer CanContentScroll="True"  Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"   HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+
+
+        <Grid >
+            <Grid.RowDefinitions>
+            <RowDefinition Height="350"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="300"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <ContentControl Grid.Row="0" Grid.Column="1" prism:RegionManager.RegionName="CustomerByStoreRegion" />
+        <ContentControl Grid.Row="0" Grid.Column="0" prism:RegionManager.RegionName="SalesByRegionChart" />
+        <ContentControl Grid.Row="1" Grid.Column="0" prism:RegionManager.RegionName="SupplierByStore" />
+        <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="SalesByMonth" />
+        
+        
+       <ContentControl Grid.Row="2" Grid.ColumnSpan="2" prism:RegionManager.RegionName="DoughnutChartRegion" />
+        
+           
+
+     </Grid>
+
+    </ScrollViewer>
+</UserControl>

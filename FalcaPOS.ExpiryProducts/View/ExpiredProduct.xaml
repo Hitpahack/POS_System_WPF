@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="FalcaPOS.ExpiryProducts.View.ExpiredProduct"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.ExpiryProducts.View"
+             xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+            
+        </Grid.RowDefinitions>
+        <!--<Label Grid.Column="0" Margin=" 10 10 0 0" Content="{Binding TotalProduct,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>-->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button  
+                Width="40" Height="35" 
+                Margin="0,14,20,0" 
+                Style="{DynamicResource RoundButton}" 
+                Command="{Binding RefreshCommand}" 
+                CommandParameter="{Binding ElementName=expiredProductsRadGridView}"
+                VerticalAlignment="Top">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh" />
+                </Button.Content>
+            </Button>
+            <Button Grid.Column="1" 
+                  Margin="0 14 20 0" 
+                Style="{DynamicResource RoundButton }" 
+                  
+                IsEnabled="{Binding IsExportEnabled}" 
+                ToolTip="Download XL File" 
+                Height="35" Width="40"  
+                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:ExpiredProduct}}, Path=DataContext.ExpirProductCommand}"  CommandParameter="{Binding}">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Download" />
+                </Button.Content>
+            </Button>
+        </StackPanel>
+       
+       
+
+        <telerik:RadGridView x:Name="expiredProductsRadGridView"
+                             IsReadOnly="True" 
+                              AutoGenerateColumns="False"  
+                             CanUserFreezeColumns="False" 
+                             ShouldRespectIEditableObject="False"
+						      RowIndicatorVisibility="Collapsed"
+                                ShowColumnFooters="True"
+                              Grid.Row="1" Grid.ColumnSpan="2" Margin="0 10 0 140" 
+                              ItemsSource="{Binding ExpiredProduct,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <telerik:EventToCommandBehavior.EventBindings>
+                <telerik:EventBinding Command="{Binding ExpiredProductsDataLoadingCommand}" EventName="DataLoading" RaiseOnHandledEvents="True" 
+                        CommandParameter="{Binding ElementName=expiredProductsRadGridView}" />
+            </telerik:EventToCommandBehavior.EventBindings>
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" DataMemberBinding="{Binding Category}" Header="Category">
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:CountFunction ResultFormatString="Total Records: {0}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" DataMemberBinding="{Binding ProductTypeName}" Header="Sub Category"/>
+                
+                <!--<telerik:GridViewDataColumn Width="*" IsFilterable="True" DataMemberBinding="{Binding DeptCode}" Header="Deptcode">
+                   
+                </telerik:GridViewDataColumn>-->
+                <telerik:GridViewDataColumn Width="*"  IsFilterable="True" DataMemberBinding="{Binding ManufactureName}" Header="Brand">
+
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" DataMemberBinding="{Binding ProductName}"  Header="Product Name">
+
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="90" IsFilterable="True" DataMemberBinding="{Binding ProductSKU}"  Header="SKU">
+
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Width="80" Header="Qty">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding ProductSubQty }" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Expiry Date" DataMemberBinding="{Binding DateOfExpiryAsString}">
+
+                </telerik:GridViewDataColumn>
+               
+                <telerik:GridViewDataColumn Width="*" Header="Days">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding  SalesInvoice}" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsVisible="{Binding Path=GlobalStore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsFilterable="True" DataMemberBinding="{Binding StoreName}" Header="Store"/>
+
+                <telerik:GridViewDataColumn Width="80" IsVisible="{Binding Path=EditOptionEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button AutomationProperties.AutomationId="btnExpiryProductEditId" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=DataContext.ExpirProductCommandPopup, RelativeSource={RelativeSource AncestorType={x:Type local:ExpiredProduct}}}" CommandParameter="{Binding}">
+                                <materialDesign:PackIcon  Kind="Pencil"></materialDesign:PackIcon>
+                            </Button>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+        <Label
+              Grid.Row="1"
+          Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+                Content="No Records found"
+                FontSize="20"
+                FontStyle="Normal"
+             Visibility="{Binding ExpiredProduct, Converter={StaticResource InverseArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+              />
+
+
+    </Grid>
+
+
+</UserControl>

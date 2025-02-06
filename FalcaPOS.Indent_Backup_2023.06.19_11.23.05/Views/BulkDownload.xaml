@@ -1,0 +1,317 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.BulkDownload"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+                xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <converters:ZeroToVisiblityConverter x:Key="zerovisibility"></converters:ZeroToVisiblityConverter>
+        <converters:NullToVisibilityConverter x:Key="nulltovisibility"></converters:NullToVisibilityConverter>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                <ComboBox Width="200" Height="40" Margin="20 0 0 0" materialDesign:HintAssist.Hint="Store *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    ItemsSource="{Binding Stores}"
+                    SelectedItem="{Binding SelectedStore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    AutomationProperties.AutomationId="cmbAddInvSuppliersId">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Button Margin="40 5 2 0" Command="{Binding SupplierRefreshCommand}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="Refresh">
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button>
+                <ComboBox  Width="200" HorizontalAlignment="Right" Height="40" 
+                   x:Name="MultiSelectCombox" 
+                      materialDesign:HintAssist.Hint="Supplier *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbAddInvSuppliersId"                  
+                    ItemsSource="{Binding Suppliers}"
+                    SelectedItem="{Binding SelectedSupplier,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox  x:Name="myCtrl"  Content="{Binding SupplierName}"
+                            IsChecked="{Binding Path=IsEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.OnCheckedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding ElementName=myCtrl}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.OnUnCheckedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding ElementName=myCtrl}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </CheckBox>
+                               
+                            </StackPanel>
+                           
+                        </DataTemplate>
+
+                    </ComboBox.ItemTemplate>
+                   
+                </ComboBox>
+               
+            </StackPanel>
+        </Grid>
+       
+        <Grid  Grid.Row="0" Grid.Column="1" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Button Margin="0 0 0 0" Style="{StaticResource RoundTextButton}" Command="{Binding SearchCommand}" Width="120">Search</Button>
+                <Button Margin="50 0 0 0"  Style="{StaticResource RoundButton}" Command="{Binding ResetCommand}" Width="38" Height="38">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+
+                <StackPanel IsEnabled="{Binding IsExportEnabled}" Margin="30 0 0 0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        
+                    <Image Width="25" Height="25" Source="/FalcaPOS.Indent;component/Resources/sbi.png" />
+
+                    <RadioButton Content="SBI Bank" IsChecked="{Binding SelectedBank,Converter={StaticResource RadioButtonConverter},ConverterParameter='SBI'}"></RadioButton>
+
+                    <Image Margin="20 0 0 0" Height="25" Width="25" Source="/FalcaPOS.Indent;component/Resources/IBN.png" />
+
+                    <RadioButton Content="ICICI Bank" IsChecked="{Binding SelectedBank,Converter={StaticResource RadioButtonConverter},ConverterParameter='ICICI'}" Margin="0 0 0 0"></RadioButton>
+                </StackPanel>
+               
+                <Button Margin="10 0 0 0" Style="{StaticResource RoundButton}" Command="{Binding ExportCommand}"  IsEnabled="{Binding IsExportEnabled}" ToolTip="Download XL File" Height="38" Width="38"  >
+                    <Button.Content>
+                        <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+           
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+
+            <ItemsControl  Style="{DynamicResource itemcontrolstyle}" ItemsSource="{Binding BulkPaymentModels,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                       
+                        <Grid>
+                          
+                            <Border  x:Name="Border" Margin="0 5 0 0"  CornerRadius="0,0,0,0"
+        BorderThickness="1" BorderBrush="Silver" >
+                                <Expander  HorizontalAlignment="Stretch" Background="White">
+
+                                    <Expander.Header >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="5*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel  Margin="08 5 0 0" Grid.Column="0">
+                                                <ToggleButton  ToolTip="SelectAll" HorizontalAlignment="Left" IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignActionLightToggleButton}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Checked">
+                                                            <i:InvokeCommandAction Command="{Binding DataContext.SelectedSupplierCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="Unchecked">
+                                                            <i:InvokeCommandAction Command="{Binding DataContext.SelectedSupplierCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ToggleButton>
+                                            </StackPanel>
+                                            <StackPanel Margin="8 10 0 0" Grid.Column="1">
+                                                <TextBlock FontWeight="Bold" Margin="5 0 0 0">Supplier Name</TextBlock>
+                                                <StackPanel Margin="0 5 0 0"  Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="Account"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                    <TextBlock  x:Name="txtsuppliername" ToolTip="SupplierName"  Text="{Binding SupplierName}"/>
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                            <StackPanel Margin="8 10 0 0" Grid.Column="2">
+                                                <TextBlock FontWeight="Bold" Margin="5 0 0 0">C/N Amount</TextBlock>
+                                                <StackPanel Margin="0 5 0 0"  Orientation="Horizontal" >
+                                                    <materialDesign:PackIcon Kind="Rupee"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                    <TextBlock ToolTip="Amount" Text="{Binding CNAmount}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            
+
+                                          
+
+                                            <ItemsControl Height="40" Margin="5 0 0 0" HorizontalAlignment="Center"  Grid.Column="3" ItemsSource="{Binding BankDetails}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel></WrapPanel>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <CheckBox  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}" IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Content="{Binding BankName}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="Checked">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectBankCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                                    </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="Unchecked">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.UnSelectBankCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </CheckBox>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <StackPanel Margin="0 10 0 0" Grid.Column="4" Visibility="{Binding IsSelectedBank,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <TextBlock Margin="5 0 0 0" FontWeight="Bold">Account No</TextBlock>
+                                                <StackPanel Margin="0 5 0 0"  Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="Account"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                    <TextBlock ToolTip="Account No" Text="{Binding SelectedBankDetail.AccountNo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                           
+
+                                          
+
+                                        </Grid>
+                                    </Expander.Header>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                       
+                                        <ItemsControl  Grid.Row="1" ItemsSource="{Binding IndentLists,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <materialDesign:Card Height="50" Margin="40 5 40 0">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="2*"/>
+                                                                <ColumnDefinition Width="1.5*"/>
+                                                                <ColumnDefinition Width="4*"/>
+                                                                <ColumnDefinition Width="2*"/>
+                                                                <ColumnDefinition Width="2*"/>
+                                                                <ColumnDefinition Width="2*"/>
+                                                                <ColumnDefinition Width="2*"/>
+                                                               
+                                                            </Grid.ColumnDefinitions>
+                                                            <CheckBox  Style="{StaticResource MaterialDesignAccentCheckBox}" Margin="10 0 0 10" Grid.Column="0" IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Content="{Binding PoNumber}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="Checked">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedIndentCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                                    </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="Unchecked">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedIndentCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </CheckBox>
+
+
+                                                            <StackPanel Margin="10 15 0 0"  Grid.Column="1" Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="DateRange"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                                <TextBlock Text="{Binding Date}"></TextBlock>
+                                                            </StackPanel>
+
+                                                            <StackPanel Margin="10 15 0 0"  Grid.Column="2" Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="Store"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                                <TextBlock Text="{Binding StoreName}"></TextBlock>
+                                                            </StackPanel>
+                                                            
+                                                           
+                                                            <StackPanel Margin="10 15 0 0"  Grid.Column="3" Orientation="Horizontal">
+                                                                   
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="Total:"></TextBlock>
+                                                                        <materialDesign:PackIcon Kind="Rupee"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                                    <TextBlock ToolTip="Indent Total Amount" Text="{Binding TotalEstimantedAmount}"></TextBlock>
+                                                                    </StackPanel>
+                                                                    
+                                                              
+                                                               
+                                                            </StackPanel>
+                                                            
+                                                            <StackPanel Margin="10 15 0 0"  Grid.Column="4" Orientation="Horizontal">
+                                                                
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="C\N Adjusted:"></TextBlock>
+                                                                        <materialDesign:PackIcon Kind="Rupee"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                                    <TextBlock  ToolTip="CNadjusted" Text="{Binding TotalAmount}"></TextBlock>
+                                                                    </StackPanel>
+                                                                
+                                                            </StackPanel>
+                                                            <StackPanel Margin="10 15 0 0"  Grid.Column="5" Orientation="Horizontal">
+                                                              
+                                                                    
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding CreatedBy}"></TextBlock>
+                                                                        <materialDesign:PackIcon Kind="Rupee"  Foreground="{StaticResource MahApps.Brushes.Accent}"></materialDesign:PackIcon>
+                                                                        <TextBlock  ToolTip="Net Payable Amount" Text="{Binding PayableAmount}"></TextBlock>
+                                                                    </StackPanel>
+                                                                
+                                                               
+                                                            </StackPanel>
+                                                            <StackPanel Margin="0 10 10 0"  Grid.Column="6">
+                                                                <Button HorizontalAlignment="Center" Width="100"  Style="{StaticResource RoundTextButton}" Visibility="{Binding CNAmount,Converter={StaticResource zerovisibility},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                        Command="{Binding DataContext.AdjustCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}">Adjust</Button>
+                                                            </StackPanel>
+
+                                                        </Grid>
+                                                    </materialDesign:Card>
+
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                       
+
+                                    </Grid>
+                                </Expander>
+                            </Border>
+                        </Grid>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </StackPanel>
+        <!--<ItemsControl Grid.Row="1" Grid.ColumnSpan="2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+    </Grid>
+</UserControl>

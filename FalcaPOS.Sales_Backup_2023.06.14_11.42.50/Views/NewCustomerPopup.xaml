@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="FalcaPOS.Sales.Views.NewCustomerPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Sales.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+            xmlns:converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+            xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="NewCustomerIcon" TargetType="materialDesign:PackIcon">
+             <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0 20 5 0"/>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Width="400" Margin="0 0 0 10" Background="White" Orientation="Vertical">
+        <Border BorderBrush="#252572" BorderThickness="1" Background="#252572">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                Width="100"
+                Height="20"
+                AutomationProperties.AutomationId="imgPopupNewCustomerId"
+                Source="{DynamicResource logo}"/>
+                <TextBlock Grid.Column="1" Foreground="#FFFFFF" Style="{DynamicResource po}" FontSize="20" Text="New Customer Details" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                <Button  Grid.Column="2" Foreground="#FFFFFF" HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close"  Content="X" FontSize="20" >
+                </Button>
+            </Grid>
+          
+            
+        </Border>
+       
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="20 5 0 0" Grid.Row="0" Orientation="Horizontal">
+                <materialDesign:PackIcon Style="{StaticResource NewCustomerIcon}" Kind="Phone"/>
+                <TextBox Margin="5 0 0 0" Height="40" MaxLength="10" Text="{Binding FPhone,Mode=TwoWay}" 
+                          AutomationProperties.AutomationId="txtPhoneId"
+                         Width="200" materialDesign:HintAssist.Hint="Phone Number*" materialDesign:HintAssist.IsFloating="True">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Margin="20 0 0 0" Grid.Row="1" Orientation="Horizontal">
+                <materialDesign:PackIcon  Style="{StaticResource NewCustomerIcon}" Kind="Person"/>
+                <TextBox Margin="5 0 0 0" Height="40"   
+                          AutomationProperties.AutomationId="txtNameId"
+                         Text="{Binding FName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" materialDesign:HintAssist.Hint="Name of Customer*" materialDesign:HintAssist.IsFloating="True"/>
+            </StackPanel>
+            <StackPanel Margin="20 0 0 0" Grid.Row="2" Orientation="Horizontal">
+                <Image  Width="22" Height="22" Margin="0 10 0 0"  Source="{DynamicResource CustomerDetailIcon}"/>
+               
+                <ComboBox Margin="5 0 0 0" ItemsSource="{Binding CustomerTypes,Mode=TwoWay}" 
+                          SelectedValue="{Binding SCustomerType}"
+                          Height="40" 
+                           AutomationProperties.AutomationId="txtCustomerTypeId"
+                          Width="200" materialDesign:HintAssist.Hint="Type Of Customer*" materialDesign:HintAssist.IsFloating="True"/>
+            </StackPanel>
+            <StackPanel Margin="20 0 0 0" Grid.Row="3" Orientation="Horizontal">
+                <Image Width="22" Height="22" Margin="0 20 0 0" Source="{StaticResource PinIcon}"/>
+                <TextBox Margin="5 0 0 0" Height="40"  
+                          AutomationProperties.AutomationId="txtPinCodeId"
+                         Text="{Binding PCode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="6" Width="200" materialDesign:HintAssist.Hint="PinCode*" materialDesign:HintAssist.IsFloating="True">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" CommandParameter="{Binding PCode}" Command="{Binding DataContext.GetPinCodeDetailsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NewCustomerPopup}}}" />
+                        <KeyBinding Key="Enter"  CommandParameter="{Binding PCode}" Command="{Binding DataContext.GetPinCodeDetailsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NewCustomerPopup}}}" />
+                    </TextBox.InputBindings>
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Margin="20 0 0 0" Grid.Row="4" Orientation="Horizontal">
+                <Image Width="22" Height="22" Margin="0 20 0 0" Source="{StaticResource State}"/>
+                <ComboBox Margin="5 0 0 0" ItemsSource="{Binding States,Mode=TwoWay}"
+                          DisplayMemberPath="Name"
+                          SelectedValue="{Binding SState,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                           AutomationProperties.AutomationId="txtStateId"
+                          Height="40" 
+                          Width="200" materialDesign:HintAssist.Hint="State*" materialDesign:HintAssist.IsFloating="True">
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction Command="{Binding StateSelectionCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                </ComboBox>
+            </StackPanel>
+            <StackPanel  Margin="20 0 0 0" Grid.Row="5" Orientation="Horizontal">
+                <Image Width="22" Height="22" Margin="0 20 0 0" Source="{StaticResource District}"/>
+                <ComboBox Margin="5 0 0 0" ItemsSource="{Binding Districts,Mode=TwoWay}"
+                          DisplayMemberPath="Name"
+                          SelectedValue="{Binding SDistrict,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                           AutomationProperties.AutomationId="txtDistrictId"
+                          Height="40" 
+                          Width="200" materialDesign:HintAssist.Hint="District*" materialDesign:HintAssist.IsFloating="True"/>
+            </StackPanel>
+            <StackPanel Margin="20 0 0 0" Grid.Row="6" Orientation="Horizontal">
+                <Image Width="22" Height="22" Margin="0 20 0 0" Source="{StaticResource VillageIcon}"/>
+                <ComboBox Margin="5 0 0 0" ItemsSource="{Binding Villages,Mode=TwoWay}" 
+                          DisplayMemberPath="Name"
+                          SelectedValue="{Binding SVillages}"
+                           AutomationProperties.AutomationId="txtVillageNameId"
+                          Height="40" 
+                          Width="200" materialDesign:HintAssist.Hint="Village*" materialDesign:HintAssist.IsFloating="True"/>
+            </StackPanel>
+            <StackPanel Margin="20 0 0 0" Grid.Row="7" Orientation="Horizontal">
+                <Image Width="22" Height="22" Margin="0 20 0 0" Source="{StaticResource Gst}"/>
+                <TextBox Margin="5 0 0 0" Height="40" 
+                         MaxLength="15"
+                          AutomationProperties.AutomationId="txtGstNumberId"
+                         Text="{Binding GNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" materialDesign:HintAssist.Hint="GST Number" materialDesign:HintAssist.IsFloating="True">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[a-zA-Z0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="8" Orientation="Horizontal">
+                <Button Content="Save Customer Details" 
+                        Margin="46 0 0 0"
+                        Width="200"
+                        Style="{StaticResource RoundTextButton}" Command="{Binding SaveNewCustomerCommand}" CommandParameter="{Binding ElementName=btnclose}"></Button>
+            </StackPanel>
+
+            <Image Grid.Column="2" Height="500" Grid.RowSpan="9" Margin="20 0 0 0" StretchDirection="Both" Source="{DynamicResource greenshadow_addcustomer}">
+
+            </Image>
+        </Grid>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="FalcaPOS.Sales.Views.CouponSchemeDataViewPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Sales.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             xmlns:converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="400">
+    <UserControl.Resources>
+        <Style x:Key="NewCustomerIcon" TargetType="materialDesign:PackIcon">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0 20 5 0"/>
+        </Style>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:SalesView />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" BorderBrush="#252572" BorderThickness="1" Background="#252572">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                       Width="100"
+                       Height="20"
+                       AutomationProperties.AutomationId="imgPopupNewCustomerId"
+                       Source="{DynamicResource logo}"/>
+                <TextBlock Grid.Column="1" Foreground="White" FontSize="18" Text="Discount Details" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Grid.Column="2" Foreground="White" HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Content="X" FontSize="20"/>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="1" Height="350">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="70"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <telerik:RadGridView Grid.Column="0" Width="350" Height="300" ItemsSource="{Binding CouponSchemeData}"
+                                 ShowGroupPanel="False"
+                                 AutoGenerateColumns="False"
+                                 RowIndicatorVisibility="Collapsed"
+                                 IsFilteringAllowed="True" 
+                                 CanUserReorderColumns="False"
+                                 IsReadOnly="True"
+                                 ScrollViewer.CanContentScroll="True"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                 ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn Header="SNo" DataMemberBinding="{Binding SNo}" />
+                        <telerik:GridViewDataColumn Header="Code" DataMemberBinding="{Binding Code}" />
+                        <telerik:GridViewDataColumn Header="Name" DataMemberBinding="{Binding Name}" />
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 305 0 0" HorizontalAlignment="Center" >
+                <Button Content="Ok"  Grid.Column="0" Margin="0 0 0 0"
+                    AutomationProperties.AutomationId="btnSalesAddPhoneSaveCustomerDetailsId"
+                    Width="60"
+                    Style="{StaticResource RoundTextButton}" Command="{Binding SchemeCouponAcknowlegementCommand}" CommandParameter="{Binding ElementName=btnclose}"/>
+                <Button Content="Cancel"  Grid.Column="0" Margin="0 0 0 0"
+                    AutomationProperties.AutomationId="btnSalesAddPhoneSaveCustomerDetailsId"
+                    Width="60"
+                    Style="{StaticResource RoundTextButton}"  Command="materialDesign:DialogHost.CloseDialogCommand" />
+            </StackPanel>
+           
+            <Image Grid.Column="1" Stretch="UniformToFill" Source="{DynamicResource greenshadow_addcustomer}"/>
+        </Grid>
+    </Grid>
+</UserControl>

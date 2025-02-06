@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Dashboard.Views.DoughnutChartView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FalcaPOS.Dashboard.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <materialDesign:Card Margin="2 3 0 0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="215"/>
+            </Grid.RowDefinitions>
+            <StackPanel  Grid.Column="0" Margin="0 0 5 0">
+                <Label Margin="10 0 0 0" Content="Most Selling Brand"></Label>
+                <DataGrid   Height="210" IsReadOnly="True" HorizontalScrollBarVisibility="Visible" CanUserAddRows="False" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Visible"  ItemsSource="{Binding MostNumberofsalesBrand}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"></DataGrid>
+            </StackPanel>
+            <StackPanel  Grid.Column="1">
+                <Label Margin="10 0 0 0" Content="Most Selling Product"></Label>
+                <DataGrid   Height="210" IsReadOnly="True" HorizontalScrollBarVisibility="Visible" CanUserAddRows="False" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Visible"  ItemsSource="{Binding MostNumberofProduct}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_1"></DataGrid>
+            </StackPanel>
+
+        </Grid>
+    </materialDesign:Card>
+      
+
+   
+</UserControl>

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="FalcaPOS.Stock.Views.EwayBillGenerate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+ xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel  Width="400"   Background="White" Orientation="Vertical">
+        <Button HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Foreground="Red" Content="X" FontSize="20" >
+        </Button>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+               
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Text="Add Transport Details" FontSize="18" HorizontalAlignment="Center"></TextBlock>
+            <TextBox Grid.Row="1" Margin="0 10 0 0" materialDesign:HintAssist.IsFloating="True" Width="200" Text="{Binding Name}" materialDesign:HintAssist.Hint="Transporter Name*"></TextBox>
+            <TextBox Grid.Row="2" Margin="0 10 0 0" materialDesign:HintAssist.IsFloating="True" Width="200" Text="{Binding DocumentNo}" materialDesign:HintAssist.Hint="Transporter Document No"></TextBox>
+            <DatePicker Grid.Row="3" Margin="0 10 0 0" materialDesign:HintAssist.IsFloating="True" Width="200" SelectedDate="{Binding DocumentDate}"  DisplayDateEnd="{x:Static sys:DateTime.Today}" materialDesign:HintAssist.Hint="Transporter Document Date"></DatePicker>
+            <TextBox Grid.Row="4" Margin="0 10 0 0" materialDesign:HintAssist.IsFloating="True" Width="200" Text="{Binding VehicleNo}"  materialDesign:HintAssist.Hint="Vehicle No*">
+                <i:Interaction.Behaviors>
+                    <behavior:TextBoxInputRegExBehaviour RegularExpression="^[a-zA-Z0-9.\-]+$" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <!--<TextBox Grid.Row="5" Margin="0 10 0 0" materialDesign:HintAssist.IsFloating="True" Width="200" Text="{Binding VehicleType}" materialDesign:HintAssist.Hint="Vehicle Type*">
+                <i:Interaction.Behaviors>
+                    <behavior:TextBoxInputRegExBehaviour   RegularExpression="^[a-zA-Z.\-]+$" />
+                </i:Interaction.Behaviors>
+            </TextBox>-->
+            <ComboBox Grid.Row="5" Margin="0 10 0  0" VerticalAlignment="Center"  Width="200" 
+                                  materialDesign:HintAssist.IsFloating="True" 
+                                  materialDesign:HintAssist.Hint="VehicleType *"  
+                                 
+                          AutomationProperties.AutomationId="cmbVehicleType"
+                                  ItemsSource="{Binding VehicleType}"
+                                SelectedItem="{Binding SelectedVehicleType}"
+                                  ></ComboBox>
+            <Button Width="200"  Margin="0 30 0 5" Style="{StaticResource RoundTextButton}" HorizontalAlignment="Center" Grid.Row="6" Command="{Binding DataContext.GenerateEwayBillCommand,RelativeSource={RelativeSource AncestorType={x:Type local:EwayBillGenerate}}}" CommandParameter="{Binding ElementName=btnclose}" VerticalAlignment="Bottom" x:Name="btnaddtransportdetails"  >
+                Generate E way Bill
+            </Button >
+        </Grid>
+    </StackPanel>
+    
+</UserControl>

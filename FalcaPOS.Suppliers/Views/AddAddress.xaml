@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="FalcaPOS.Suppliers.Views.AddAddress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:FalcaPOS.Suppliers.Views"
+               xmlns:prism="http://prismlibrary.com/"
+               prism:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:PopupBox IsPopupOpen="{Binding PopupClose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StaysOpen="True">
+        <materialDesign:PopupBox.ToggleContent>
+            <materialDesign:PackIcon AutomationProperties.AutomationId="btnSupplierDetailsViewAddressDetailsAddAddressId" Foreground="{DynamicResource MahApps.Brushes.Accent}" Kind="PlusThick" />
+        </materialDesign:PopupBox.ToggleContent>
+        <Grid Width="200" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                FontSize="20"
+                Text="Add Address" ></TextBlock>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,10,0,0"
+                Orientation="Horizontal">
+                <TextBox
+                    Width="170"
+                    materialDesign:HintAssist.Hint="Phone *"
+                    materialDesign:HintAssist.IsFloating="True"
+                     AutomationProperties.AutomationId="txtSupplierDetailsViewAddressDetailsAddAddressPhoneId"
+                    MaxLength="10"
+                    Text="{Binding Path=Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" >
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,10,0,0"
+                Orientation="Horizontal">
+                <TextBox
+                    Width="170"
+                    materialDesign:HintAssist.Hint="Email *"
+                    materialDesign:HintAssist.IsFloating="True"
+                     AutomationProperties.AutomationId="txtSupplierDetailsViewAddressDetailsAddAddressEmailId"
+                    Text="{Binding Path=Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="0,10,0,0"
+                Orientation="Horizontal">
+                <TextBox
+                    Width="170"
+                    materialDesign:HintAssist.Hint="City *"
+                    materialDesign:HintAssist.IsFloating="True"
+                     AutomationProperties.AutomationId="txtSupplierDetailsViewAddressDetailsAddAddressCityId"
+                    Text="{Binding Path=City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="0,20,0,0"
+                Orientation="Horizontal">
+                <ComboBox
+                    Width="170"
+                    materialDesign:HintAssist.Hint="Select State *"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                     AutomationProperties.AutomationId="cmbSupplierDetailsViewAddressDetailsAddAddressSelectStateId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding States, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedState}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction Command="{Binding StateSelectionChanged}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+
+                <!--<TextBox
+                    materialDesign:HintAssist.Hint="State"
+                    materialDesign:HintAssist.IsFloating="True"
+                    Text="{Binding Path=State, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />-->
+            </StackPanel>
+            <StackPanel
+                Grid.Row="5"
+                Grid.Column="0"
+                Margin="0,20,0,0"
+                Orientation="Horizontal">
+                <ComboBox
+                    Width="170"
+                    materialDesign:HintAssist.Hint="Select District *"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                     AutomationProperties.AutomationId="cmbSupplierDetailsViewAddressDetailsAddAddressSelectDistrictId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Districts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedDistrict}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="6"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <TextBox
+                    Width="170"
+                    materialDesign:HintAssist.Hint="PinCode *"
+                    materialDesign:HintAssist.IsFloating="True"
+                     AutomationProperties.AutomationId="txtSupplierDetailsViewAddressDetailsAddAddressPincodeId"
+                    MaxLength="6"
+                    Text="{Binding Path=Pincode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}">
+
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+
+                </TextBox>
+            </StackPanel>
+
+
+            <StackPanel
+                Grid.Row="7"
+                Grid.Column="0"
+              Margin="0 15 0 0"
+                Orientation="Horizontal">
+                <Button
+                    Width="80"
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                     AutomationProperties.AutomationId="btnSupplierDetailsViewAddressDetailsAddAddressAddId"
+                    Command="{Binding AddAddressCommnad}"
+                    CommandParameter="{Binding SuppliersDetails}"
+                    Style="{StaticResource RoundTextButton}">
+                    Add
+                </Button>
+                <Button
+                    Width="45"
+                    Height="45"
+                    HorizontalAlignment="Right"
+                 AutomationProperties.AutomationId="btnSupplierDetailsViewAddressDetailsAddAddressRefreshId"
+                    Command="{Binding ResetAddressCommnad}"
+                    Style="{StaticResource RoundButton}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+
+            </StackPanel>
+
+        </Grid>
+
+    </materialDesign:PopupBox>
+</UserControl>

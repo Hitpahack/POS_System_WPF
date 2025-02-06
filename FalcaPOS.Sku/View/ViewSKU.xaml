@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="FalcaPOS.Sku.View.ViewSKU"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+               xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:FalcaPOS.Sku.View"
+               xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+              
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+               xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:telerik1="clr-namespace:Telerik.Windows.Data;assembly=Telerik.Windows.Data" xmlns:telerik2="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ColorConverter x:Key="colorconverter"/>
+        <converters:DepartmentColorCodeConverter x:Key="departmentcolor"></converters:DepartmentColorCodeConverter>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    </UserControl.Resources>
+    <Grid Margin="0 10 0 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>            
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"></RowDefinition>            
+                        
+        </Grid.RowDefinitions>
+
+        <Label HorizontalAlignment="Right" FontWeight="Bold" Grid.Column="0" Margin="0 15 20 0" Content="SEARCH" VerticalAlignment="Center"></Label>
+        <StackPanel  Margin="20 10 20 0"  Grid.ColumnSpan="2" Grid.Column="1" Orientation="Horizontal">
+
+            <ComboBox Grid.Column="0" Width="200" Margin="10 0 0 0"
+                    AutomationProperties.AutomationId="cmbSKUCertificateSearchCategoryId"
+                    materialDesign:HintAssist.Hint="Category"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  
+                  DisplayMemberPath="CategoryName"
+                     x:Name="cmb"
+                  ItemsSource="{Binding CategoryList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValue="{Binding SelectedCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChangeCommand}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+
+            <ComboBox AutomationProperties.AutomationId="cmbSKUCertificateSearchSubCategoryId" Width="190" Margin="10 0 0 0" DisplayMemberPath="SubCategoryName" ItemsSource="{Binding SubCategory,Mode=TwoWay}" SelectedValue="{Binding SelectedSubCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      materialDesign:HintAssist.Hint="Sub Category" materialDesign:HintAssist.IsFloating="True"   materialDesign:TextFieldAssist.HasClearButton="True"                     
+                      >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ProductCertificateSubcategoryChangeEvent}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+            <ComboBox AutomationProperties.AutomationId="cmbSKUCertificateSearchBrandId" Width="190" Margin="10 0 0 0" DisplayMemberPath="Name" ItemsSource="{Binding Brand,Mode=TwoWay}" SelectedValue="{Binding SelectedBrand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    materialDesign:TextFieldAssist.HasClearButton="True"    materialDesign:HintAssist.Hint="Brand" materialDesign:HintAssist.IsFloating="True">
+            </ComboBox>
+            <ComboBox AutomationProperties.AutomationId="cmbSKUCertificateSearchStoreId" Width="190" Margin="10 0 0 0" DisplayMemberPath="Name" Visibility="{Binding GlobalStore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding StoreList,Mode=TwoWay}" SelectedValue="{Binding SelectedStore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:TextFieldAssist.HasClearButton="True"   materialDesign:HintAssist.Hint="Store" materialDesign:HintAssist.IsFloating="True">
+            </ComboBox>
+            <!--<Button Margin="20 0 0 0" Style="{StaticResource RoundTextButton}" Command="{Binding SearchCommand}">Search</Button>-->
+        </StackPanel>
+
+        <Label HorizontalAlignment="Right" FontWeight="Bold" Grid.Column="0" Grid.Row="1" Margin="0 10 20 0" Content="TYPE" VerticalAlignment="Center"></Label>
+        <StackPanel  Margin="20 10 20 0"  Grid.ColumnSpan="2"  Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <CheckBox AutomationProperties.AutomationId="cbSKUCertificateExpiredId"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"  IsChecked="{Binding Path=IsExpired,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Content="EXPIRED"/>
+            <CheckBox AutomationProperties.AutomationId="cbSKUCertificateNoCertificateId"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"  IsChecked="{Binding Path=IsNoProductCertificate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Content="NO CERTIFICATE"/>
+            <CheckBox  AutomationProperties.AutomationId="cbSKUCertificateValidCertificateId" Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"  IsChecked="{Binding Path=IsValidCertificate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Content="VALID CERTIFICATE"/>
+            <StackPanel Orientation="Horizontal" Margin="50 0 0 0">
+                <Button AutomationProperties.AutomationId="btnSKUCertificateSearchId" Style="{DynamicResource RoundTextButton}" Command="{Binding ProductCertificateCheckedCommand}" >Search</Button>
+                <Button  AutomationProperties.AutomationId="btnSKUCertificateRefreshId" HorizontalAlignment="Right" Margin="40 0 0 0" Width="38" Height="38" Style="{StaticResource RoundButton}" Command="{Binding RefreshCommand}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+        <Label  Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" FontWeight="Bold" Grid.ColumnSpan="2" Margin="5 5 0 0" Content="PRODUCTS CERTIFICATE"></Label>
+        <telerik:RadGridView IsReadOnly="True" Visibility="{Binding SKUView.Count,Converter={StaticResource NotZeroToVisibilityConverter }}" Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="4"
+             ShowGroupPanel="False"  ShowColumnFooters="True" RowIndicatorVisibility="Collapsed" AutoGenerateColumns="False" Margin="0 5 0 280"  ItemsSource="{Binding SKUView}">
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Width="1*" IsEnabled="{Binding DataContext.GlobalStore,RelativeSource={RelativeSource AncestorType={x:Type local:ViewSKU}}}" DataMemberBinding="{Binding Store}" Header="Store"/>
+                <telerik:GridViewDataColumn Width="1*"  DataMemberBinding="{Binding Category }" Header="Category">
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:CountFunction ResultFormatString="Total Records: {0}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Width="1*" DataMemberBinding="{Binding SubCategory }" Header="Sub Category"/>
+                    <telerik:GridViewDataColumn Width="0.8*" DataMemberBinding="{Binding Brand }" Header="Brand"/>
+                    <telerik:GridViewDataColumn Width="0.7*" DataMemberBinding="{Binding Number }" Header="Certificate No."/>
+                    <telerik:GridViewDataColumn Width="0.7*" DataMemberBinding="{Binding IssueDate,StringFormat='{}{0:dd-MM-yyyy}' }" Header="Issue Date"/>
+                    <telerik:GridViewDataColumn Width="0.7*" DataMemberBinding="{Binding ValidUpto,StringFormat='{}{0:dd-MM-yyyy}' }" Header="Valid Upto"/>
+                    <!--<telerik:GridViewDataColumn DataMemberBinding="{Binding ProductCout }" Header="No of Products"/>-->
+                    <telerik:GridViewColumn>
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button  Margin="0 0 20 0"  Style="{DynamicResource RoundButton }" Visibility="{Binding NoCertificateGridnoDownload,Converter={StaticResource BooleanToVisibilityConverter}}"         
+                 ToolTip="Download product certificate" Height="38" Width="38" Command="{Binding DataContext.GetPDFCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ViewSKU}}}" CommandParameter="{Binding PictureId}">
+                                        <Button.Content>
+                                            <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button Margin="10 0 0 0" Visibility="{Binding IsEdit,Converter={StaticResource BooleanToVisibilityConverter}}"     Command="{Binding DataContext.AddNewProductCertificateCommand, RelativeSource={RelativeSource AncestorType={x:Type local:ViewSKU}}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatAccentButton}">
+                                        <Button.Content>
+                                            <materialDesign:PackIcon Foreground="#03625a" Kind="Pencil" ToolTip="Add Certificate"></materialDesign:PackIcon>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+       
+       
+       
+    </Grid>
+</UserControl>

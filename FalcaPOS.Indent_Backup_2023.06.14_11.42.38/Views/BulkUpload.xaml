@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.BulkUpload"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+             mc:Ignorable="d" 
+              xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ArrayToVisibilityConverter x:Key="arraytovisibility"></converters:ArrayToVisibilityConverter>
+       
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/> 
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"  Orientation="Horizontal">
+            <Button Command="{Binding UploadCommad}"  Style="{StaticResource RoundTextButton}" CommandParameter="{Binding}">Upload</Button>
+            <Button Margin="50 0 0 0"  Style="{StaticResource RoundButton}" Command="{Binding ResetCommand}" Width="45" Height="45">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+            </Button>
+            <Button Margin="50 0 20 0" Style="{StaticResource RoundTextButton}" Visibility="{Binding BtnUpdateVisibility,Converter={StaticResource boolToVisibilityConverter}}"  Command="{Binding UpdateCommand}" CommandParameter="{Binding}" Width="120">Update
+                
+            </Button>
+        </StackPanel>
+        <DataGrid x:Name="dgsbi" Margin="0 10 0 200"  ScrollViewer.CanContentScroll="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Row="1" Visibility="{Binding BulkUploadView,Converter={StaticResource arraytovisibility}}" CanUserAddRows="False" IsReadOnly="True" Grid.ColumnSpan="2" 
+                  ItemsSource="{Binding BulkUploadView}" ></DataGrid>
+
+        <DataGrid x:Name="dgicic" Margin="0 10 0 200"  ScrollViewer.CanContentScroll="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Row="1" Visibility="{Binding ICICUploadView,Converter={StaticResource arraytovisibility}}" CanUserAddRows="False" IsReadOnly="True" Grid.ColumnSpan="2" 
+                  ItemsSource="{Binding ICICUploadView}" >
+            
+        </DataGrid>
+    </Grid>
+</UserControl>

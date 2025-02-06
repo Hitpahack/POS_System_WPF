@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="FalcaPOS.Shell.Views.GSTCalculator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:FalcaPOS.Shell.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/" xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             prism:ViewModelLocator.AutoWireViewModel="True" >
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Margin" Value="0 30 10 0"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>            
+        </Style>
+    </UserControl.Resources>
+             
+    <Grid Margin="20 0 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Margin="0 0 10 0" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">GST</Label>
+            <CheckBox AutomationProperties.AutomationId="cbGSTCalculator5%Id"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}" IsChecked="{Binding Path=IsfiveChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"       Content="5%" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding GSTCheckedCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox AutomationProperties.AutomationId="cbGSTCalculator12%Id"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"    IsChecked="{Binding Path=IstweleveChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="12%" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding GSTCheckedCommand}"  CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox AutomationProperties.AutomationId="cbGSTCalculator18%Id"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"   IsChecked="{Binding Path=IseighteenChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="18%">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding GSTCheckedCommand}"  CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox AutomationProperties.AutomationId="cbGSTCalculator28%Id"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"   IsChecked="{Binding Path=IstwentyeightChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Content="28%">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding GSTCheckedCommand}"  CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <Button
+                    Height="38" Width="38"
+                    Command="{Binding ResetGSTCalculatorCommand}"
+                    AutomationProperties.AutomationId="btnGSTCalculatorResetId"
+                     Style="{StaticResource RoundButton}" >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <TextBox AutomationProperties.AutomationId="txtGSTCalculatorAmountExcludingGSTId" Grid.Row="1" FontSize="16"  Margin="0 0 40 10" Text="{Binding Path=ExcludingGST,Mode=TwoWay}" VerticalAlignment="Center"  materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Amount Excluding GST">
+            <i:Interaction.Behaviors>
+                <behavior:TextBoxInputRegExBehaviour EmptyValue="0"  RegularExpression="^[0-9.]*$" />
+            
+            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding GSTTexChangeCommand}"  CommandParameter="Exclude" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+          
+        </TextBox>
+        <TextBox AutomationProperties.AutomationId="txtGSTCalculatorAmountIncludingGSTId" Grid.Row="2" FontSize="16"  Margin="0 10 40 0" Text="{Binding Path=IncludingGST,Mode=TwoWay}"  VerticalAlignment="Center"  materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Amount Including GST">
+
+            <i:Interaction.Behaviors>
+                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9.]*$" />
+            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding GSTTexChangeCommand}"  CommandParameter="Include" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+        </TextBox>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Label Foreground="{StaticResource MahApps.Brushes.Accent}" >CGST</Label>
+            <Label AutomationProperties.AutomationId="lblGSTCalculatorAmountCGSTId" FontWeight="Bold" Content="{Binding Path=CGST}" ></Label>
+            <Label Foreground="{StaticResource MahApps.Brushes.Accent}">SGST</Label>
+            <Label AutomationProperties.AutomationId="lblGSTCalculatorAmountSGSTId" FontWeight="Bold" Content="{Binding Path=SGST}"></Label>          
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <Label Foreground="{StaticResource MahApps.Brushes.Accent}" >Total GST/IGST</Label>
+            <Label AutomationProperties.AutomationId="lblGSTCalculatorAmountTotalGSTId" FontWeight="Bold" Content="{Binding Path=TotalGST}"></Label>
+        </StackPanel>
+    </Grid>
+</UserControl>

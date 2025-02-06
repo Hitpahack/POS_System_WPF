@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.IndentPopupStatusPlacedAndTransit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <StackPanel  Width="350" Height="270" Background="White" Orientation="Vertical">
+        <Button HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Foreground="Red" Content="X" FontSize="20" >
+        </Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="currentstatus" Grid.Row="0"  Foreground="{DynamicResource MahApps.Brushes.Accent}" 
+                       HorizontalAlignment="Center"  Style="{StaticResource MaterialDesignBody2TextBlock}"  Margin="20 0 0 0"   Text="{Binding CurrentStatus}" ></TextBlock>
+
+            <TextBox x:Name="reason" Width="200" Grid.Row="1" Margin="0 20 0 0"  materialDesign:HintAssist.Hint="Remarks" materialDesign:HintAssist.IsFloating="True"  Text="{Binding Reason}"></TextBox>
+            <TextBox x:Name="tackingid" Width="200" Grid.Row="2" Visibility="{Binding TrackingIdVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0 20 0 0"  materialDesign:HintAssist.Hint="Tracking ID *" materialDesign:HintAssist.IsFloating="True"  Text="{Binding TrackingId}"></TextBox>
+            <Button Width="200" Margin="0 30 0 0"  Grid.Row="3" Style="{StaticResource RoundTextButton}"  Command="{Binding DataContext.StatusChangeCommand,RelativeSource={RelativeSource AncestorType={x:Type local:IndentPopupStatusPlacedAndTransit}}}" CommandParameter="{Binding ElementName=btnclose}" VerticalAlignment="Bottom" x:Name="btnupdate" >
+                Update
+            </Button >
+        </Grid>
+
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="FalcaPOS.Denomination.View.DenominationDepositDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Denomination.View"
+             xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Margin="0 10 0 0" >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <!--Radio buttons to show Denominations and Deposits-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal"  VerticalAlignment="Top" >
+            <RadioButton Content="Denomination" Margin="0 20 0 0" Foreground="#333333" FontFamily="{DynamicResource Poppins}" AutomationProperties.AutomationId="rbEODDenominationId" IsChecked="{Binding IsDenominationSelected}" />
+            <RadioButton Content="Deposit" Margin="10 20 0 0" Foreground="#333333" FontFamily="{DynamicResource Poppins}" AutomationProperties.AutomationId="rbEODDepositId" IsChecked="{Binding IsDepositSelected}" />
+        </StackPanel>
+        
+        <!--Displays the region based on the radio button selected.-->
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="StoreDenominationView"  Visibility="{Binding IsDenominationSelected,Converter={StaticResource BooleanToVisibilityConverter}}"  />
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="DepositView"  Visibility="{Binding IsDepositSelected,Converter={StaticResource BooleanToVisibilityConverter}}"  />
+        <!--<ContentControl Grid.Row="1" prism:RegionManager.RegionName="FinanceDenominationView" Visibility="{Binding IsDenominationSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>-->
+    </Grid>
+</UserControl>

@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="FalcaPOS.AddInventory.Views.GSTConfirmationPopUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.AddInventory.Views"
+               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:DialogHost Width="400" Height="170">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <Label Margin="80 0 0 0"  FontSize="18">Please Confirm Falca GSTIN</Label>
+                <TextBox materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Falca GSTIN ( As per Invoice)"   Width="230" Text="{Binding GSTIN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel
+           Grid.Row="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+
+                <Button
+                Margin="5"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AutomationProperties.AutomationId="btnUpdateConfirmId"
+                Command="{Binding YesCommand}"
+                Content="Validate and Submit"
+                    Width="170"
+                Style="{StaticResource RoundTextButton}" />
+                <!--<Button
+                Margin="5"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AutomationProperties.AutomationId="btnUpdateCancelId"
+                Command="{Binding NoCommand}"
+                Content="No"
+                Style="{StaticResource MaterialDesignFlatButton}" />-->
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

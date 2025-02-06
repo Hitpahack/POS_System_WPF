@@ -1,0 +1,181 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Customer.Views.Customer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+     xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+    xmlns:mvvm="http://prismlibrary.com/"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <!--<Converter:StringToShortDateConverter x:Key="ShortDateConverter" />-->
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"
+             />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="3" Margin="0 20 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel  Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                <Label 
+                    Height="46.5" 
+                    FontSize="15" 
+                    Style="{DynamicResource PoppinsBold}"
+                    Margin="0 10 0 0"
+                    VerticalAlignment="Bottom"
+                   >Total Invoices</Label>
+                <Label Height="30.5" 
+                       FontSize="15" 
+                       FontWeight="SemiBold" 
+                       Width="56"
+                       Margin="20 0 0 0"
+                       Style="{DynamicResource RoundTextLabel}"
+                      
+                       Content="{Binding TotalCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
+            </StackPanel>
+            <TextBox       
+                     x:Name="searchtextbox"
+                      Width="470"
+                      Height="38"
+                     Grid.Column="1"                 
+                HorizontalAlignment="Left"
+                     Style="{DynamicResource RoundTextBox}"
+                     HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center"               
+                     Text="{Binding NameOrPhone,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     >
+                <i:Interaction.Behaviors>
+                    <behavior:TextBoxInputRegExBehaviour   RegularExpression="[a-zA-Z0-9]" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <TextBlock IsHitTestVisible="False" 
+                       Grid.Column="1" 
+                       x:Name="searchtext"
+                       Margin="50 10 0 0"
+                       
+                       Height="26"                      
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Text="Customer Name/Phone Number"  
+                       Foreground="DarkGray">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="FontFamily" Value="{DynamicResource Poppins}"></Setter>
+                        <Setter Property="FontSize" Value="13"></Setter>
+                        <Setter Property="FontWeight" Value="Regular"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=searchtextbox}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <Button 
+                    Width="45px" 
+                    Height="38px"  
+                    Margin="0 0 10 0 "
+                    Style="{DynamicResource RoundButton}" 
+                    Command="{Binding RefreshDataGrid}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh" />
+                    </Button.Content>
+                </Button>
+                <Button Width="110px" 
+                        FontSize="15px" 
+                        FontWeight="Medium"  
+                        Height="38px" 
+                        Margin="0 0 0 0"
+                        Style="{DynamicResource RoundTextButton}"
+                        HorizontalAlignment="Right"
+                        Content="Search"
+                        Command="{Binding CustomerSearchCommand}" CommandParameter="{Binding}"></Button>
+            </StackPanel>
+            <Label Margin="0 30 0 0" 
+                   Height="35" 
+                   FontSize="15" 
+                   Style="{DynamicResource PoppinsMedium}" 
+                   Grid.Row="1">Sales Invoice Date</Label>
+            <StackPanel Margin="10 20 0 0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                <DatePicker 
+                    materialDesign:HintAssist.IsFloating="True" 
+                    materialDesign:HintAssist.Hint="From" 
+                    Text="{Binding FromDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                    Width="220px"></DatePicker>
+                <DatePicker 
+                    materialDesign:HintAssist.IsFloating="True" 
+                    materialDesign:HintAssist.Hint="To" 
+                    Text="{Binding ToDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                    Margin="20 0 0 0" Width="220px"></DatePicker>
+            </StackPanel>
+        </Grid>
+        <telerik:RadGridView
+              Visibility="{Binding CustomerDetail, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Row="1" 
+                Grid.ColumnSpan="2"
+                Margin="0,10,0,230"  
+             IsReadOnly="True"
+                RowIndicatorVisibility="Collapsed"
+                AutoGenerateColumns="False"
+                CanUserReorderColumns="False"   
+             IsFilteringAllowed="True"
+                ItemsSource="{Binding CustomerDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding CustomerName}" IsFilterable="True" IsGroupable="True" Width="120" Header="Customer Name"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Phone}" IsFilterable="True" IsGroupable="True" Header="Phone No."/>
+                <telerik:GridViewDataColumn IsFilterable="True"  DataMemberBinding="{Binding InvoiceNo }" IsGroupable="True" Header="Invoice No."/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding InvoiceDate }" Header="Invoice Date"/>
+                <telerik:GridViewDataColumn IsFilterable="True" DataMemberBinding="{Binding Category }" IsGroupable="True" Header="Category"/>
+                <telerik:GridViewDataColumn IsFilterable="True" DataMemberBinding="{Binding Producttype }" IsGroupable="True" Header="Sub Category"/>
+                <telerik:GridViewDataColumn IsFilterable="True" DataMemberBinding="{Binding Brnad }" IsGroupable="True"  Header="Brand"/>
+                <telerik:GridViewDataColumn IsFilterable="True" DataMemberBinding="{Binding ProductName }" IsGroupable="True"  Header="Product Name"/>
+            </telerik:RadGridView.Columns>
+
+        </telerik:RadGridView>
+        <Label
+              Grid.Row="2"
+          Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+                Content="No Records found"
+                FontSize="20"
+                FontStyle="Normal"
+             Visibility="{Binding CustomerDetail, Converter={StaticResource InverseArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+              />
+
+    </Grid>
+</UserControl>

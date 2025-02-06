@@ -1,0 +1,270 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Sales.Views.SalesListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.Sales.Views"
+   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <Converter:StringToShortDateConverter x:Key="ShortDateConverter" />
+        <Converter:ZeroToVisiblityConverter x:Key="ZeroToVisiblityConverter" />
+        <Style x:Key="GridViewToggleButtonColumnStyle"
+					   TargetType="telerik:GridViewCell" BasedOn="{StaticResource GridViewCellStyle}">
+            <Setter Property="Padding"
+							Value="0,0,0,0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Height="70" Margin="0 5 0 20" Background="#F5F5F5" Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0" Margin="20 0 10 0" Width="145"
+                materialDesign:HintAssist.Hint="Customer Name/Phone"
+                materialDesign:HintAssist.IsFloating="True"
+                    VerticalAlignment="Center"
+                     HorizontalAlignment="Left"
+                AutomationProperties.AutomationId="txtSalesFlyoutSearchCustomerNameId"
+                     
+                Text="{Binding CustomerNameorNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBox Grid.Column="1" Width="145"
+                materialDesign:HintAssist.Hint="Invoice No."
+                materialDesign:HintAssist.IsFloating="True"
+                          VerticalAlignment="Center"
+                     HorizontalAlignment="Left"
+                Text="{Binding InvoiceNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            AutomationProperties.AutomationId="txtSalesFlyoutSearchInvoiceNumberId"/>
+
+            <DatePicker Grid.Column="2"
+                Width="145"
+                Margin="0,0,0,0"
+                
+                materialDesign:HintAssist.Hint="Invoice Date From"
+                materialDesign:HintAssist.IsFloating="True"
+                             HorizontalAlignment="Left"
+                            DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                AutomationProperties.AutomationId="dpSalesFlyoutSearchInvoiceDateFromId"
+                SelectedDate="{Binding InvoiceFromDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <DatePicker Grid.Column="3"
+                Width="145"
+                Margin="0,0,0,0"
+                materialDesign:HintAssist.Hint="Invoice Date To"
+                materialDesign:HintAssist.IsFloating="True"
+                         HorizontalAlignment="Left"
+                AutomationProperties.AutomationId="dpSalesFlyoutSearchInvoiceDateToId"
+                       DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                SelectedDate="{Binding InvoiceToDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+
+            <StackPanel Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button  
+                Width="40" Height="35" 
+                Margin="0,14,30,0" 
+                Style="{DynamicResource RoundButton}" 
+                Command="{Binding RefreshSalesCommand}" 
+                AutomationProperties.AutomationId="txtSalesFlyoutRefreshId"
+                VerticalAlignment="Center">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh" />
+                    </Button.Content>
+                </Button>
+                
+                <Button Width="110px"  
+                        FontSize="15px" 
+                AutomationProperties.AutomationId="txtSalesFlyoutSearchId"
+                        Height="40px" 
+                       Margin="0 20 20 10 "
+                        Style="{DynamicResource RoundTextButton}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Content="Search"
+                        Command="{Binding SalesSearchCommand}" CommandParameter="{Binding}"></Button>
+            </StackPanel>
+        </Grid>
+        
+        <telerik:RadGridView
+            x:Name="sales"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="0,0,0,220"
+            IsReadOnly="True"
+            ShowColumnFooters="True"
+            AutoGenerateColumns="False"
+            AutomationProperties.AutomationId="dgSalesListId"            
+            CanUserReorderColumns="False" 
+            ShowGroupFooters="True"
+            ShowGroupPanel="True"
+            Visibility="{Binding Path=Sales,Converter={StaticResource NullableToVisibilityConverter}}"
+                      
+            ItemsSource="{Binding Sales, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            RowDetailsVisibilityMode="VisibleWhenSelected"
+            ScrollViewer.CanContentScroll="True"
+             RowIndicatorVisibility="Collapsed"
+           >
+           
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </DataGrid.RowStyle>-->
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction Command="{Binding RowDoubleClickCommand}" CommandParameter="{Binding ElementName=sales, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewToggleRowDetailsColumn CellStyle="{StaticResource GridViewToggleButtonColumnStyle}" />
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Invoice No." DataMemberBinding="{Binding InvoiceNumber}">
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:CountFunction ResultFormatString="Total Records: {0}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="120" IsFilterable="True" IsGroupable="True" Header="Invoice Date"  DataMemberBinding="{Binding InvoiceDate, Converter={StaticResource ShortDateConverter}}" />
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" Header="Name"  DataMemberBinding="{Binding CustomerDetails.Name}" />
+                <telerik:GridViewDataColumn Width="140" IsFilterable="True" Header="Phone No."  DataMemberBinding="{Binding CustomerDetails.Phone}" />
+                <!--<telerik:GridViewDataColumn Width="*" IsFilterable="false" Header="Special Discount"  DataMemberBinding="{Binding SpecialDiscountAmount, Mode=TwoWay}"  />-->
+                
+                <telerik:GridViewDataColumn Width="*" IsFilterable="True" IsGroupable="False" Header="Discount"  DataMemberBinding="{Binding Discount, Mode=TwoWay}"  />
+                <telerik:GridViewDataColumn Width="180" IsFilterable="True" Header="Gross Total" >
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Rupee" Width="20" Height="18" Margin="-6 7 0 0"/>
+                                <Label Content="{Binding GrossTotal}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:SumFunction SourceField="GrossTotal" ResultFormatString="Gross Total: {0:c}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="180" IsFilterable="True" Header="Cash" >
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Rupee" Width="20" Height="18" Margin="-6 7 0 0"/>
+                                <Label Content="{Binding Cash}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:SumFunction SourceField="Cash" ResultFormatString="Total Cash: {0:c}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="180" IsFilterable="True" Header="UPI"  >
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Rupee" Width="20" Height="18" Margin="-6 7 0 0"/>
+                                <Label Content="{Binding UPI}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:SumFunction SourceField="UPI" ResultFormatString="Total UPI: {0:c}" />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+
+
+
+
+                <telerik:GridViewColumn Width="*" Header="">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button
+                                    Name="btnSave"
+                                    Width="50"
+                                    Command="{Binding DataContext.GetInvoicePDFCommand, RelativeSource={RelativeSource AncestorType={x:Type local:SalesListView}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    ToolTip="Download Invoice">
+                                    <Button.Content>
+                                        <Image Source="{DynamicResource Grid_Download}"></Image>
+                                    </Button.Content>
+                                </Button>
+
+                                <Button
+                                    Name="btnShare"
+                                    Width="50"
+                                    Margin="10 0 0 0"
+                                    IsEnabled="False"
+                                    Command="{Binding DataContext.GetInvoicePDFCommand, RelativeSource={RelativeSource AncestorType={x:Type local:SalesListView}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    ToolTip="Share">
+                                    <Button.Content>
+                                        <Image Source="{DynamicResource Grid_Share}"></Image>
+                                    </Button.Content>
+                                </Button>
+
+
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+            </telerik:RadGridView.Columns>
+
+
+            <telerik:RadGridView.RowDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="50 0 0 0" Orientation="Vertical">
+                        <TextBlock Margin="10 5 0 10 "
+                                   Style="{DynamicResource PoppinsMedium}"
+                                   FontSize="12"
+                                   Text="INVOICE PRODUCTS"></TextBlock>
+                    <telerik:RadGridView
+                                    Grid.Row="1"
+                                    CanUserReorderColumns="False"
+                                    IsReadOnly="True"
+                        RowIndicatorVisibility="Collapsed"
+                              ShowGroupPanel="False"
+                        IsFilteringAllowed="False"
+                        AutoGenerateColumns="False"
+                                    ItemsSource="{Binding SalesProducts}">
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn   Header="Category" DataMemberBinding="{Binding Path=ProductType.CategoryName}" />
+                            <telerik:GridViewDataColumn   Header="Sub Category" DataMemberBinding="{Binding Path=ProductType.Name}" />
+                            <telerik:GridViewDataColumn  Header="Brand"  DataMemberBinding="{Binding Path=Manufacturer.Name }" />
+                            <telerik:GridViewDataColumn  Header="Product Name"  DataMemberBinding="{Binding ProductName }" />
+                            <telerik:GridViewDataColumn  Header="Qty"  DataMemberBinding="{Binding Path=Quantity }" />
+                            <telerik:GridViewDataColumn  Header="Selling Price"  DataMemberBinding="{Binding Path=ProductSellingPrice }" />
+                            <telerik:GridViewDataColumn  Header="GST(%)"  DataMemberBinding="{Binding Path=ProductGST }" />
+                            <telerik:GridViewDataColumn  Header="Total"  DataMemberBinding="{Binding Path=ProductTotal }" />
+
+                        </telerik:RadGridView.Columns>
+
+                    </telerik:RadGridView>
+                    </StackPanel>
+                </DataTemplate>
+            </telerik:RadGridView.RowDetailsTemplate>
+        </telerik:RadGridView>
+
+
+    </Grid>
+</UserControl>

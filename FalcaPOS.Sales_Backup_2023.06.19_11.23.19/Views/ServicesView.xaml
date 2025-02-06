@@ -1,0 +1,733 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Sales.Views.ServicesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convert="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.Sales.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <convert:ExpiryDateConverter x:Key="ExppiryDateConvert" />
+        <convert:ExpiryDateOverConverter x:Key="ExpiryDateOverConvert" />
+
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+    </UserControl.Resources>
+
+
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <!--<Border
+            Grid.Column="0"
+            BorderBrush="LightGray"
+            BorderThickness="0,0,0,1">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Margin="0,15,0,0" FontSize="17">SALES</Label>
+                <ToggleButton
+                    Margin="5,7,5,0"
+                    materialDesign:HintAssist.Hint="Serial No"
+                    materialDesign:HintAssist.IsFloating="True" />
+                <Label Margin="0,15,0,0" FontSize="17">SERVICES</Label>
+
+            </StackPanel>
+        </Border>-->
+        <Border
+            Grid.Column="0"
+            BorderBrush="LightGray"
+            BorderThickness="0,0,0,1">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Label Margin="0,15,0,0" FontSize="17">NEW FARMER</Label>
+                <ToggleButton
+                    x:Name="togglefarmer"
+                    Margin="5,7,5,0"
+                    materialDesign:HintAssist.Hint="Serial No"
+                    materialDesign:HintAssist.IsFloating="True"
+                    IsChecked="{Binding IsOldCustomer}" />
+                <Label Margin="0,15,0,0" FontSize="17">OLD FARMER</Label>
+                <StackPanel
+                    Margin="30,-10,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{Binding Path=IsChecked, ElementName=togglefarmer, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <materialDesign:PackIcon
+                        Margin="0,30,0,0"
+                        
+                        Kind="Phone" />
+                    <TextBox
+                        Width="250"
+                        Height="40"
+                        Margin="5,0,0,0"
+                        materialDesign:HintAssist.Hint="Phone No"
+                        materialDesign:HintAssist.IsFloating="True"
+                        Text="{Binding OldCustomerPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding DataContext.GetCustomerCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SalesView}}}" />
+
+                            <KeyBinding Key="Enter" Command="{Binding DataContext.GetCustomerCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SalesView}}}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="5"
+            HorizontalAlignment="Stretch">
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                                Kind="Numbers"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                x:Name="txtinvoiceno"
+                                Width="200"
+                                Margin="5,0,0,7"
+                                materialDesign:HintAssist.Hint="Invoice No"
+                                materialDesign:HintAssist.IsFloating="True"
+                                IsReadOnly="True"
+                                Text="{Binding InvoiceDetails.InvoiceNumber}" />
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Calendar"
+                                Style="{StaticResource IconMargin}" />
+                            <DatePicker
+                                Width="200"
+                                Margin="5,5,0,7"
+                                materialDesign:HintAssist.Hint="Invoice Date"
+                                materialDesign:HintAssist.IsFloating="True"
+                                SelectedDate="{Binding InvoiceDetails.InvoiceDate}"
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                        </StackPanel>
+
+                        <!--<StackPanel  Orientation="Horizontal" >
+                    <materialDesign:PackIcon Style="{StaticResource IconMargin}"    Kind="Account"  />
+                    <ComboBox Width="200"  materialDesign:HintAssist.Hint="Ordertaken By" materialDesign:HintAssist.IsFloating="True" ></ComboBox>
+                </StackPanel>-->
+
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="15,0,0,7" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                                Kind="Person"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                x:Name="txtfarmerName"
+                                Width="200"
+                                materialDesign:HintAssist.Hint="Farmer Name"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding InvoiceDetails.CustomerDetails.Name}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="15,0,0,7" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                                Kind="Phone"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                x:Name="txtphone"
+                                Width="200"
+                                materialDesign:HintAssist.Hint="Phone No"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding InvoiceDetails.CustomerDetails.Phone}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="15,0,0,7" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                                Kind="Phone"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                x:Name="txtalterphones"
+                                Width="200"
+                                materialDesign:HintAssist.Hint="Alternative Phone"
+                                materialDesign:HintAssist.IsFloating="True"
+                                IsReadOnly="True"
+                                Text="{Binding InvoiceDetails.CustomerDetails.AlternatePhone}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="15,0,0,7" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="MapMarker"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="200"
+                                materialDesign:HintAssist.Hint="State"
+                                materialDesign:HintAssist.IsFloating="True"
+                                IsReadOnly="True"
+                                Text="{Binding InvoiceDetails.CustomerDetails.Address.State}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="15,0,0,7" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="MapMarker"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="200"
+                                materialDesign:HintAssist.Hint="State"
+                                materialDesign:HintAssist.IsFloating="True"
+                                IsReadOnly="True"
+                                Text="{Binding InvoiceDetails.CustomerDetails.Address.District}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="15,0,0,7" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                                Kind="Numbers"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                x:Name="txtpincode"
+                                Width="200"
+                                materialDesign:HintAssist.Hint="Pincode"
+                                materialDesign:HintAssist.IsFloating="True"
+                                IsReadOnly="True"
+                                Text="{Binding InvoiceDetails.CustomerDetails.Address.Pincode}" />
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+
+
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch">
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Visibility="{Binding IsOldCustomer, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Label
+                        Margin="0,20,0,0"
+                        FontSize="12"
+                        FontWeight="Bold">
+                        INVOICE NUMBER
+                    </Label>
+
+                    <!--<StackPanel Margin="20,0,0,0" Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                            Kind="Numbers"
+                            Style="{StaticResource IconMargin}" />
+                        <TextBox
+                            x:Name="txtinvoicenoold"
+                            Width="150"
+                            Margin="15,0,0,7"
+                            materialDesign:HintAssist.Hint="Product Code"
+                            materialDesign:HintAssist.IsFloating="True"
+                            Text="{Binding ProductCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding DataContext.GetProductCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SalesView}}}" />
+
+                                <KeyBinding Key="Enter" Command="{Binding DataContext.GetProductCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SalesView}}}" />
+                            </TextBox.InputBindings>
+
+                        </TextBox>
+                    </StackPanel>-->
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Foreground="{Binding ElementName=txtinvoiceno, Path=BorderBrush}"
+                            Kind="Numbers"
+                            Style="{StaticResource IconMargin}" />
+                        <TextBox
+                            x:Name="txtproductid"
+                            Width="150"
+                            Margin="5,0,0,7"
+                            materialDesign:HintAssist.Hint="Invoice No"
+                            materialDesign:HintAssist.IsFloating="True"
+                            Text="{Binding InvoiceNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding DataContext.InvoiceSearchCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ServicesView}}}" />
+                                <KeyBinding Key="Enter" Command="{Binding DataContext.InvoiceSearchCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ServicesView}}}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10,0,0,0">
+                    <Label
+                        Margin="20,20,0,0"
+                        FontSize="12"
+                        FontWeight="Bold">
+                        TOTAL
+                    </Label>
+
+                </StackPanel>
+
+                <ItemsControl
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,10,0,0"
+                    ItemsSource="{Binding InvoiceDetails.SalesProducts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,10,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Button
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0"
+                                    Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ServicesView}}}"
+                                    CommandParameter="{Binding}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <materialDesign:PackIcon
+                                                Foreground="Black"
+                                                Kind="Trash"
+                                                ToolTip="Remove" />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="IdCard"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="ProductType"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        IsReadOnly="True"
+                                        Text="{Binding ProductType.Name}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="Manufacturing"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="Manufacture"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        IsReadOnly="True"
+                                        Text="{Binding Manufacturer.Name}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="ChartProductionPossibilityFrontier"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="Product Name"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        IsReadOnly="True"
+                                        Text="{Binding ProductName}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="4" Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="DateRange"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="Warranty Date"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        IsReadOnly="True"
+                                        Text="{Binding WarrentyDate}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="6" Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="Rupee"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="Selling Price"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        IsReadOnly="True"
+                                        Text="{Binding ProductSellingPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+
+                                <!--  Specification  -->
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,5,0,0"
+                                    Orientation="Vertical">
+                                    <StackPanel Background="Green" Visibility="{Binding WarrentyDate, Converter={StaticResource ExpiryDateOverConvert}}">
+                                        <Label>Warranty Available</Label>
+                                    </StackPanel>
+                                    <StackPanel Background="OrangeRed" Visibility="{Binding WarrentyDate, Converter={StaticResource ExppiryDateConvert}}">
+                                        <Label>Warranty Expired</Label>
+                                    </StackPanel>
+                                    <Label FontSize="13">SPECIFICATION</Label>
+
+                                    <ItemsControl ItemsSource="{Binding InvoiceDetails.SalesProducts}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding ProductSpecifications}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition />
+                                                                    <ColumnDefinition />
+
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                </Grid.RowDefinitions>
+
+                                                                <Label Grid.Column="0" Content="{Binding ProductAttribute.AttributeName}" />
+                                                                <Label Grid.Column="1" Content="{Binding AttributeMap.AttributeValueName}" />
+
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <ItemsControl ItemsSource="{Binding ProductSpecifications}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Label Grid.Column="0" Content="{Binding ProductAttribute.AttributeName}" />
+                                                    <Label Grid.Column="1" Content="{Binding AttributeMap.AttributeValueName}" />
+
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+
+                                </StackPanel>
+
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal">
+                                    <StackPanel Height="40" Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            
+                                            Kind="Rupee"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox
+                                            Width="80"
+                                            materialDesign:HintAssist.Hint="Discount(%)"
+                                            materialDesign:HintAssist.IsFloating="True"
+                                            Text="{Binding ProductDiscountPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                    <Label Margin="0,30,0,0" FontSize="15">OR</Label>
+                                    <StackPanel Height="40" Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            
+                                            Kind="Rupee"
+                                            Style="{StaticResource IconMargin}" />
+                                        <TextBox
+                                            Width="80"
+                                            materialDesign:HintAssist.Hint="Discount(Flat)"
+                                            materialDesign:HintAssist.IsFloating="True"
+                                            Text="{Binding ProductDiscountFlat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="5"
+                                    Height="40"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="Rupee"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="GST(%)"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Text="{Binding ProductGST, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="6"
+                                    Height="40"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        
+                                        Kind="Rupee"
+                                        Style="{StaticResource IconMargin}" />
+                                    <TextBox
+                                        Width="100"
+                                        materialDesign:HintAssist.Hint="Total"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Text="{Binding ProductTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+
+                                <Border
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="7"
+                                    Margin="0,10,0,5"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="0,0,0,1" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10,0,0,0">
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="100"
+                                materialDesign:HintAssist.Hint="Gross Total"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding GrossTotal}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="100"
+                                materialDesign:HintAssist.Hint="Discount"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding Discount}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="100"
+                                materialDesign:HintAssist.Hint="SGST"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding SGST}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="100"
+                                materialDesign:HintAssist.Hint="CGST"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding CGST}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            
+                            Kind="Rupee"
+                            Style="{StaticResource IconMargin}" />
+                        <TextBox
+                            Width="200"
+                            materialDesign:HintAssist.Hint="GST"
+                            materialDesign:HintAssist.IsFloating="True"
+                            Text="{Binding GST}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            
+                            Kind="Rupee"
+                            Style="{StaticResource IconMargin}" />
+                        <TextBox
+                            Width="200"
+                            materialDesign:HintAssist.Hint="Net Total"
+                            materialDesign:HintAssist.IsFloating="True"
+                            Text="{Binding NetTotal}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="80"
+                                materialDesign:HintAssist.Hint="Cash"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding Cash}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="80"
+                                materialDesign:HintAssist.Hint="Card"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding Card}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Rupee"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="80"
+                                materialDesign:HintAssist.Hint="UPI"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding UPI}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                        <StackPanel
+                            Width="100"
+                            Margin="0,10,0,0"
+                            Orientation="Horizontal" />
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Numbers"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="80"
+                                materialDesign:HintAssist.Hint="Card Number"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding CardNumber}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                
+                                Kind="Numbers"
+                                Style="{StaticResource IconMargin}" />
+                            <TextBox
+                                Width="80"
+                                materialDesign:HintAssist.Hint="UPI Number"
+                                materialDesign:HintAssist.IsFloating="True"
+                                Text="{Binding UPINumber}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Button
+                            Width="150"
+                            Command="{Binding SaveServiceDetatilsCommand}"
+                            Content="Save"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}" />
+                        <Button
+                            Width="150"
+                            Margin="10,0,0,0"
+                            Command="{Binding ResetServiceCommand}"
+                            Content="Reset"
+                            Style="{StaticResource MaterialDesignOutlinedButton}" />
+
+                    </StackPanel>
+                </StackPanel>
+
+
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+</UserControl>

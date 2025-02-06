@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="FalcaPOS.Stock.Views.EditTransferProduct"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+              xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Width="750" Background="White" Orientation="Vertical">
+        <Border BorderBrush="#252572" BorderThickness="1" Background="#252572">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+  Width="100"
+  Height="20"
+  Margin="10 0 0 0"
+  HorizontalAlignment="Left"                     
+  AutomationProperties.AutomationId="imgPopupEditRequestId"
+  Source="{DynamicResource logo}"/>
+                <TextBlock Grid.Column="1" Foreground="#FFFFFF" Style="{DynamicResource po}" FontSize="20" Text="Edit Request Qty" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <Button  Grid.Column="2" Foreground="#FFFFFF" HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close"  Content="X" FontSize="20" >
+                </Button>
+               
+            </Grid>
+
+
+        </Border>
+    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label  Grid.ColumnSpan="6" IsEnabled="False">
+                <TextBlock>
+            <Run FontWeight="Bold">Note:</Run> Before Approval kindly check if the same product is requested by any other store.
+                </TextBlock>
+            </Label>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <ItemsControl  Style="{StaticResource itemcontrolstyleforsmallheight}" ItemsSource="{Binding EditTransferRequest.transferProducts,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Width="120" IsEnabled="False" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Category"  Grid.Column="0" Text="{Binding Category}"></TextBox>
+                            <TextBox  Width="120" IsEnabled="False" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Sub Category"   Grid.Column="1" Text="{Binding SubCategory}"></TextBox>
+                            <TextBox  Width="120" IsEnabled="False" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Brand"   Grid.Column="2" Text="{Binding Brand}"></TextBox>
+                            <TextBox  Width="120" IsEnabled="False" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="ProductName"   Grid.Column="3" Text="{Binding ProductName}"></TextBox>
+                            <TextBox  Width="120" IsEnabled="False" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="ProductSKU"  Grid.Column="4" Text="{Binding ProductSKU}"></TextBox>
+                            <TextBox  Width="120" IsEnabled="False" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="AvailableQty"  Grid.Column="5" Text="{Binding AvailableQty}"></TextBox>
+                            <TextBox  Width="120" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="RquestedQty"  Grid.Column="6" Text="{Binding TransferQty}"></TextBox>
+                            <TextBox  Width="120" Margin="0 0 5 0" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Reason"  Grid.Column="7" Text="{Binding Remarks}"></TextBox>
+                        </Grid>
+                        
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Grid.Row="1" Content="Save and Approve" Width="180" Command="{Binding DataContext.EditSaveandApproveCommand,RelativeSource={RelativeSource AncestorType={x:Type local:EditTransferProduct}}}" CommandParameter="{Binding ElementName=btnclose}"   Style="{StaticResource RoundTextButton}"></Button>
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

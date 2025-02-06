@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="FalcaPOS.ExpiryProducts.View.ExpiryProductsHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.ExpiryProducts.View"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+            xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+           xmlns:prism="http://prismlibrary.com/"
+           prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="White"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+       
+            <Controls:MetroTabControl
+        Margin="0 10 0 0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="{DynamicResource Poppins}"
+        Controls:HeaderedControlHelper.HeaderFontSize="20"
+        AutomationProperties.AutomationId="tcExpiryProductHomeId"
+        Background="White"
+                x:Name="tabcontrol"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+            <Controls:MetroTabItem  AutomationProperties.AutomationId="tiexpriedId" Header="Expired" Style="{DynamicResource tabItemstyle}">
+
+                    <ContentControl Margin="0 10 0 0" prism:RegionManager.RegionName="Expired" />
+                </Controls:MetroTabItem>
+                <Controls:MetroTabItem  AutomationProperties.AutomationId="tiExpiryProductCurrentMonthId" Header="{Binding CurrentMonth}" Style="{DynamicResource tabItemstyle}">
+
+
+                <ContentControl Margin="0 10 0 0"  prism:RegionManager.RegionName="CurrentMonth" />
+                </Controls:MetroTabItem>
+            <Controls:MetroTabItem  AutomationProperties.AutomationId="tiExpiryProductNextMonthId" Header="{Binding NextMonth}" Style="{DynamicResource tabItemstyle}">
+
+                <ContentControl Margin="0 10 0 0"  prism:RegionManager.RegionName="NextMonth" />
+                </Controls:MetroTabItem>
+            <Controls:MetroTabItem AutomationProperties.AutomationId="tiExpiryProductNext3MonthId" Header="{Binding Next3Month}" Style="{DynamicResource tabItemstyle}">
+
+                <ContentControl Margin="0 10 0 0"  prism:RegionManager.RegionName="Next3Month" />
+                </Controls:MetroTabItem>
+            <Controls:MetroTabItem AutomationProperties.AutomationId="tiExpiryProductNext6MonthId" Header="{Binding Next6Month}" Style="{DynamicResource tabItemstyle}">
+
+                <ContentControl Margin="0 10 0 0"  prism:RegionManager.RegionName="Next6Month" />
+                </Controls:MetroTabItem>
+            </Controls:MetroTabControl>
+        <Button  
+                Width="38" Height="38"
+                Margin="0,10,70,0" 
+                Style="{DynamicResource RoundButton}" 
+                Command="{Binding RefreshCommand}"  
+            AutomationProperties.AutomationId="btnExpiryProductRefreshButtonId"
+                CommandParameter="{Binding ElementName=tabcontrol}"
+            VerticalAlignment="Top"
+                HorizontalAlignment="Right">
+            <Button.Content>
+                <materialDesign:PackIcon Kind="Refresh" />
+            </Button.Content>
+        </Button>
+        <Button  
+                  Margin="20 10 10 0" 
+                Style="{DynamicResource RoundButton }" 
+                VerticalAlignment="Top"
+                 HorizontalAlignment="Right"
+               AutomationProperties.AutomationId="btnExpiryPriductDownloadButtonId"
+                ToolTip="Download XL File" 
+                Height="38" Width="38"  
+                Command="{Binding ExpiryExportCommand}"  CommandParameter="{Binding ElementName=tabcontrol}">
+            <Button.Content>
+                <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+            </Button.Content>
+        </Button>
+       
+      
+      
+    </Grid>
+   
+  
+
+</UserControl>

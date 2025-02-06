@@ -1,0 +1,990 @@
+﻿[
+  {
+
+    "name": "Inventory",
+    "role": [ "purchasemanager", "falcadirector", "controlmanager" ],
+    "displaycolumns": [
+      {
+        "displayname": "Cost Value (Tax Exclusive) Per Quantity",
+        "propname": "CTaxExclusive"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Inclusive) Per Quantity",
+        "propname": "CTaxInclusive"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Exclusive) whole Volume",
+        "propname": "CTaxEWVolume"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Inclusive) whole Volume",
+        "propname": "CTaxIWVolume"
+
+      },
+      {
+        "displayname": "Days Since Last Sale Invoice",
+        "propname": "Days"
+
+      }
+
+    ],
+    "columns": [
+      "SKUCode",
+      "Category",
+      "SubCategory",
+      "Technical",
+      "Brand",
+      "Product",
+      "PackingSize",
+      "PackingSizeNumber",
+      "UOM",
+      "State",
+      "Region",
+      "Territory",
+      "StoreName",
+      "Quantity",
+      "StoreCode",
+      "Volume",
+      "Gst",
+      "GstValue",
+      "Cost Value (Tax Exclusive) Per Quantity",
+      "Cost Value (Tax Inclusive) Per Quantity",
+      "Cost Value (Tax Exclusive) whole Volume",
+      "Cost Value (Tax Inclusive) whole Volume",
+      "SellingPrice",
+      "InventoryValue",
+      "LastDateSale",
+      "Days Since Last Sale Invoice",
+      "FiscalDay",
+      "FiscalDayOfMonth",
+      "FiscalDayOfTheQuarter",
+      "FiscalDayOfTheYear",
+      "FiscalMonth",
+      "FiscalMonthOfTheQuarter",
+      "FiscalMonthOfTheYear",
+      "FinancialYear",
+      "FiscalQuarter"
+
+    ]
+  },
+  {
+
+    "name": "Inventory",
+    "role": [ "regionalmanager", "territorymanager" ],
+    "displaycolumns": [
+      {
+        "displayname": "Cost Value (Tax Exclusive) Per Quantity",
+        "propname": "CTaxExclusive"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Inclusive) Per Quantity",
+        "propname": "CTaxInclusive"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Exclusive) whole Volume",
+        "propname": "CTaxEWVolume"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Inclusive) whole Volume",
+        "propname": "CTaxIWVolume"
+
+      },
+      {
+        "displayname": "Days Since Last Sale Invoice",
+        "propname": "Days"
+
+      }
+
+    ],
+    "columns": [
+      "SKUCode",
+      "Category",
+      "SubCategory",
+      "Technical",
+      "Brand",
+      "Product",
+      "PackingSize",
+      "PackingSizeNumber",
+      "UOM",
+      "State",
+      "Region",
+      "Territory",
+      "StoreName",
+      "Quantity",
+      "StoreCode",
+      "SellingPrice",
+      "InventoryValue",
+      "LastDateSale",
+      "Days Since Last Sale Invoice",
+      "FiscalDay",
+      "FiscalDayOfMonth",
+      "FiscalDayOfTheQuarter",
+      "FiscalDayOfTheYear",
+      "FiscalMonth",
+      "FiscalMonthOfTheQuarter",
+      "FiscalMonthOfTheYear",
+      "FinancialYear",
+      "FiscalQuarter"
+
+    ]
+  },
+  {
+
+    "name": "PO GRN",
+    "role": [ "purchasemanager", "falcadirector" ],
+    "displaycolumns": [
+      {
+        "displayname": "Territory",
+        "propname": "Area"
+      },
+      {
+        "displayname": "Active PO",
+        "propname": "IsActive"
+      },
+      {
+        "displayname": "GST Percentage",
+        "propname": "Gst"
+      },
+      {
+        "displayname": "GST Value Per Quantity",
+        "propname": "GstValue"
+      },
+      {
+        "displayname": "Total GST Value",
+        "propname": "TotalGst"
+      },
+      {
+        "displayname": "Cost Value (Tax Exclusive) Per Quantity",
+        "propname": "CTaxExclusive"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Inclusive) Per Quantity",
+        "propname": "CTaxInclusive"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Exclusive) whole Volume",
+        "propname": "CTaxEWVolume"
+
+      },
+      {
+        "displayname": "Cost Value (Tax Inclusive) whole Volume",
+        "propname": "CTaxIWVolume"
+
+      },
+      {
+        "displayname": "Additional Purchase Cost (Frieght+Logistics+Hamali)",
+        "propname": "AddPurchaseCost"
+
+      },
+      {
+        "displayname": "Net Realised Purchase Cost",
+        "propname": "NetPurchaseCost"
+
+      },
+      {
+        "displayname": "Last Date Purchase Invoice",
+        "propname": "LastDatePurchase"
+
+      },
+      {
+        "displayname": "Days Since Last Purchase Invoice",
+        "propname": "DaySincePurchase"
+      }
+    ],
+    "columns": [
+      "SKUCode",
+      "Category",
+      "SubCategory",
+      "Technical",
+      "Brand",
+      "Product",
+      "PackingSize",
+      "UOM",
+      "State",
+      "Zone",      
+      "Territory",
+      "StoreName",
+      "StoreCode",
+      "PoNumber",
+      "PODate",
+      "InvoiceNumber",
+      "InvoiceDate",
+      "Vendor",
+      "PoQuantity",
+      "GRNQuantity",
+      "SoldQuantity",
+      "SoldAmount",
+      "GRNumber",
+      "BatchNumber",
+      "Volume",
+      "Active PO",
+      "GST Percentage",
+      "GST Value Per Quantity",
+      "Total GST Value",
+      "Cost Value (Tax Exclusive) Per Quantity",
+      "Cost Value (Tax Inclusive) Per Quantity",
+      "Cost Value (Tax Exclusive) whole Volume",
+      "Cost Value (Tax Inclusive) whole Volume",
+      "PurchaseDiscount",
+      "Additional Purchase Cost (Frieght+Logistics+Hamali)",
+      "Net Realised Purchase Cost",
+      "Last Date Purchase Invoice",
+      "Days Since Last Purchase Invoice",
+      "FiscalDay",
+      "FiscalDayOfMonth",
+      "FiscalDayOfTheQuarter",
+      "FiscalDayOfTheYear",
+      "FiscalMonth",
+      "FiscalMonthOfTheQuarter",
+      "FiscalMonthOfTheYear",
+      "FinancialYear",
+      "FiscalQuarter"
+
+    ]
+  },
+  {
+    "name": "Stock Ageing(Invoice Rate)",
+    "role": [ "finance", "falcadirector", "controlmanager", "purchasemanager", "regionalmanager", "territorymanager", "backend", "storeperson"],
+    "displaycolumns": [
+      {
+        "displayname": "POS entry date",
+        "propname": "PurchaseDate"
+
+      },
+      {
+        "displayname": "Sub Category",
+        "propname": "SubCategory"
+
+      },
+      {
+        "displayname": "ProductName",
+        "propname": "Product"
+
+      },
+      {
+        "displayname": "1-15 Days",
+        "propname": "Days_1_15"
+
+      },
+      {
+        "displayname": "16-30 Days",
+        "propname": "Days_15_30"
+
+      },
+      {
+        "displayname": "31-45 Days",
+        "propname": "Days_31_45"
+
+      },
+      {
+        "displayname": "46-60 Days",
+        "propname": "Days_46_60"
+
+      },
+      {
+        "displayname": "61-75 Days",
+        "propname": "Days_61_75"
+
+      },
+      {
+        "displayname": "76-90 Days",
+        "propname": "Days_76_90"
+      },
+      {
+        "displayname": "91-105 Days",
+        "propname": "Days_91_105"
+      },
+      {
+        "displayname": "106-120 Days",
+        "propname": "Days_106_120"
+      },
+      {
+        "displayname": "Above120Days",
+        "propname": "Above120Days"
+      }
+    ],
+    "columns": [
+      "Today",
+      "1-15 Days",
+      "16-30 Days",
+      "31-45 Days",
+      "46-60 Days",
+      "61-75 Days",
+      "76-90 Days",
+      "91-105 Days",
+      "106-120 Days",
+      "Above120Days",
+      "Qty",
+      "Cost",
+      "TotalCost",
+      "POS entry date",
+      "Supplier",
+      "Category",
+      "Sub Category",
+      "SKU",
+      "Brand",
+      "Units",
+      "ProductName",
+      "Store",
+      "Zone",
+      "Territory",
+      "FiscalDay",
+      "FiscalDayOfMonth",
+      "FiscalDayOfTheQuarter",
+      "FiscalDayOfTheYear",
+      "FiscalMonth",
+      "FiscalMonthOfTheQuarter",
+      "FiscalMonthOfTheYear",
+      "FinancialYear",
+      "FiscalQuarter"
+    ]
+  },
+
+  {
+    "name": "Stock Ageing(Weighted Average Price)",
+    "role": [ "finance", "falcadirector", "controlmanager", "purchasemanager", "regionalmanager", "territorymanager", "backend", "storeperson" ],
+    "displaycolumns": [
+      {
+        "displayname": "POS entry date",
+        "propname": "PurchaseDate"
+
+      },
+      {
+        "displayname": "ProductName",
+        "propname": "Product"
+
+      },
+      {
+        "displayname": "Sub Category",
+        "propname": "SubCategory"
+
+      },
+      {
+        "displayname": "1-15 Days",
+        "propname": "Days_1_15"
+
+      },
+      {
+        "displayname": "16-30 Days",
+        "propname": "Days_15_30"
+
+      },
+      {
+        "displayname": "31-45 Days",
+        "propname": "Days_31_45"
+
+      },
+      {
+        "displayname": "46-60 Days",
+        "propname": "Days_46_60"
+
+      },
+      {
+        "displayname": "61-75 Days",
+        "propname": "Days_61_75"
+
+      },
+      {
+        "displayname": "76-90 Days",
+        "propname": "Days_76_90"
+      },
+      {
+        "displayname": "91-105 Days",
+        "propname": "Days_91_105"
+      },
+      {
+        "displayname": "106-120 Days",
+        "propname": "Days_106_120"
+      },
+      {
+        "displayname": "Above120Days",
+        "propname": "Above120Days"
+      }
+    ],
+    "columns": [
+
+      "Today",
+      "1-15 Days",
+      "16-30 Days",
+      "31-45 Days",
+      "46-60 Days",
+      "61-75 Days",
+      "76-90 Days",
+      "91-105 Days",
+      "106-120 Days",
+      "Above120Days",
+      "Qty",
+      "Cost",
+      "TotalCost",
+      "POS entry date",
+      "Supplier",
+      "Category",
+      "Sub Category",
+      "SKU",
+      "Brand",
+      "Units",
+      "ProductName",
+      "Store",
+      "Zone",
+      "Territory",
+      "FiscalDay",
+      "FiscalDayOfMonth",
+      "FiscalDayOfTheQuarter",
+      "FiscalDayOfTheYear",
+      "FiscalMonth",
+      "FiscalMonthOfTheQuarter",
+      "FiscalMonthOfTheYear",
+      "FinancialYear",
+      "FiscalQuarter"
+    ]
+  },
+  {
+    "name": "Tally Report (Sales)",
+    "role": [ "finance", "purchasemanager" ],
+    "displaycolumns": [
+        {
+            "displayname": "Voucher Type",
+            "propname": "Type"
+
+        },
+        {
+            "displayname": "Cost Centre/Classes",
+            "propname": "CostCenter"
+        },
+        {
+            "displayname": "Sales No as per ERP",
+            "propname": "ReferEPR"
+
+        },
+        {
+            "displayname": "Date as per ERP",
+            "propname": "DateEPR"
+
+        },
+        {
+            "displayname": "Sales Invoice No",
+            "propname": "InvoiceNo"
+
+        },
+        {
+            "displayname": "Invoice Date",
+            "propname": "InvoiceDate"
+
+        },
+        {
+            "displayname": "Sales Ledger",
+            "propname": "SalesLedger"
+
+        },
+        {
+            "displayname": "Customer (Bill To)",
+            "propname": "Bill"
+
+        },
+        {
+            "displayname": "Address fields as per DSC/POS",
+            "propname": "Address"
+
+        },
+        {
+            "displayname": "Existing SKU(Old SKU)",
+            "propname": "ExistingSKU"
+
+        },
+        {
+            "displayname": "HSN Code",
+            "propname": "HSN"
+
+        },
+        {
+            "displayname": "Sub Total",
+            "propname": "SubTotal"
+
+        },
+        {
+            "displayname": "GST Rate",
+            "propname": "GST"
+
+        },
+        {
+            "displayname": "Output CGST",
+            "propname": "CGST"
+
+        },
+        {
+            "displayname": "Output SGST",
+            "propname": "SGST"
+
+        },
+        {
+            "displayname": "Output IGST",
+            "propname": "IGST"
+
+        },
+        {
+            "displayname": "Total Invoice Amount",
+            "propname": "TotalAmount"
+
+        },
+        {
+            "displayname": "CGST LEDGER",
+            "propname": "LedgerCGST"
+
+        },
+        {
+            "displayname": "SGST LEDGER",
+            "propname": "LedgerSGST"
+
+        },
+        {
+            "displayname": "IGST LEDGER",
+            "propname": "LedgerIGST"
+
+        },
+        {
+            "displayname": "Sourcing Employee",
+            "propname": "SourceEmployee"
+        },
+        {
+            "displayname": "UTRnumber",
+            "propname": "UTRNumber"
+        },
+      {
+        "displayname": "F-Shop/RSP",
+        "propname": "StoreType"
+      },
+      {
+        "displayname": "Centre state",
+        "propname": "StoreState"
+      }
+
+    ],
+    "columns": [
+      "Voucher Type",
+      "Cost Centre/Classes",
+      "Centre state",
+      "Sales No as per ERP",
+      "Date as per ERP",
+      "Sales Invoice No",
+      "Invoice Date",
+      "Sales Ledger",
+      "CustomerName",
+      "Customer (Bill To)",
+      "GSTIN",
+      "Address fields as per DSC/POS",
+      "Pincode",
+      "District",
+      "State",
+      "ProductName",
+      "Existing SKU(Old SKU)",
+      "SKU",
+      "Godown",
+      "Units",
+      "HSN Code",
+      "Qty",
+      "Rate",
+      "Sub Total",
+      "GST Rate",
+      "Output CGST",
+      "Output SGST",
+      "Output IGST",
+      "Total Invoice Amount",
+      "CGST LEDGER",
+      "SGST LEDGER",
+      "IGST LEDGER",
+      "Sourcing Employee",
+      "Cash",
+      "UPI",
+      "Cheque",
+      "UTRnumber",
+      "F-Shop/RSP"
+    ],
+    "search": [
+      {
+        "name": "From Date",
+        "control": "Datepicker"
+      },
+      {
+        "name": "To Date",
+        "control": "Datepicker"
+      }
+    ]
+
+  },
+  {
+    "name": "Tally Report (Purchase)",
+    "role": [ "finance", "purchasemanager" ],
+    "displaycolumns": [
+      {
+        "displayname": "Voucher Type",
+        "propname": "Type"
+
+      },
+      {
+        "displayname": "F-Shop/RSP",
+        "propname": "StoreType"
+
+      },
+      {
+        "displayname": "Cost Centre/Classes",
+        "propname": "StoreName"
+
+      },
+      {
+        "displayname": "Reference No as per ERP",
+        "propname": "ERPuniqueNo"
+
+      },
+      {
+        "displayname": "Date as per ERP",
+        "propname": "DateEPR"
+
+      },
+      {
+        "displayname": "Invoice No",
+        "propname": "InvoiceNo"
+
+      },
+      {
+        "displayname": "Invoice Date",
+        "propname": "InvoiceDate"
+
+      },
+      {
+        "displayname": "Purchase Ledger",
+        "propname": "PurchaseLedger"
+
+      },
+      {
+        "displayname": "Supplier Name",
+        "propname": "SupplierName"
+
+      },
+
+      {
+        "displayname": "Supplier (Bill From)",
+        "propname": "Bill"
+
+      },
+      {
+        "displayname": "Address fields as per DSC/POS",
+        "propname": "Address"
+
+      },
+      {
+        "displayname": "Category",
+        "propname": "CategoryName"
+
+      },
+      {
+        "displayname": "Sub Category",
+        "propname": "DepartmentName"
+
+      },
+
+      {
+        "displayname": "Existing SKU(Old SKU)",
+        "propname": "ExistingSKU"
+
+      },
+      {
+        "displayname": "HSN Code",
+        "propname": "HSN"
+
+      },
+      {
+        "displayname": "Sub Total",
+        "propname": "SubTotal"
+
+      },
+      {
+        "displayname": "GST Rate",
+        "propname": "GST"
+
+      },
+      {
+        "displayname": "Input CGST",
+        "propname": "CGST"
+
+      },
+      {
+        "displayname": "Input SGST",
+        "propname": "SGST"
+
+      },
+      {
+        "displayname": "Input IGST",
+        "propname": "IGST"
+
+      },
+      {
+        "displayname": "Total Invoice Amount",
+        "propname": "TotalAmount"
+
+      },
+      {
+        "displayname": "Input Credit Ledger-CGST",
+        "propname": "LedgerCGST"
+
+      },
+      {
+        "displayname": "Input Credit Ledger-SGST",
+        "propname": "LedgerSGST"
+
+      },
+      {
+        "displayname": "Input Credit Ledger-IGST",
+        "propname": "LedgerIGST"
+
+      },
+      {
+        "displayname": "Sourcing Employee",
+        "propname": "SourceEmployee"
+      },
+      {
+        "displayname": "Freight Charges Clearing",
+        "propname": "Transportcharges"
+      },
+      {
+        "displayname": "Loading and Unloading Charges Clearing",
+        "propname": "LoadandUnloadCharge"
+      },
+      {
+        "displayname": "Gunny Bags Expenses Clearing",
+        "propname": "GunnyBags"
+      },
+      {
+        "displayname": "Weighbridge Charges Clearing",
+        "propname": "Weighbridge"
+      },
+      {
+        "displayname": "APMC Cess Clearing",
+        "propname": "APMCCess"
+      },
+      {
+        "displayname": "Lives Deduct Charges Clearing",
+        "propname": "LivesDeduct"
+      },
+      {
+        "displayname": "Discount-Before GST",
+        "propname": "BeforeGST"
+      },
+      {
+        "displayname": "Discount-After GST",
+        "propname": "AfterGST"
+      },
+      {
+        "displayname": "Farmer Advance Clearing",
+        "propname": "FarmerAdvance"
+      },
+      {
+        "displayname": "Transporter Advance Clearing",
+        "propname": "TransporterAdvance"
+      },
+      {
+        "displayname": "Centre state",
+        "propname": "StoreState"
+      }
+
+
+    ],
+    "columns": [
+      "Voucher Type",
+      "Cost Centre/Classes",
+      "Centre state",
+      "Reference No as per ERP",
+      "Date as per ERP",
+      "Invoice No",
+      "Invoice Date",
+      "Purchase Ledger",
+      "Supplier Name",
+      "Supplier (Bill From)",
+      "GSTIN",
+      "Address fields as per DSC/POS",
+      "Pincode",
+      "District",
+      "State",
+      "Category",
+      "Sub Category",
+      "ProductName",
+      "Godown",
+      "Existing SKU(Old SKU)",
+      "SKU",
+      "Units",
+      "HSN Code",
+      "Qty",
+      "Rate",
+      "Sub Total",
+      "GST Rate",
+      "Input CGST",
+      "Input SGST",
+      "Input IGST",
+      "Roundoff",
+      "Total Invoice Amount",
+      "Input Credit Ledger-CGST",
+      "Input Credit Ledger-SGST",
+      "Input Credit Ledger-IGST",
+      "Sourcing Employee",
+      "Freight Charges Clearing",
+      "Loading and Unloading Charges Clearing",
+      "Gunny Bags Expenses Clearing",
+      "Weighbridge Charges Clearing",
+      "APMC Cess Clearing",
+      "Lives Deduct Charges Clearing",
+      "Discount-Before GST",
+      "Discount-After GST",
+      "Farmer Advance Clearing",
+      "Transporter Advance Clearing",
+      "F-Shop/RSP",
+      "TDS",
+      "Others"
+    ],
+    "search": [
+      {
+        "name": "From Date",
+        "control": "Datepicker"
+      },
+      {
+        "name": "To Date",
+        "control": "Datepicker"
+      }
+    ]
+  },
+  {
+    "name": "Top List (Items)",
+    "role": [ "storeperson", "auditor", "territorymanager", "regionalmanager", "controlmanager", "finance" ],
+    "displaycolumns": [
+      {
+        "displayname": "CGST/IGST",
+        "propname": "CGST_IGST"
+      }
+    ],
+    "columns":[
+        "SKU",
+        "ProductName",
+        "Quantity",
+        "Gross",
+        "SGST",
+        "CGST/IGST",
+        "Discount",
+        "Net"
+    ],
+    "search":[
+      {
+        "name": "From Date",
+        "control": "Datepicker"
+      },
+      {
+        "name": "To Date",
+        "control": "Datepicker"
+      }
+    ]
+  },
+  {
+    "name": "Top List (ProductGroup)",
+    "role": [ "storeperson", "auditor", "territorymanager", "regionalmanager", "controlmanager", "finance" ],
+    "displaycolumns": [
+      {
+        "displayname": "CGST/IGST",
+        "propname": "CGST_IGST"
+      }
+    ],
+    "columns": [
+      "Brand",
+      "Quantity",
+      "Gross",
+      "SGST",
+      "CGST/IGST",
+      "Discount",
+      "Net"
+    ],
+    "search": [
+      {
+        "name": "From Date",
+        "control": "Datepicker"
+      },
+      {
+        "name": "To Date",
+        "control": "Datepicker"
+      }
+    ]
+  },
+
+  {
+    "name": "Top List (Category)",
+    "role": [ "storeperson", "auditor", "territorymanager", "regionalmanager", "controlmanager", "finance" ],
+    "displaycolumns": [
+      {
+        "displayname": "CGST/IGST",
+        "propname": "CGST_IGST"
+      }
+    ],
+    "columns": [
+      "Category",
+      "Quantity",
+      "Gross",
+      "SGST",
+      "CGST/IGST",
+      "Discount",
+      "Net"
+    ],
+    "search": [
+      {
+        "name": "From Date",
+        "control": "Datepicker"
+      },
+      {
+        "name": "To Date",
+        "control": "Datepicker"
+      }
+    ]
+  },
+
+  {
+    "name": "Top List (Transactions)",
+    "role": [ "storeperson", "auditor", "territorymanager", "regionalmanager", "controlmanager", "finance" ],
+    "displaycolumns": [
+      {
+        "displayname": "CGST/IGST",
+        "propname": "CGST_IGST"
+      },
+      {
+        "displayname": "NEFT/RTGS",
+        "propname": "NEFT_RTGS"
+      }
+    ],
+    "columns": [
+      "InvoiceNumber",
+      "SalesDate",
+      "Items",
+      "Quantity",
+      "Gross",
+      "SGST",
+      "CGST/IGST",
+      "Discount",
+      "Net",
+      "Cash",
+      "UPI",
+      "NEFT/RTGS",
+      "RefNo"
+    ],
+    "search": [
+      {
+        "name": "From Date",
+        "control": "Datepicker"
+      },
+      {
+        "name": "To Date",
+        "control": "Datepicker"
+      }
+    ]
+  }
+]

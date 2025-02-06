@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="FalcaPOS.Dashboard.Views.CreditSalesUpdate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Dashboard.Views"
+               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+              xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel  Width="350" Height="320" Background="White" Orientation="Vertical">
+        <Button AutomationProperties.AutomationId="btnSalesCreditSalesDataListChequeDetailsExitId" HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Foreground="Red" Content="X" FontSize="20" >
+        </Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock   
+                 AutomationProperties.AutomationId="tbSalesCreditSalesDataListChequeDetailsInvoiceNumberId"
+                     Grid.Row="0"  HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Text="{Binding PopupDetails.InvoiceNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+
+            <TextBox Width="170"  
+                     Margin="0 10 0 0" 
+                     HorizontalAlignment="Center" 
+                     AutomationProperties.AutomationId="txtSalesCreditSalesDataListChequeDetailsChequeAmountId"
+                     Grid.Row="1"  
+                    IsReadOnly="True"
+                     IsEnabled="False"
+                     Text="{Binding PopupDetails.Cheque,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                     materialDesign:HintAssist.IsFloating="True" 
+                     materialDesign:HintAssist.Hint="Cheque Amount"></TextBox>
+            <StackPanel   Margin="90 10 0 0"  Grid.Row="2" Orientation="Horizontal" >
+                <TextBox  
+                    Width="140"
+                    Margin="0 0 0 0"
+                     Grid.Row="2"  
+                     IsReadOnly="True"
+                     IsEnabled="False"
+                     Text="{Binding PopupDetails.ChequeNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                     materialDesign:HintAssist.IsFloating="True" 
+                    AutomationProperties.AutomationId="txtSalesCreditSalesDataListChequeDetailsChequeNumberId"
+                     materialDesign:HintAssist.Hint="Cheque Number"></TextBox>
+
+                <Button Visibility="{Binding PopupDetails.SalesId,Converter={StaticResource NotZeroToVisibilityConverter}}"  Margin="0 0 0 0"
+                        Style="{StaticResource MaterialDesignIconButton}"    
+                        ToolTip="Download Cheque" Height="20" Width="50" 
+                        CommandParameter="{Binding }"  
+                        AutomationProperties.AutomationId="btnSalesCreditSalesDataListChequeDetailsDownloadId"
+                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:CreditSalesUpdate}}, 
+                       Path=DataContext.DownloadChequeCommand}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Download" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+          
+            <DatePicker Width="170" 
+                        Margin="0 10 0 0" 
+                        HorizontalAlignment="Center" 
+                        Grid.Row="3" 
+                        IsEnabled="False"
+                        SelectedDate="{Binding PopupDetails.ChequeDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                        AutomationProperties.AutomationId="dpSalesCreditSalesDataListChequeDetailsChequeDateId"
+                        materialDesign:HintAssist.Hint="Cheque Date" 
+                        materialDesign:HintAssist.IsFloating="True"/>
+
+            <DatePicker Width="170" 
+                        Margin="0 10 0 0" 
+                        HorizontalAlignment="Center" 
+                        Grid.Row="4" 
+                        DisplayDateStart="{Binding PopupDetails.ChequeDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        DisplayDateEnd="{Binding DisplayEndDate}"
+                        SelectedDate="{Binding PopupDetails.RealizeDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                        materialDesign:HintAssist.Hint="Realize Date" 
+                        AutomationProperties.AutomationId="dpSalesCreditSalesDataListChequeDetailsRealizeDateId"
+                        materialDesign:HintAssist.IsFloating="True"/>
+
+
+            <Button AutomationProperties.AutomationId="btnSalesCreditSalesDataListChequeDetailsUpdateId" Width="200"  Command="{Binding DataContext.CreditFinanceUpdateCommand,RelativeSource={RelativeSource AncestorType={x:Type local:CreditSalesUpdate}}}" CommandParameter="{Binding ElementName=btnclose}" VerticalAlignment="Bottom" x:Name="btnsendrequest" Margin="0 30 0 0"  Grid.Row="5">
+                Update
+            </Button >
+        </Grid>
+
+    </StackPanel>
+</UserControl>

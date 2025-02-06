@@ -1,0 +1,118 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Sales.Views.SalesSearchFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="Width" Value="120" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="Width" Value="120" />
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="5"
+            Margin="0,0,150,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Margin="0,0,15,0"
+                AutomationProperties.AutomationId="btnSalesFlyoutSearchId"
+                Command="{Binding SalesSearchCommand}">
+                Search
+            </Button>
+            <Button
+                Width="80"
+                Margin="15,0,0,0"
+                AutomationProperties.AutomationId="btnSalesFlyoutResetId"
+                Command="{Binding ResetSearchCommand}">
+                Reset
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Visibility="{Binding SalesSearch.IsParent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource InverseBoolToVisConverter}}">
+            <ComboBox  materialDesign:HintAssist.Hint="RSP Stores"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtrspstoreId"
+                       DisplayMemberPath="Name"
+                       ItemsSource="{Binding SalesSearch.Stores,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                       SelectedItem="{Binding SalesSearch.SelectedStores,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <TextBox
+                materialDesign:HintAssist.Hint="Invoice No"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtSalesFlyoutSearchInvoiceNumberId"
+                Text="{Binding SalesSearch.InvoiceNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <DatePicker
+                Width="120"
+                Margin="0,0,0,0"
+                materialDesign:HintAssist.Hint="Invoice Date From"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="dpSalesFlyoutSearchInvoiceDateFromId"
+                SelectedDate="{Binding SalesSearch.InvoiceFromDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <DatePicker
+                Width="120"
+                Margin="0,0,0,0"
+                materialDesign:HintAssist.Hint="Invoice Date To"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="dpSalesFlyoutSearchInvoiceDateToId"
+                SelectedDate="{Binding SalesSearch.InvoiceToDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="3">
+            <TextBox
+                materialDesign:HintAssist.Hint="Customer Name"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtSalesFlyoutSearchCustomerNameId"
+                Text="{Binding SalesSearch.CustomerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="4">
+            <TextBox
+                materialDesign:HintAssist.Hint="Phone Number"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtSalesFlyoutSearchPhoneNumberId"
+                Text="{Binding SalesSearch.CustomerPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="5">
+            <TextBox
+                materialDesign:HintAssist.Hint="OrderTakenBy"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtSalesFlyoutSearchOrderTakenById"
+                Text="{Binding SalesSearch.OderTackenBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+
+
+    </Grid>
+
+</UserControl>

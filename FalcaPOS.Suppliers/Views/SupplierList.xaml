@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="FalcaPOS.Suppliers.Views.SupplierList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Suppliers.Views"             
+              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             xmlns:prims="http://prismlibrary.com/"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             prims:ViewModelLocator.AutoWireViewModel="True"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0 15 0 0">
+            <Label AutomationProperties.AutomationId="lblSuppliersRowCountId" Content="{Binding RowCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label FontSize="17" Margin="0 10 0 0">Add Supplier</Label>
+            <ContentControl prims:RegionManager.RegionName="AddSupplier" />
+            <Button       Width="38"
+                          Height="38"
+                        Margin="100,0,0,0"
+                          AutomationProperties.AutomationId="btnSuppliersRefreshId"
+                        Style="{StaticResource RoundButton}"
+                        Command="{Binding RefreshSupplierlistCommand}" CommandParameter="{Binding ElementName=suppliersRadGridView}"
+                        >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+            </Button>
+            <Button  Margin="30 0 0 0"    
+                   Name="btnSave"
+                   Width="38"
+                     Height="38"
+                     AutomationProperties.AutomationId="btnSuppliersDownloadId"
+                  Command="{Binding GetSupplieDetailCommand}"
+                     CommandParameter="{Binding}"
+                  Style="{StaticResource RoundButton}"
+                  ToolTip="Download Excel">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <telerik:RadGridView  x:Name="suppliersRadGridView" Margin="0,0,0,200" IsFilteringAllowed="True" ShowGroupPanel="True" 
+                    AutoGenerateColumns="False"
+                    AutomationProperties.AutomationId="dgFinancesalesId"
+                    CanUserDeleteRows="False"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="True"   
+                    Background="White"
+                   RowIndicatorVisibility="Collapsed"
+                    RowDetailsVisibilityMode="VisibleWhenSelected"
+                    ScrollViewer.CanContentScroll="True"
+                   Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Suppliers,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <telerik:RadGridView.Columns>
+
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="Name" IsFilterable="True" DataMemberBinding="{Binding Name}">
+                   
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="GSTIN" IsFilterable="True" DataMemberBinding="{Binding GstNumber}">
+                   
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="PAN" IsFilterable="True" DataMemberBinding="{Binding PAN}">
+                    
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="Suppliertype" IsFilterable="True" DataMemberBinding="{Binding Suppliertype}">
+                  
+                </telerik:GridViewDataColumn>
+
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="Tally Code" IsFilterable="True" DataMemberBinding="{Binding TallyCode}">
+                   
+                </telerik:GridViewDataColumn>
+
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="Phone number" IsFilterable="True" DataMemberBinding="{Binding Address.Phone}">
+                   
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="Email" IsFilterable="True" DataMemberBinding="{Binding Address.Email}">
+                   
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="District" IsFilterable="True" DataMemberBinding="{Binding Address.District}">
+
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="State" IsFilterable="True" DataMemberBinding="{Binding Address.State}">
+                 
+                </telerik:GridViewDataColumn>
+
+
+
+                <telerik:GridViewDataColumn Width="*" IsReadOnly="True" Header="Pincode" IsFilterable="True" DataMemberBinding="{Binding Address.Pincode}">
+                  
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewColumn Width="*" Header="">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button 
+                                    Name="btnNewTab"
+                                    Width="50"
+                                    Command="{Binding DataContext.CreateNewSuppliertabCommand, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierList}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    ToolTip="Details">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="ListStatus" />
+
+                                        </StackPanel>
+
+                                    </Button.Content>
+
+                                </Button>
+
+
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+            </telerik:RadGridView.Columns>
+          
+
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

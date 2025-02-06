@@ -1,0 +1,385 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Stock.Views.Stock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"    
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="http://prismlibrary.com/"
+    xmlns:prism="http://prismlibrary.com/" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converter:StringToShortDateConverter x:Key="ShortDateConverter" />
+        <Converter:InverseBooleanToVisibilityConverter x:Key="InverseBooleanConverter" />
+        <Converter:BarCodePrintButtonVisibilityConverter x:Key="BarcodeVisibility" />
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+        
+    </UserControl.Resources>
+    <Grid Margin="5 10 10 0 ">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}" />
+        </Grid.RowDefinitions>
+
+        <Grid  Grid.Row="0" Grid.Column="0" Background="#F5F5F5" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>                
+                <ColumnDefinition></ColumnDefinition>                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ComboBox 
+                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1"
+                Margin="0 0 0 0"            
+                        Width="180"
+                         VerticalAlignment="Center"
+                        Name="cmbProductSearchList"
+                        materialDesign:HintAssist.Hint="Search product"
+                         materialDesign:HintAssist.IsFloating="True"
+                 AutomationProperties.AutomationId="cmbSelectStockSearchproductId"
+                        IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsEditable="True"
+                        IsTextSearchEnabled="True"
+                        ItemsSource="{Binding ProductsSearchList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding SelectedProductSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignComboBox}"
+                        ToolTip="{Binding SelectedProductSearch.ProductName}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding ProductName}" />
+                            <Label Content="{Binding ProductSKU}" ContentStringFormat="(SKU {0})" />
+                            <Label Content="{Binding Brand}" ContentStringFormat="({0})" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding SearchProductSelectionChangedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <TextBox Text="{Binding ElementName=cmbProductSearchList, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        AutomationProperties.AutomationId="txtStockSearchProductId"
+                     Visibility="Collapsed">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TextChanged">
+                        <prism:InvokeCommandAction Command="{Binding SearchTextChangedCommand}" CommandParameter="{Binding ElementName=cmbProductSearchList, Path=Text}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+
+
+            <ComboBox Grid.Row="0" Grid.Column="1"
+                x:Name="cmbstore"
+                Width="180"
+                VerticalAlignment="Center"
+                      Margin="0 0 0 10"
+                materialDesign:HintAssist.Hint="Store"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockAddSeacrhProductId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Path=Stores,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedStore}"
+                Visibility="{Binding GlobalUser,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+
+ <TextBox Grid.Row="1" Grid.Column="0"
+                x:Name="txtcategories"
+                Width="180"
+                VerticalAlignment="Center"
+                      Margin="0 0 0 10"
+                materialDesign:HintAssist.Hint="Category"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtStockSearchCategoryId"
+                IsReadOnly="True"
+                IsEnabled="False"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding SelectedSearchProduct.Category.CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+               
+            </TextBox>
+            <ComboBox Grid.Row="1" Grid.Column="0"
+                x:Name="cmbcategories"
+                Width="180"
+                VerticalAlignment="Center"
+                Margin="0 0 0 10"
+                materialDesign:HintAssist.Hint="Category"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSearchCategoryId"
+                DisplayMemberPath="CategoryName"
+                ItemsSource="{Binding Path=Cateories,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedCategoryName}"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding CategoryNameChange}" CommandParameter="{Binding ElementName=cmbcategories, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <TextBox Grid.Row="1" Grid.Column="1"
+                Width="180"
+                     Margin="0 0 0 10"
+                VerticalAlignment="Center"
+                x:Name="txtSubCategory"
+                materialDesign:HintAssist.Hint="Sub Category"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtStockSearchSubCategoryId"
+                IsReadOnly="True"
+                IsEnabled="False"
+                 Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding SelectedSearchProduct.ProductType.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               >
+                
+            </TextBox>
+            <ComboBox Grid.Row="1" Grid.Column="1"
+                Width="180"
+                VerticalAlignment="Center"
+                x:Name="cmbSubCategory"
+                      Margin="0 0 0 10"
+                materialDesign:HintAssist.Hint="Sub Category"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSearchSubcategoryId"
+                DisplayMemberPath="SubCategoryName"
+                ItemsSource="{Binding SubCateories}"
+                SelectedValue="{Binding SelectedSubCateory}"
+                        Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=SubCategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding SelectedSubCateoryChange}" CommandParameter="{Binding ElementName=cmbSubCategory, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <TextBox  Grid.Row="1" Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Width="180"
+                       Margin="0 0 0 10"
+                x:Name="txtmanufacture"
+                materialDesign:HintAssist.Hint="Brand"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtStockSearchBrandId"
+                       IsReadOnly="True"
+                IsEnabled="False"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding SelectedSearchProduct.Manufacturer.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               >
+                
+            </TextBox>
+            <ComboBox  Grid.Row="1" Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Width="180"
+                       Margin="0 0 0 10"
+                x:Name="cmbmanufacture"
+                materialDesign:HintAssist.Hint="Brand"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSearchBrandsId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Manufacturers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedManufacturer}"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+               Text="{Binding Path=Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ManufacturerChange}" CommandParameter="{Binding ElementName=cmbmanufacture, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <TextBox  Grid.Row="1" Grid.Column="3"
+                        VerticalAlignment="Center"
+                        Width="180"
+                       Margin="0 0 0 10"
+                materialDesign:HintAssist.Hint="Product Name"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtAddStockSeacrhProductNameId"
+                       IsReadOnly="True"
+                IsEnabled="False"
+                   Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding SelectedSearchProduct.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                />
+            <ComboBox  Grid.Row="1" Grid.Column="3"
+                        VerticalAlignment="Center"
+                        Width="180"
+                       Margin="0 0 0 10"
+                materialDesign:HintAssist.Hint="Product Name"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSearchProductNameId"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"   
+                DisplayMemberPath="Name"
+                 SelectedValue="{Binding SelectedProduct}"
+                ItemsSource="{Binding ProductDetailsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+           
+            
+            <StackPanel Grid.Column="5" Grid.Row="0" Orientation="Horizontal" Margin="0 0 20 0 " HorizontalAlignment="Right">
+                <Button  
+                Width="40" Height="35" 
+                Margin="0,14,10,0" 
+                Style="{DynamicResource RoundButton}" 
+                Command="{Binding RefreshDataGrid}"  
+                    AutomationProperties.AutomationId="BtnstockRefreshFieldsId"
+                VerticalAlignment="Top">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh" />
+                    </Button.Content>
+                </Button>
+                <Button 
+                  Margin="0 14 10 0" 
+                Style="{DynamicResource RoundButton }" 
+                   VerticalAlignment="Top"
+                    Visibility="Collapsed"
+                IsEnabled="{Binding IsExportEnabled}" 
+                     Command="{Binding DownloadStockAgeStoreCommand}" 
+                ToolTip="Download StockAging Excel File" 
+                    AutomationProperties.AutomationId="btnStockDwonloadStockId"
+                Height="35" Width="40" >
+                    <Button.Content>
+                        <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <Button Width="110px"  Grid.Column="5" Grid.Row="1"
+                        FontSize="15px"                       
+                        Height="40px" 
+                       Margin="0 0 20 10 "
+                        Style="{DynamicResource RoundTextButton}"
+                        HorizontalAlignment="Right"
+                        Content="Search"
+                        AutomationProperties.AutomationId="btnStockSearchId"
+                        Command="{Binding StockSearchCommand}" CommandParameter="{Binding ElementName=stockRadGridView}"></Button>
+        </Grid>
+
+        <!--Grid Part-->
+
+        <telerik:RadGridView 
+                             x:Name="stockRadGridView"
+                             CanUserFreezeColumns="False" 
+                             ShouldRespectIEditableObject="False"
+						      RowIndicatorVisibility="Collapsed"
+                             IsFilteringAllowed="True" 
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="0,20,0,220"
+            AutoGenerateColumns="False"
+            AutomationProperties.AutomationId="dgStocksId"
+           
+            CanUserReorderColumns="False"
+            IsReadOnly="True"
+            Visibility="{Binding BackendStock, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding BackendStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            RowDetailsVisibilityMode="VisibleWhenSelected"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+            ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </DataGrid.RowStyle>-->
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction Command="{Binding RowDoubleClickCommand}" CommandParameter="{Binding ElementName=stock, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+            <telerik:RadGridView.Columns>
+
+                <telerik:GridViewDataColumn Width="*"  Header="Product Name" IsFilterable="True" DataMemberBinding="{Binding ProductName}" />
+                <telerik:GridViewDataColumn Width="*" Header="SKU" IsFilterable="True" DataMemberBinding="{Binding ProductSKU}" />
+                <telerik:GridViewDataColumn Width="*" Header="Brand" IsFilterable="True" DataMemberBinding="{Binding Brand}" />
+                <telerik:GridViewDataColumn Width="*" Header="Category" IsFilterable="True" DataMemberBinding="{Binding Category}" />
+                <telerik:GridViewDataColumn Width="*" Header="Sub Category" IsFilterable="True" DataMemberBinding="{Binding Producttype}" />
+                <telerik:GridViewDataColumn Width="*" Header="Store" IsFilterable="True" DataMemberBinding="{Binding Store}" IsVisible="{Binding GlobalUser,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <telerik:GridViewDataColumn Width="*" Header="LotNo." IsFilterable="True" DataMemberBinding="{Binding LotNumber}" />
+                <telerik:GridViewDataColumn Width="*" Header="ExpiryDate" IsFilterable="True" DataMemberBinding="{Binding Expirydate}" />
+                <telerik:GridViewDataColumn Width="*" Header="Status" IsFilterable="True" DataMemberBinding="{Binding Status}" />
+                <!--<telerik:GridViewDataColumn Width="*" Header="WarantyService" IsFilterable="True" DataMemberBinding="{Binding WarantyService}" />-->
+                <telerik:GridViewDataColumn Width="*" Header="SellingPrice" IsGroupable="False" IsFilterable="True" DataMemberBinding="{Binding Sellingprice}" />
+                <telerik:GridViewDataColumn Width="*" Header="AvailableUnits" IsFilterable="True" DataMemberBinding="{Binding AvailableUnits}" />
+                <telerik:GridViewDataColumn Width="*" Header="SoldQty" IsFilterable="True" DataMemberBinding="{Binding SoldQty}" />
+
+                <telerik:GridViewDataColumn Width="100" IsVisible="{Binding Path=.,Mode=TwoWay,Converter={StaticResource BarcodeVisibility}}">
+
+                    <telerik:GridViewDataColumn.CellTemplate >
+                        <DataTemplate>
+                            <Button
+                                Width="50"
+                                 AutomationProperties.AutomationId="btnStockGenrateBarcodeId"
+                                Command="{Binding DataContext.PrintBarCodeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Stock}}}"
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                ToolTip="Print Bar Code"
+                                
+                                Visibility="{Binding Path=IsSellingPriceUpdated, Converter={StaticResource BooleanToVisibility}}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon Kind="PrinterSettings" />
+                                </Button.Content>
+                            </Button>
+
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <!--<telerik:GridViewDataColumn Width="100" Visibility="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=., Mode=TwoWay, Converter={StaticResource BarcodeVisibility}}">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Width="50"
+                                Command="{Binding DataContext.PrintBarCodeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Stock}}}"
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                ToolTip="Print Bar Code"
+                                Visibility="{Binding Path=IsSellingPriceUpdated, Converter={StaticResource BooleanToVisibility}}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon Kind="PrinterSettings" />
+                                </Button.Content>
+                            </Button>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </telerik:GridViewDataColumn>-->
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <!--<Label
+              Grid.Row="1"
+          Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+                Content="No Records found"
+                FontSize="20"
+                FontStyle="Normal"
+             Visibility="{Binding BackendStock, Converter={StaticResource InverseArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+              />-->
+
+
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,146 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Stock.Views.InvoicesList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringToShortDateConverter x:Key="ShortDateConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Button
+            Grid.Row="0"
+            Margin="10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            AutomationProperties.AutomationId="btnRefreshInvoicesListId"
+            Command="{Binding RefreshInvoiceCommand}"
+            Content="Refresh" />
+        <DataGrid
+            Grid.Row="1"
+            Height="700"
+            AutoGenerateColumns="False"
+            AutomationProperties.AutomationId="dgInvoicesListId"
+            CanUserAddRows="False"
+            CanUserReorderColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Invoices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*" Header="Invoice Number">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding InvoiceNumber}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*" Header="Invoice Date">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding InvoiceDate, Converter={StaticResource ShortDateConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+
+                <DataGridTemplateColumn Width="*" Header="DC Number">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding DcNumber}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*" Header="DC Date">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding DcNumberDate, Converter={StaticResource ShortDateConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Width="*" Header="Store Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding StoreName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Supplier Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding SupplierName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Total">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Total}" ContentStringFormat="C" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="0.5*" Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding DataContext.UpdateInvoiceCommand, RelativeSource={RelativeSource AncestorType={x:Type local:InvoicesList}}}"
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                ToolTip="Update Invoice Number"
+                                Visibility="{Binding IsDcNumber, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon Kind="Pencil" />
+                                </Button.Content>
+                            </Button>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn Width="*" Header="Supplier Phone">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Qty}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>-->
+
+            </DataGrid.Columns>
+            <!--<DataGrid.Resources>
+                <ContextMenu x:Key="ctx_menu">
+                    <ContextMenu.Resources>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="DataContext" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </Style>
+                    </ContextMenu.Resources>
+                    <MenuItem
+                        Command="{Binding DataContext.UpdateInvoiceCommand}"
+                        CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                        Header="Update Invoice Number" />
+                </ContextMenu>
+            </DataGrid.Resources>
+
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ContextMenu" Value="{StaticResource ctx_menu}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>-->
+        </DataGrid>
+    </Grid>
+</UserControl>

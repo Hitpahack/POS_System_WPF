@@ -1,0 +1,581 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Home.Views.Home"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:constants="clr-namespace:FalcaPOS.Common.Constants;assembly=FalcaPOS.Common"
+    xmlns:converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:FalcaPOS.Home.Views"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="White"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+
+
+        <ResourceDictionary>
+            <converter:IntentVisibilityConverter x:Key="IntentVisibility" />
+            <converter:CustomerTabVisibilityConverter x:Key="CustomerTabVisibility" />
+            <converter:SuperBackendTabVisibilityConverter x:Key="PurchaseMangerTab" />
+            <converter:ZoneAndTerritoryTabVisibilityConverter x:Key="PurchaseMangerAndDirectorTab" />
+
+            <!--  This is the template for the menu items.  -->
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
+                <Grid Height="48">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding Icon}"
+                        Focusable="False"
+                        IsTabStop="False" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        Text="{Binding Label}" />
+                </Grid>
+            </DataTemplate>
+
+
+
+            <Style
+                x:Key="MahApps.Styles.ListBoxItem.HamburgerMenuItem.Ripple"
+                BasedOn="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem}"
+                TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Grid Background="#F5F5F5" RenderOptions.ClearTypeHint="{TemplateBinding RenderOptions.ClearTypeHint}">
+                                <Border
+                                    x:Name="Border"
+                                    Background="#F5F5F5"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <Grid Margin="{TemplateBinding BorderThickness}">
+                                    <Grid
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:HamburgerMenu}}, Path=ShowSelectionIndicator, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle
+                                            x:Name="SelectionIndicator"
+                                            Width="{DynamicResource HamburgerMenuSelectionIndicatorThemeWidth}"
+                                            Height="{DynamicResource HamburgerMenuSelectionIndicatorThemeHeight}"
+                                            Fill="{TemplateBinding Foreground}"
+                                            Focusable="False"
+                                            Opacity="0.0" />
+                                    </Grid>
+                                    <materialDesign:Ripple
+                                        Padding="{TemplateBinding Padding}"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                        Feedback="{DynamicResource MahApps.Brushes.Gray.MouseOver}"
+                                        Focusable="False"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Grid>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="#33BC40" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mah:ItemHelper.SelectedBackgroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="SelectionIndicator" Property="Opacity" Value="1.0" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True" />
+                                        <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="#33BC40" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mah:ItemHelper.ActiveSelectionBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsSelected" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mah:ItemHelper.HoverSelectedBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsSelected" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mah:ItemHelper.HoverBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mah:ItemHelper.DisabledForegroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mah:ItemHelper.DisabledBackgroundBrush), Mode=OneWay}" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="False" />
+                                        <Condition Property="IsSelected" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mah:ItemHelper.DisabledSelectedForegroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mah:ItemHelper.DisabledSelectedBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="mah:ItemHelper.ActiveSelectionBackgroundBrush" Value="#F5F5F5" />
+                <Setter Property="mah:ItemHelper.ActiveSelectionForegroundBrush" Value="#33BC40" />
+                <Setter Property="mah:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
+                <Setter Property="mah:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mah:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
+                <Setter Property="mah:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray.SemiTransparent}" />
+                <Setter Property="mah:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray.SemiTransparent}" />
+                <Setter Property="mah:ItemHelper.SelectedBackgroundBrush" Value="#F5F5F5" />
+                <Setter Property="mah:ItemHelper.SelectedForegroundBrush" Value="#33BC40" />
+            </Style>
+
+            <Style
+                x:Key="MahApps.Styles.HamburgerMenu.Ripple"
+                BasedOn="{StaticResource MahApps.Styles.HamburgerMenu}"
+                TargetType="{x:Type mah:HamburgerMenu}">
+                <Setter Property="ItemContainerStyle" Value="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem.Ripple}" />
+                <Setter Property="OptionsItemContainerStyle" Value="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem.Ripple}" />
+                <Setter Property="PaneBackground" Value="{DynamicResource MahApps.Brushes.ThemeBackground}" />
+                <Setter Property="PaneForeground" Value="{DynamicResource MahApps.Brushes.Text}" />
+                <Setter Property="Background" Value="#F5F5F5" />
+                <Setter Property="ShowSelectionIndicator" Value="True" />
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <mah:HamburgerMenu            
+            x:Name="HamburgerMenuControl"
+            AutomationProperties.AutomationId="menuHamburgerId"
+            HamburgerWidth="50"
+            IsPaneOpen="False"
+            ItemInvoked="HamburgerMenuControl_OnItemInvoked"
+            ItemTemplate="{StaticResource MenuItemTemplate}"
+            OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+            SelectedIndex="{Binding Path=SelectedMenuIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource MahApps.Styles.HamburgerMenu.Ripple}"
+            ScrollViewer.CanContentScroll="True" 
+            Background="#F5F5F5"
+            VerticalScrollBarOnLeftSide="True">
+            <!--  Items  -->
+
+
+            <mah:HamburgerMenu.ItemsSource>
+                <mah:HamburgerMenuItemCollection >
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeInvoiceId"
+                        Icon="{materialDesign:PackIcon Kind=Invoice}"
+                        IsVisible="{Binding Path=., Mode=TwoWay, Converter={StaticResource PurchaseMangerTab}}"
+                        Label="Invoice">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="InvoiceHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <!--<mah:HamburgerMenuIconItem
+                        x:Name="menuDashboard"
+                        AutomationProperties.AutomationId="menuHomeDashboardId"
+                        Icon="{materialDesign:PackIcon Kind=Home}"
+                        IsVisible="{Binding Path=IsAdmin, Mode=TwoWay}"
+                        Label="DashBoard">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="DashBoardHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                        
+                    </mah:HamburgerMenuIconItem>-->
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeSalesId"
+                          Icon="{materialDesign:PackIcon Kind=Sale}"
+                        IsVisible="{Binding Path=IsDailySales, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        Label="Sales">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="BusinessHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeInventoryId"
+                        Icon="{materialDesign:PackIcon Kind=Storage}"
+                        IsVisible="{Binding Path=IsBackend, Mode=TwoWay}"
+                        Label="Inventory">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="InventoryHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomePurchaseAndReturnId"
+                        Icon="{materialDesign:PackIcon Kind=ViewList}"
+                        IsVisible="{Binding Path=IsPurchaseInvoice, Mode=TwoWay}"
+                        Label="Purchase and Returns">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_INVOICE_HOMETAB}" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+
+                    <!--<mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeReturnsId"
+                        Icon="{materialDesign:PackIcon Kind=AssignmentReturn}"
+                        IsVisible="{Binding Path=IsBackend, Mode=TwoWay}"
+                        Label="Returns">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="Returns" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>-->
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeSalesId"
+                        Icon="{materialDesign:PackIcon Kind=Sale}"
+                        IsVisible="{Binding Path=IsStore, Mode=TwoWay}"
+                        Label="Sales">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="SalesHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeStockId"
+                        Icon="{materialDesign:PackIcon Kind=Tag}"
+                        IsVisible="{Binding IsStocksVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Label="Stock">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="StockRegion"  />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeStockSearchId"
+                        Icon="{materialDesign:PackIcon Kind=Search}"
+                        IsVisible="{Binding Path=IsSuperBackend, Mode=TwoWay}"
+                        Label="Stock Search">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="Stockv2Home" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeStockTransferId"
+                        Icon="{materialDesign:PackIcon Kind=Search}"
+                        IsVisible="{Binding Path=IsStockTransferVisible, Mode=TwoWay}"
+                        Label="Stock Transfer">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="StockTransferHomeV2" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    
+                    
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeCustomerId"
+                        Icon="{materialDesign:PackIcon Kind=Person}"
+                        IsVisible="{Binding Path=., Converter={StaticResource CustomerTabVisibility}}"
+                        Label="Customer">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="CustomerHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeSalesReportId"
+                        Icon="{materialDesign:PackIcon Kind=Finance}"
+                        IsVisible="{Binding Path=IsSalesReport, Mode=TwoWay}"
+                        Label="Sales Report">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_FINANCE_HOME}" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeClosingStockId"
+                        Icon="{materialDesign:PackIcon Kind=ChartBar}"
+                        IsVisible="{Binding Path=IsClosingStockVisible, Mode=TwoWay}"
+                        Label="Closing Stock">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_CLOSING_STOCK}" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeDailyskuId"
+                        Icon="{materialDesign:PackIcon Kind=CalendarRangeOutline}"
+                       IsVisible="{Binding Path=IsStore, Mode=TwoWay}"
+                        Label="Weekly Stock Report">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="AddStoreDailyStock" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuDailystockId"
+                        Icon="{materialDesign:PackIcon Kind=ChartBox}"
+                       IsVisible="{Binding Path=IsDailyStockReport, Mode=TwoWay}"
+                        Label="Weekly Stock Report">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="DailyStockReport" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuPurchaseRateId"
+                        Icon="{materialDesign:PackIcon Kind=Rupee}"
+                        IsVisible="{Binding Path=IsDirector, Mode=TwoWay}"
+                        Label="Purchase Rate">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_PURCHASE_RATE}" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuStoreAssetId"
+                        Icon="{materialDesign:PackIcon Kind=Storage}"
+                        IsVisible="{Binding Path=IsDirector, Mode=TwoWay}"
+                        Label="Store Inventory">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_STORE_ASSERT}" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuMasterSkusheetId"
+                        Icon="{materialDesign:PackIcon Kind=File}"
+                        Label="Master SKU Sheet">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="SkuSheet" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuExpiryProductsId"
+                        Icon="{materialDesign:PackIcon Kind=AlertMinus}"
+                        IsVisible="{Binding Path=IsExpiry,Mode=TwoWay}"
+                        Label="Expiry Products">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="ExpiryProductsHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="HMIIEODDeclarationStorePersonId"
+                        Icon="{materialDesign:PackIcon Kind=Money}"
+                        IsVisible="{Binding Path=IsStore, Mode=TwoWay}"
+                        Label="EOD (Cash Declaration)">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="Denomination" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="HMIIEODDeclarationFinanceId"
+                        Icon="{materialDesign:PackIcon Kind=Money}"
+                        IsVisible="{Binding Path=IsFinance, Mode=TwoWay}"
+                        Label="EOD (Cash Declaration)">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="EODCashFinanceDenominationView" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuIndentId"
+                        Icon="{materialDesign:PackIcon Kind=Rupee}"
+                        IsVisible="{Binding Path=., Mode=TwoWay, Converter={StaticResource PurchaseMangerTab}}"
+                        Label="SellingPrice Update">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="SellingPriceUpdateRegion" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                  
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeIndentId"
+                        Icon="{materialDesign:PackIcon Kind=FormatIndentIncrease}"
+                         IsVisible="{Binding Path=IsIndent, Mode=TwoWay}"
+                        Label="Indent">
+                    
+                    <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="IndentHomeRegion" />
+                        </mah:HamburgerMenuIconItem.Tag>                  
+                      
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeaddskuId"
+                        Icon="{materialDesign:PackIcon Kind=DatabaseAdd}"
+                         IsVisible="{Binding Path=IsSKU, Mode=TwoWay}"
+                        Label="SKU">
+
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="HomeSKURegion" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuTallyExportId"
+                        Icon="{materialDesign:PackIcon Kind=Calculator}"
+                        IsVisible="{Binding Path=IsTally, Mode=TwoWay}"
+                        Label="Tally Export">
+
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="TallyExportRegion" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>
+
+                    <!--Temp hide-->
+                    <!--<mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuStockAgeingId"
+                        Icon="{materialDesign:PackIcon Kind=TimerSand}"
+                        IsVisible="{Binding Path=IsFinance, Mode=TwoWay}"
+                        Label="Stock Ageing">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="StockAgeing" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>-->
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menusuppliersId"
+                        IsVisible="{Binding Path=IsSuppliers, Mode=TwoWay}"
+                        Icon="{materialDesign:PackIcon Kind=Lorry}"                        
+                        Label="Suppliers">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="MasterSuppliersRegion" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuassertsId"
+                        IsVisible="{Binding Path=IsAssert, Mode=TwoWay}"
+                        Icon="{materialDesign:PackIcon Kind=Assembly}"                        
+                        Label="Assets">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="Asserts" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menulogintimeId"
+                        IsVisible="{Binding Path=IsLoginTime, Mode=TwoWay}"
+                        Icon="{materialDesign:PackIcon Kind=Timer}"                        
+                        Label="Store Login Time">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="LoginTimeRegion" />
+                        </mah:HamburgerMenuIconItem.Tag>
+
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeTeamId"
+                        Icon="{materialDesign:PackIcon Kind=PeopleGroup}"
+                        IsVisible="{Binding Path=IsAdmin, Mode=TwoWay}"
+                        Label="Our Team">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="TeamHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <!--<mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuRSPId"
+                        Icon="{materialDesign:PackIcon Kind=PeopleGroup}"
+                          IsVisible="{Binding Path=IsTeam, Mode=TwoWay}"
+                        Label="RSP">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="RspHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>-->
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeStoreId"
+                        Icon="{materialDesign:PackIcon Kind=Store}"
+                          IsVisible="{Binding Path=IsTeam, Mode=TwoWay}"
+                        Label="Our Store">
+                        <mah:HamburgerMenuIconItem.Tag>
+
+                            <ContentControl prism:RegionManager.RegionName="StoreHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeManageId"
+                        Icon="{materialDesign:PackIcon Kind=Edit}"
+                         IsVisible="{Binding Path=., Mode=TwoWay, Converter={StaticResource PurchaseMangerTab}}"
+                        Label="Manage">
+                        <mah:HamburgerMenuIconItem.Tag>
+                           <ContentControl prism:RegionManager.RegionName="Manage" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeZoneAndTerritoryId"
+                        Icon="{materialDesign:PackIcon Kind=GoogleEarth}"
+                         IsVisible="{Binding Path=., Mode=TwoWay, Converter={StaticResource PurchaseMangerAndDirectorTab}}"
+                        Label="Zone and Territory">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="ZoneTerritoryHome" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <!--<mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeInvoiceListId"
+                        Icon="{materialDesign:PackIcon Kind=FormatListNumbers}"
+                        IsVisible="{Binding Path=IsBackend, Mode=TwoWay}"
+                        Label="Invoices">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="InvoicesList" />
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>-->
+
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomePurhcasReturnId"
+                        Icon="{materialDesign:PackIcon Kind=AssignmentReturn}"
+                         IsVisible="{Binding Path=IsStore, Mode=TwoWay}"
+                        Label="Purchase Return">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="PurchaseReturnHome" />
+
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem
+                        AutomationProperties.AutomationId="menuHomeInventoryReportId"
+                        Icon="{materialDesign:PackIcon Kind=MicrosoftExcel}"
+                         IsVisible="{Binding Path=IsInventoryReport, Mode=TwoWay}"
+                        Label="Report">
+                        <mah:HamburgerMenuIconItem.Tag>
+                            <ContentControl prism:RegionManager.RegionName="Report" />
+
+                        </mah:HamburgerMenuIconItem.Tag>
+                    </mah:HamburgerMenuIconItem>
+
+                </mah:HamburgerMenuItemCollection>
+            </mah:HamburgerMenu.ItemsSource>
+
+            <!--  Options  -->
+            <!--<mah:HamburgerMenu.OptionsItemsSource>
+                <mah:HamburgerMenuItemCollection />
+            </mah:HamburgerMenu.OptionsItemsSource>-->
+
+            <mah:HamburgerMenu.ContentTemplate>
+                <DataTemplate DataType="{x:Type mah:HamburgerMenuIconItem}">
+                    <Grid Margin="20,0,10,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--<TextBlock Grid.Row="0"
+                                       Margin="0 0 0 5"
+                                       Padding="0"
+                                       FontFamily="{DynamicResource MahApps.Fonts.Family.Header}"
+                                       FontSize="20"
+                                       />-->
+
+                        <ContentControl
+                            Grid.Row="0"
+                            Content="{Binding Tag}"
+                            Focusable="False" />
+
+                    </Grid>
+                </DataTemplate>
+            </mah:HamburgerMenu.ContentTemplate>
+
+        </mah:HamburgerMenu>
+    </Grid>
+</UserControl>

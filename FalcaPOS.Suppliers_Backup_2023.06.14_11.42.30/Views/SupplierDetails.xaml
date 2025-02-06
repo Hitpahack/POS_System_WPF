@@ -1,0 +1,630 @@
+﻿<UserControl x:Class="FalcaPOS.Suppliers.Views.SupplierDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Suppliers.Views"
+               xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             xmlns:prims="http://prismlibrary.com/"
+             Background="White"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             prims:ViewModelLocator.AutoWireViewModel="True" 
+             Padding="20"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,5,0" />
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Badged.Background}"></Setter>
+        </Style>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        <converters:ArrayToVisibilityConverter x:Key="Arraytovisibilityconverter"/>
+        <converters:NullToVisibilityConverter x:Key="nulltovisiblity"/>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="2">
+            <Button Command="{Binding UpdateCommand}" Style="{StaticResource RoundTextButton}" Width="120">Update</Button>
+        </StackPanel>
+        
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                
+                <RowDefinition>
+                    
+                </RowDefinition>
+                
+            </Grid.RowDefinitions>
+           
+            <StackPanel Grid.Row="1">
+                <TextBlock Margin="0 20 0 0"  Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+              <Run  Text="BASIC DETAILS" />
+                </TextBlock>
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="Company"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtsupplier"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="Supplier Name"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtSuppliernameId"
+                                MaxLength="49"
+                                Text="{Binding SuppliersDetails.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="SortNumericVariant"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtGST"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="GSTIN"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtGSTINId"
+                        IsEnabled="False"
+                                IsReadOnly="True"
+                                MaxLength="15"
+                                Text="{Binding SuppliersDetails.GstNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="PAN"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtPAN"
+                                IsReadOnly="True"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="PAN"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtpanId"
+                              IsEnabled="False"
+                                MaxLength="10"
+                                Text="{Binding SuppliersDetails.PAN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel   Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon
+                                Kind="Manufacturing"
+                                Style="{StaticResource IconMargin}" />
+                    <ComboBox
+                                Width="180" Margin="5 0 0  0"
+                                materialDesign:HintAssist.Hint="Supplier Type *"
+                                materialDesign:HintAssist.IsFloating="True"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                AutomationProperties.AutomationId="cmbSuppliertypeId"
+                        ItemsSource="{Binding SupplierType}"
+                               SelectedItem="{Binding SelectedSuppliertype,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                       
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="Phone"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtphone"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="Phone"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtphoneId"
+                                MaxLength="10"
+                                Text="{Binding SuppliersDetails.Address.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="Email"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtemail"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="Email"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtemailId"
+                                MaxLength="30"
+                                Text="{Binding SuppliersDetails.Address.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel  Orientation="Horizontal" Margin="10">
+                    <materialDesign:PackIcon                            
+                                Kind="Regex"
+                                Style="{StaticResource IconMargin}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="MSME Registered" Margin="0 -5 0 0"></TextBlock>
+                        <RadioButton                              
+                                Margin="-98 15  0 0"                               
+                                AutomationProperties.AutomationId="txtyesId"
+                               IsChecked="{Binding ISMSME , Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter='Yes'}" Content="Yes"
+                                ></RadioButton>
+                        <RadioButton                              
+                                 Margin="-20 15 0 0"
+                                AutomationProperties.AutomationId="txtnoId"
+                               IsChecked="{Binding ISMSME , Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter='No'}" Content="No"
+                                ></RadioButton>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="Numbers"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtMSM"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="MSME Number"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtmsmeId"
+                                MaxLength="12"
+                              IsEnabled="{Binding ISMSMEenable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        
+                                Text="{Binding SuppliersDetails.MSME, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 0 "  IsEnabled="{Binding ISMSMEenable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <Button HorizontalAlignment="Right" HorizontalContentAlignment="Right"  Command="{Binding DataContext.UploadMSMECertificateFile, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}" CommandParameter="{Binding}"  Style="{StaticResource MaterialDesignToolForegroundButton}">
+                        <Button.Content>
+                            <materialDesign:PackIcon Margin="0 0 0 0" Width="20" Height="20"
+                       Foreground="{ DynamicResource MahApps.Brushes.Badged.Background}"
+                        Kind="AttachFile" />
+                        </Button.Content>
+                    </Button>
+                    <Label FontSize="12" VerticalAlignment="Center" Content="ADD MSME CERTIFICATE"></Label>
+                    <!--<Button  HorizontalAlignment="Right" HorizontalContentAlignment="Right"  Command="{Binding DataContext.DownloadMSMECertificateFile, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}" CommandParameter="{Binding SuppliersDetails.MSMECertificate.FileId}"  Style="{StaticResource MaterialDesignToolForegroundButton}">
+                        <Button.Content>
+                            <materialDesign:PackIcon Margin="0 0 0 0" Width="20" Height="20"
+                       Foreground="{ DynamicResource MahApps.Brushes.Badged.Background}"
+                        Kind="Download" />
+                        </Button.Content>
+                    </Button>-->
+                </StackPanel>
+                <StackPanel Visibility="{Binding SuppliersDetails.MSMECertificate.FileName,Converter={StaticResource NullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:Card
+                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                Height="35" Margin="0 0 0 5" Padding="5"                              
+                                >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="8*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Image Source="{DynamicResource v.fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                            <Label  Grid.Column="1"                              
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding SuppliersDetails.MSMECertificate.FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    ToolTip="{Binding SuppliersDetails.MSMECertificate.FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+
+                            <!--<Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />-->
+
+                            <Button Grid.Column="2" Grid.Row="0" 
+                                   Command="{Binding DataContext.DownloadMSMECertificateFile, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}"
+                                                CommandParameter="{Binding SuppliersDetails.MSMECertificate.FileId}"
+                                                Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                                ToolTip="Download">
+                                <Button.Content>
+                                    <materialDesign:PackIcon  Kind="ArrowDownward" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </materialDesign:Card>
+                </StackPanel>
+                <StackPanel  Visibility="{Binding ISMSMEenable,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:Card   Visibility="{Binding FileUploadMSME,Converter={StaticResource nulltovisiblity},Mode=TwoWay}"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                Height="35" Margin="0 0 0 0" Padding="5"                                
+                                >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="8*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                            <Label  Grid.Column="1"  Grid.RowSpan="2"                               
+                                   Margin="0 0 0 0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileUploadMSME.FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    ToolTip="{Binding FileUploadMSME.FileName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+
+                            <Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=FileUploadMSME.Size}"
+                                    ToolTip="{Binding Path=FileUploadMSME.Size}" />
+
+
+                            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Right"
+                                    Foreground="Red"       
+                                    Command="{Binding DataContext.DeleteUploadMSMECommand, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}"
+                                    CommandParameter="{Binding ElementName=tglsrno}"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                <materialDesign:PackIcon Kind="Trash" ToolTip="Remove" />
+                            </Button>
+
+
+                        </Grid>
+                    </materialDesign:Card>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" Margin="5">
+                    <materialDesign:PackIcon                            
+                                Kind="Numbers"
+                                Style="{StaticResource IconMargin}" />
+                    <TextBox
+                                x:Name="txtTally"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="Tally Code *"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txttallycodeId"
+                             
+                                Text="{Binding SuppliersDetails.TallyCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+
+
+            </StackPanel>
+           
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0 20 0 10"  Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                  <Run  Text="BANK DETAILS" />
+                </TextBlock>
+                <ContentControl ToolTip="Add New Bank Details" Margin="10 0 0 0" prims:RegionManager.RegionName="AddNewBankDetails"   />
+            </StackPanel>
+            
+            <ItemsControl Style="{StaticResource itemcontrolstyle}" ItemsSource="{Binding ListOFBankDetails,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+
+                            <Border Padding="0 8 0 0" x:Name="Border"  CornerRadius="8,8,8,8"
+        BorderThickness="1" BorderBrush="Silver" 
+       Margin="0 5 0 0" >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal"  Grid.Row="0">
+                                        <ToggleButton VerticalAlignment="Top" Margin="0 10 0 0" x:Name="tglsrno" Grid.Column="0" IsChecked="{Binding IsSelected}" Content="{Binding SrNo}" 
+                                                  Style="{StaticResource MaterialDesignActionLightToggleButton}"></ToggleButton>
+                                        <materialDesign:PackIcon Kind="Edit" Margin="0 15 0 0"></materialDesign:PackIcon>
+                                    </StackPanel>
+                                   
+                                    <Grid Grid.Column="1" IsEnabled="{Binding IsSelected}">
+
+                                        <Grid.ColumnDefinitions>
+                                            
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <StackPanel Grid.Row="0" Grid.Column="1"  Orientation="Horizontal" Margin="5">
+                                            <materialDesign:PackIcon
+                                Kind="Bank"
+                                Style="{StaticResource IconMargin}" />
+                                            <ComboBox
+                                Width="180" Margin="5 0 0  0"
+                                materialDesign:HintAssist.Hint="Bank Name *"
+                                materialDesign:HintAssist.IsFloating="True"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                AutomationProperties.AutomationId="cmbbankId"
+                                
+                                ItemsSource="{Binding Banks}"
+                                DisplayMemberPath="BankName"
+                                SelectedValue="{Binding SelectedBanks,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                >
+
+                                            </ComboBox>
+                                            <ContentControl ToolTip="Add New Bank" Margin="10 0 0 0" prims:RegionManager.RegionName="AddNewBank"   />
+                                        </StackPanel>
+                                        <StackPanel  Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                                            <materialDesign:PackIcon                            
+                                Kind="BankTransfer"
+                                Style="{StaticResource IconMargin}" />
+                                            <TextBox
+                                x:Name="txtbranch"
+                                Width="180" Margin="5 0 0  0"
+                                materialDesign:HintAssist.Hint="Branch Name *"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtbranchId"
+                                MaxLength="49"
+                                Text="{Binding BrnachName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                                            <materialDesign:PackIcon                            
+                                Kind="AccountCash"
+                                Style="{StaticResource IconMargin}" />
+                                            <TextBox
+                                x:Name="txtCity"
+                                Width="180" Margin="5 0 0  0"
+                                materialDesign:HintAssist.Hint="Account Number *"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtacountId"
+                                MaxLength="18"
+                                Text="{Binding AccountNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                                <i:Interaction.Behaviors>
+                                                    <behavior:TextBoxInputRegExBehaviour  RegularExpression="^[0-9.\-]+$" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="10">
+                                            <materialDesign:PackIcon                            
+                                Kind="Account"
+                                Style="{StaticResource IconMargin}" />
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Account Type" Margin="0 -5 0 0"></TextBlock>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <RadioButton                              
+                                Margin="5 10  0 0"
+                               
+                                AutomationProperties.AutomationId="txtSaveId"
+                                 IsChecked="{Binding AccountType , Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter='Savings'}" Content="Savings"></RadioButton>
+                                                    <RadioButton                              
+                                 Margin="10 10 0 0"
+                       
+                                AutomationProperties.AutomationId="txtcurrentId"
+                                 IsChecked="{Binding AccountType , Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter='Current'}" Content="Current"></RadioButton>
+                                                </StackPanel>
+
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="4" Grid.Column="1"  Orientation="Horizontal" Margin="5">
+                                            <materialDesign:PackIcon                            
+                                Kind="Unicode"
+                                Style="{StaticResource IconMargin}" />
+                                            <TextBox
+                                x:Name="txtIFSC"
+                                Width="180"
+                                materialDesign:HintAssist.Hint="IFSC *"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtifscId"
+                                MaxLength="11"
+                                Text="{Binding IFSC, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Left" Orientation="Horizontal">
+
+                                            <Button HorizontalAlignment="Right" HorizontalContentAlignment="Right"  Command="{Binding DataContext.EditBankFileAttachement, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}" CommandParameter="{Binding}"  Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                                <Button.Content>
+                                                    <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Kind="AttachFile" />
+                                                </Button.Content>
+                                            </Button>
+                                            <Label FontSize="12" VerticalAlignment="Center" Content="ADD ATTACHMENT"></Label>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="7" Grid.Column="1">
+                                            <ItemsControl ItemsSource="{Binding FileUploadListInfo}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <materialDesign:Card
+                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                Height="60" Margin="0 0 0 5" Padding="5"                                
+                                >
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                    <ColumnDefinition Width="8*"></ColumnDefinition>
+                                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition></RowDefinition>
+                                                                    <RowDefinition></RowDefinition>
+                                                                </Grid.RowDefinitions>
+
+                                                                <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                                                                <Label  Grid.Column="1"                                  
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileName}"
+                                    ToolTip="{Binding FileName}" />
+
+                                                                <Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />
+
+
+                                                                <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Right"
+                                    Foreground="Red"       
+                                    Command="{Binding DataContext.EditDeleteUploadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}"
+                                    CommandParameter="{Binding ElementName=tglsrno}"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                                                    <materialDesign:PackIcon Kind="Trash" ToolTip="Remove" />
+                                                                </Button>
+
+
+                                                            </Grid>
+                                                        </materialDesign:Card>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="6" Grid.Column="1">
+                                            <materialDesign:Card
+                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                Height="60" Margin="0 0 0 5" Padding="5"                              
+                                >
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="8*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+
+                                                    </Grid.RowDefinitions>
+
+                                                    <Image Source="{DynamicResource v.fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                                                    <Label  Grid.Column="1"                              
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileAttachment.FileName}"
+                                    ToolTip="{Binding FileAttachment.FileName}" />
+
+                                                    <!--<Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />-->
+
+                                                    <Button Grid.Column="2" Grid.Row="0" 
+                                   Command="{Binding DataContext.DownloadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierDetails}}}"
+                                                CommandParameter="{Binding FileAttachment.FileId}"
+                                                Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                                ToolTip="Download">
+                                                        <Button.Content>
+                                                            <materialDesign:PackIcon  Kind="ArrowDownward" />
+                                                        </Button.Content>
+                                                    </Button>
+                                                </Grid>
+                                            </materialDesign:Card>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Grid>
+                               
+                               
+                            </Border>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger
+          Binding="{Binding IsSelected}"
+          Value="True">
+                                <Setter TargetName="Border"  Property="Background"
+            Value="{DynamicResource MaterialDesignSelection}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2" Margin="10 0 0 0">
+            <TextBlock Margin="0 0 0 0" Grid.Row="3" Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                <StackPanel Orientation="Horizontal">                    
+                
+             <materialDesign:PackIcon Kind="GoogleMaps"  Style="{StaticResource IconMargin}">
+                 
+             </materialDesign:PackIcon>
+                     <TextBlock Margin="5 20 0 0" Grid.Row="0" Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                 <Run  Text="ADDRESS DETAILS" />
+                </TextBlock>
+              </StackPanel>
+            </TextBlock>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="10 20 0 0" Grid.Row="0" Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                 <Run  Text="BILLING DETAILS" />
+                </TextBlock>
+
+                <StackPanel Margin="0 10 0 0" Grid.Row="1" Orientation="Vertical">
+                    <TextBlock Margin="10 5 0 0" FontSize="12"    Text="{Binding SuppliersDetails.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Margin="10 5 0 0" FontSize="12"    Text="{Binding SuppliersDetails.GstNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding SuppliersDetails.Address.Phone}"/>
+                    <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding SuppliersDetails.Address.Email}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding SuppliersDetails.Address.State}"/>
+                        <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding SuppliersDetails.Address.District}"/>
+                       
+                        <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="-"/>
+                        <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding SuppliersDetails.Address.Pincode}"/>
+                    </StackPanel>
+                  
+                </StackPanel>
+
+                <StackPanel Margin="10 30 0 0" Grid.Row="2" Orientation="Horizontal" >
+                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                 <Run  Text="SHIPPING ADDRESS ( BRANCH )" />
+                    </TextBlock>
+                    <ContentControl Margin="10 0 0 0" prims:RegionManager.RegionName="AddAddress"   />
+                </StackPanel>
+
+                <StackPanel Margin="0 10 0 0" Grid.Row="3" Orientation="Vertical" Visibility="{Binding SuppliersDetails.shippingAddress,Mode=TwoWay,Converter={StaticResource Arraytovisibilityconverter}}">
+                    <TextBlock Margin="10 5 0 0" FontSize="12"     Text="{Binding SuppliersDetails.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Margin="10 5 0 0"  FontSize="12"   Text="{Binding SuppliersDetails.GstNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ItemsControl Style="{StaticResource itemcontrolstyleforsmallheight}"  ItemsSource="{Binding SuppliersDetails.shippingAddress,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card HorizontalAlignment="Left" Margin="2" Width="300" Height="70">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding Phone}"/>
+                                        <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding Email}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding State}"/>
+                                            <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding District}"/>
+                                            <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="-"/>
+                                            <TextBlock Margin="10 5 0 0"  FontSize="12"  Text="{Binding Pincode}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                               
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                   
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

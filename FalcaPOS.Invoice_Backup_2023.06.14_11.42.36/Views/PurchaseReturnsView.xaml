@@ -1,0 +1,379 @@
+﻿<UserControl x:Class="FalcaPOS.Invoice.Views.PurchaseReturnsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Invoice.Views"
+             mc:Ignorable="d" 
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:prism="http://prismlibrary.com/"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="12"></Setter>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Margin="0 5 0 0" VerticalAlignment="Center" Grid.Column="0" Visibility="Collapsed" Text="{Binding RowCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+        <StackPanel Margin="0 10 0 0"  Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <ComboBox  Margin="0 0 20 0"  ItemsSource="{Binding Suppliers}"  VerticalAlignment="Center" SelectedItem="{Binding SelectedSupplier,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="180" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="SupplierName">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding DataContext.SupplierSelectionChangeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox Margin="0 0 20 0" Width="180" ItemsSource="{Binding Stores}" Visibility="{Binding StoreVisibilty,Converter={StaticResource BooleanToVisibilityConverter}}"  VerticalAlignment="Center" SelectedItem="{Binding SelectedStore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="StoreName">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding DataContext.SupplierSelectionChangeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <CheckBox Margin="0 0 20 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}" IsChecked="{Binding Path=IsPreCNChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"       Content="Return Requested" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}" CommandParameter="Pre-C/N" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="Pre-C/N" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Margin="0 0 20 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"    IsChecked="{Binding Path=IsapproveChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="Return Approved" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}"  CommandParameter="Pre-C/N-Approved" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="Pre-C/N-Approved" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Margin="0 0 20 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"    IsChecked="{Binding Path=IspostcnChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="C/N Received" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}" CommandParameter="Post-C/N" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="Post-C/N" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Margin="0 0 20 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"    IsChecked="{Binding Path=IsCreatedChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="C/N Approved" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}" CommandParameter="Created" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="Created"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Margin="0 0 20 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"    IsChecked="{Binding Path=IsSendBackChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="SendBack" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}"  CommandParameter="SendBack" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="SendBack" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Margin="0 0 10 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"   IsChecked="{Binding Path=IsPartiallyAdjusted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="Partially Adjusted">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}"  CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            
+            <CheckBox Margin="0 0 10 0"  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"   IsChecked="{Binding Path=IsadjustedChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"    Content="Adjusted">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:InvokeCommandAction Command="{Binding StatusCommand}"  CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <i:InvokeCommandAction Command="{Binding StatusUncheckCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type CheckBox}}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            
+        </StackPanel>
+       
+        
+            <ItemsControl Margin="0 10 0 0" Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource itemcontrolstyle}" ItemsSource="{Binding ReturnViews,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    <Grid>
+                        <Border  x:Name="Border" Margin="0 5 0 0"  CornerRadius="0,0,0,0"
+        BorderThickness="1" BorderBrush="Silver" >
+                            <Expander  HorizontalAlignment="Stretch" Background="White">
+
+                                <Expander.Header >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1.5*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel  Margin="8 5 0 0" Grid.Column="0">
+                                            <TextBlock Text="C/N Number" FontWeight="Bold" />
+                                            <TextBlock ToolTip="{Binding CreditNoteNumber}" Text="{Binding CreditNoteNumber}" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="1">
+                                            <TextBlock Text="C/N Date"  FontWeight="Bold"/>
+                                            <TextBlock  ToolTip="{Binding CreditNoteDate}" Text="{Binding CreditNoteDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="2">
+                                            <TextBlock Text="Status" FontWeight="Bold"/>
+                                            <TextBlock  ToolTip="{Binding Status}" Text="{Binding Status}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="3">
+                                            <TextBlock Text="Total" FontWeight="Bold"/>
+                                            <TextBlock  ToolTip="{Binding Total}" Text="{Binding Total}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="4">
+                                            <TextBlock Text="Supplier" FontWeight="Bold"/>
+                                            <TextBlock  ToolTip="{Binding SupplierName}" Text="{Binding SupplierName}" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="5">
+                                            <TextBlock Text="Store" FontWeight="Bold"/>
+                                            <TextBlock  ToolTip="{Binding StoreName}" Text="{Binding StoreName}" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="6">
+                                            <TextBlock Text="Created DateTime" FontWeight="Bold"/>                                            
+                                            <TextBlock  ToolTip="{Binding CreatedDatetime}" Text="{Binding CreatedDatetime}" />
+                                        </StackPanel>
+                                        
+                                        <StackPanel Margin="8 5 0 0" Grid.Column="7">
+                                            <TextBlock Text="Remark" FontWeight="Bold"/>
+                                            <TextBlock  ToolTip="{Binding Remark}" Text="{Binding Remark}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="8" Orientation="Horizontal" Visibility="{Binding FileID,Converter={StaticResource NotZeroToVisibilityConverter}}">
+                                            <Button Margin="20 0 0 0"  Style="{StaticResource MaterialDesignIconButton}"   HorizontalAlignment="Right"  ToolTip="Download Attachment" Height="20" Width="50" CommandParameter="{Binding FileID}"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:PurchaseReturnsView}}, Path=DataContext.DownloadAttachCommand}">
+                                                <Button.Content>
+                                                    <materialDesign:PackIcon Kind="Download" />
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Expander.Header>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="100"/>
+                                    </Grid.RowDefinitions>
+                                    <telerik:RadGridView  Height="250" Grid.Row="0" Margin="15 0 15 0" AutoGenerateColumns="False" RowIndicatorVisibility="Collapsed" ShowGroupPanel="False"  CanUserReorderColumns="False" ItemsSource="{Binding PurhcaseReturnProduct,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                        <telerik:RadGridView.Columns>
+                                            <telerik:GridViewColumn Width="*" Header="InvoiceNumber">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding InvoiceNo}" Content="{Binding InvoiceNo}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+
+                                            <telerik:GridViewColumn Width="*" Header="Invocie Date">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding InvoiceDate}" Content="{Binding InvoiceDate}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+                                            </telerik:GridViewColumn>
+
+                                            <telerik:GridViewColumn Width="*" Header="Product Name">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding ProductName}" Content="{Binding ProductName}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+                                            <telerik:GridViewColumn Width="*" Header="Brand Name">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding ManufactureName}" Content="{Binding ManufactureName}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+                                            <telerik:GridViewColumn Width="100" Header="SKU">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding ProductSKU}" Content="{Binding ProductSKU}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+
+                                            <telerik:GridViewColumn Width="*" Header="Rate">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label  ToolTip="{Binding ProductRate}" Content="{Binding ProductRate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+                                            <telerik:GridViewColumn Width="*" Header="Selling Price">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding ProductSellingPrice}" Content="{Binding ProductSellingPrice}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+
+                                            <telerik:GridViewColumn Width="*" Header="Product GST">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding ProductGST}" Content="{Binding ProductGST}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+
+                                            <telerik:GridViewColumn Width="*" Header="Product Total">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding ProductTotal}" Content="{Binding ProductTotal,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+
+
+                                            <telerik:GridViewColumn Width="*" Header="Lot Number">
+                                                <telerik:GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Label ToolTip="{Binding Lotnumber}" Content="{Binding Lotnumber}" />
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+                                            </telerik:GridViewColumn>
+
+
+                                            <telerik:GridViewColumn Width="*" Header="ReturnQty">
+                                                <telerik:GridViewColumn.CellTemplate >
+                                                    <DataTemplate>
+                                                        <TextBox IsEnabled="{Binding IsReadOnly,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Text="{Binding ReturnQty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                                                            <i:Interaction.Behaviors>
+                                                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                                                            </i:Interaction.Behaviors>
+
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </telerik:GridViewColumn.CellTemplate>
+
+                                            </telerik:GridViewColumn>
+
+                                        </telerik:RadGridView.Columns>
+                                    </telerik:RadGridView>
+
+                                    <StackPanel  Visibility="{Binding AdjustModels,Converter={StaticResource notNullToVisibleConverter}}"  Margin="15 10 0 0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left">
+                                        <TextBlock Text="REDEEMED CREDITNOTE DETAILS" FontSize="12" FontWeight="Bold"></TextBlock>
+                                        <ItemsControl  HorizontalAlignment="Center"  ItemsSource="{Binding  AdjustModels,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <materialDesign:Chip Margin="0 5 5 5"  
+                                                 Content="{Binding PoNumber,Mode=TwoWay}" ToolTip="PoNumber"></materialDesign:Chip>
+                                                        <TextBlock Grid.Column="1" Margin="0 5 5 5" FontSize="14" VerticalAlignment="Center" Text=":"></TextBlock>
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                            <materialDesign:PackIcon
+                                Margin="0 0 0 0"
+                                Kind="Rupee" VerticalAlignment="Center"
+                                Style="{StaticResource IconMargin}" />
+                                                            <TextBlock  Margin="0 5 5 5"   Foreground="{DynamicResource MahApps.Brushes.Accent}" ToolTip="Credit Amount" FontSize="14" VerticalAlignment="Center" Text="{Binding Amount,Mode=TwoWay}"></TextBlock>
+                                                        </StackPanel>
+
+                                                    </Grid>
+
+
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+
+                                        </ItemsControl>
+
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button  Style="{StaticResource RoundTextButton}" Width="120" Margin="0 0 20 0"  Visibility="{Binding IsEnablePostApproveBtn,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding DataContext.PostApproveCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}">Approve</Button>
+
+                                        <Button  Style="{StaticResource RoundTextButton}" Width="120" Margin="0 0 200 0"  Visibility="{Binding IsEnablePostApproveBtn,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding DataContext.SendBackCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}">SendBack</Button>
+                                        <Button Style="{StaticResource RoundTextButton}" Width="120" Margin="0 0 20 0"  Visibility="{Binding IsEnableApproveEditBtn,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}">Edit</Button>
+                                        <Button Style="{StaticResource RoundTextButton}" Width="120" Margin="0 0 20 0" Visibility="{Binding IsEnableApproveSaveBtn,Converter={StaticResource BooleanToVisibilityConverter}}"  Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}">Save</Button>
+                                        <Button Style="{StaticResource RoundTextButton}" Width="120" Margin="0 0 200 0" Visibility="{Binding IsEnableApproveEditBtn,Converter={StaticResource BooleanToVisibilityConverter}}"  Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PurchaseReturnsView}}}" CommandParameter="{Binding}">Approve</Button>
+                                    </StackPanel>
+                                   
+                                </Grid>
+                            </Expander>
+                        </Border>
+                    </Grid>
+                 
+                </DataTemplate>
+                </ItemsControl.ItemTemplate>
+               
+            </ItemsControl>
+       
+    </Grid>
+</UserControl>

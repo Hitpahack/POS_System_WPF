@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="FalcaPOS.ZoneTerritory.Views.ZoneTerritoryHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.ZoneTerritory.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+            xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <materialDesign:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"></ColumnDefinition>
+            <ColumnDefinition Width="6*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button
+                     AutomationProperties.AutomationId="btnZoneAndTerritoryAddZoneId"
+                    Margin="10,0,10,0"  Width="120"
+                    Style="{StaticResource RoundTextButton}"
+                    Command="{Binding AddZoneCommandPopup}">
+                Add Zone
+            </Button> 
+            <Button
+                    AutomationProperties.AutomationId="btnZoneAndTerritoryAddTerritoryId"
+                    Margin="10,0,10,0"  Width="120"
+                    Style="{StaticResource RoundTextButton}"
+                    Command="{Binding AddTerritoyCommandPopup}">
+                Add Territory
+            </Button>
+            <!--<Button
+                    
+                    Margin="10,0,10,0"  Width="180"
+                    Style="{StaticResource RoundTextButton}"
+                    Command="{Binding AddStoreMapCommandPopup}">
+                Map Territory to Store
+            </Button>-->
+            <Button AutomationProperties.AutomationId="btnZoneAndTerritoryRefreshId" Width="50" Height="40" Margin="10 0 0 0"  Style="{DynamicResource RoundButton}"   Command="{Binding RefreshTerritoryViewCommand}" CommandParameter="{Binding ElementName=zoneAndTerritoryRadGridView}" >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"></materialDesign:PackIcon>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <telerik:RadGridView
+                x:Name="zoneAndTerritoryRadGridView"
+                Grid.Row="1" Grid.ColumnSpan="2"
+                AutoGenerateColumns="False"
+                ShowGroupPanel="True"
+                CanUserReorderColumns="False"
+                CanUserSortColumns="True"
+                Margin="0 0 0 150"
+                RowIndicatorVisibility="Collapsed"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ItemsSource="{Binding ZoneTerritoryView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn IsReadOnly="True"  Width="*" IsGroupable="True" Header="State" DataMemberBinding="{Binding State,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <telerik:GridViewDataColumn IsReadOnly="True" Width="*" IsGroupable="True" Header="Zone" DataMemberBinding="{Binding Zone }"/>
+                <telerik:GridViewDataColumn IsReadOnly="True" Width="*" IsGroupable="True"  Header="Territory" DataMemberBinding="{Binding Territory }"/>
+                <telerik:GridViewDataColumn IsReadOnly="True" Width="*" IsGroupable="True"  Header="Store" DataMemberBinding="{Binding Store }"/>
+                <telerik:GridViewColumn Width="*" IsGroupable="True" IsFilterable="True"  Header="Regional Manager">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0 5  0 0" Text="{Binding Path=RegionalManager,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                <Button Margin="0 0  0 0" Visibility="{Binding Path=RegionalManager,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,Converter={StaticResource InvertedNullVisibilityConverter}}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:ZoneTerritoryHome}}, Path=DataContext.EditRegionalManagerCommandPopup}" CommandParameter="{Binding ZoneID}"  Style="{StaticResource MaterialDesignFlatAccentButton}">
+                                    <Button.Content>
+                                        <materialDesign:PackIcon Foreground="#03625a" Kind="Pencil" ToolTip="Add Regional Manager"></materialDesign:PackIcon>
+                                    </Button.Content>
+                                </Button>
+                                <Button Margin="20 0  0 0" Visibility="{Binding Path=RegionalManager,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,Converter={StaticResource  NullToVisibilityConverter}}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:ZoneTerritoryHome}}, Path=DataContext.DeleteRegionalManagerCommandPopup}" CommandParameter="{Binding}"  Style="{StaticResource MaterialDesignFlatAccentButton}">
+                                    <Button.Content>
+                                        <materialDesign:PackIcon  Foreground="#f75d78" Kind="Trash" ToolTip="Remove Regional Manager"></materialDesign:PackIcon>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" IsGroupable="True"  Header="Territory Manager">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0 5  0 0" Text="{Binding Path=TerritoryManager,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                <Button Margin="10 0  0 0" Visibility="{Binding Path=TerritoryManager,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,Converter={StaticResource InvertedNullVisibilityConverter}}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:ZoneTerritoryHome}}, Path=DataContext.EditTerritoryManagerCommandPopup}" CommandParameter="{Binding TerritoryID}"  Style="{StaticResource MaterialDesignFlatAccentButton}">
+                                    <Button.Content>
+                                        <materialDesign:PackIcon Foreground="#03625a" Kind="Pencil" ToolTip="Add Territory Manager"></materialDesign:PackIcon>
+                                    </Button.Content>
+                                </Button>
+                                <Button Margin="10 0  0 0" Visibility="{Binding Path=TerritoryManager,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,Converter={StaticResource NullToVisibilityConverter}}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:ZoneTerritoryHome}}, Path=DataContext.DeleteTerritoryManagerCommandPopup}" CommandParameter="{Binding}"  Style="{StaticResource MaterialDesignFlatAccentButton}">
+                                    <Button.Content>
+                                        <materialDesign:PackIcon Foreground="#f75d78" Kind="Trash" ToolTip="Remove Regional Manager"></materialDesign:PackIcon>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

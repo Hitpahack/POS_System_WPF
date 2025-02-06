@@ -1,0 +1,252 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Finance.Views.ClosingStock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <Converter:StringToShortDateConverter x:Key="ShortDateConverter" />
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+        <Converter:MultiValueHeaderFormaterConverter x:Key="MultiValueHeaderFormaterConverter" />
+       
+    </UserControl.Resources>
+    <Grid Margin="0,20,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Label Content="Closing Stock Report" FontSize="20" />
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Margin="0,0,50,0"
+            HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="0,0,50,0">
+                <ComboBox
+                    Width="120"
+                    x:Name="cmbStoreClosingStock"
+                    Margin="10,0,10,0"
+                    materialDesign:HintAssist.Hint="Stores *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbStoreClosingStockId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Stores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedStore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="0,0,50,0">
+                <DatePicker
+                     Width="120"
+                    materialDesign:HintAssist.Hint="From  Date *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="dpFromDateClosingStockId"
+                    DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                    SelectedDate="{Binding FromDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+            <Grid Grid.Column="2" Margin="0,0,50,0">
+                <DatePicker
+                     Width="120"
+                    materialDesign:HintAssist.Hint="To  Date *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="dpTodateClosingStockId"
+                    DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                    SelectedDate="{Binding ToDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <Grid Grid.Column="5" Margin="0,0,50,0">
+                <Button
+                    Width="100"
+                    Style="{StaticResource RoundTextButton}"
+                    Command="{Binding SearchClosingStockCommand}"
+                    Content="Search" />
+            </Grid>
+            <Grid Grid.Column="3">
+                <Button
+                    Width="38"
+                    Height="38"
+                        Margin="0,0,50,0"
+                        Style="{StaticResource RoundButton}"
+                        Command="{Binding RefreshCommand}"
+                        >
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
+            <Grid Grid.Column="4" Margin="0,0,50,0">
+                <Button
+                    Width="38"
+                    Height="38"
+                    Style="{StaticResource RoundButton}"
+                    Command="{Binding ExportResultToExcelCommand}"
+                    IsEnabled="{Binding IsExportEnabled}"
+                    ToolTip="Download XL File">
+                    <Button.Content>
+                        <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <telerik:RadGridView
+                Margin="0 0 0 180"
+                x:Name="dgClosingStocksReport"
+                AutoGenerateColumns="False"
+                AutomationProperties.AutomationId="dgClosingStocksReportId" 
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                IsReadOnly="False"
+                ItemsSource="{Binding ClosingStockDetails}"
+                ScrollViewer.CanContentScroll="True"
+                ShowGroupPanel="True"
+                RowIndicatorVisibility="Collapsed"
+                 IsFilteringAllowed="True" 
+                Visibility="{Binding ClosingStockDetails, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn Width="*" Header="Zone" IsFilterable="True" DataMemberBinding="{Binding Zone}">
+                       
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Width="*" Header="Territory" IsFilterable="True" DataMemberBinding="{Binding Territory}">
+                      
+                    </telerik:GridViewDataColumn>
+
+                    <telerik:GridViewDataColumn Width="*" Header="Product Name" IsFilterable="True" DataMemberBinding="{Binding ProductName}">
+                       
+                    </telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Width="*" Header="SKU" IsFilterable="True" DataMemberBinding="{Binding SKU}">
+                       
+                    </telerik:GridViewDataColumn>
+
+
+
+                    <telerik:GridViewDataColumn Width="*" Header="Brand" IsFilterable="True" DataMemberBinding="{Binding Brand}">
+                       
+                    </telerik:GridViewDataColumn>
+
+                    <telerik:GridViewDataColumn Width="*" Header="Category" IsFilterable="True" DataMemberBinding="{Binding Category}">
+                       
+                    </telerik:GridViewDataColumn>
+
+                    <telerik:GridViewDataColumn Width="*" Header="Sub Category" IsFilterable="True" DataMemberBinding="{Binding ProductType}">
+                        
+                    </telerik:GridViewDataColumn>
+
+                    <!--<DataGridTemplateColumn Width="*" Header="DepartCode">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding DepartCode}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+
+                    <telerik:GridViewColumn Width="*" Header="Opening Stock Quantity">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding ClosingStockQty}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Purchase Stock Quantity">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding PurchaseStockQty}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Sold Quantity">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding SoldQty}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="Total Stock">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding TotalStock}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="WAC">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding WAC}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+
+                    <telerik:GridViewColumn Width="*" Header="WACValue">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding WACValue}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Last Sold Date">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding LastSoldDate}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Stock Transfer">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding StockTransfer}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                    <telerik:GridViewColumn Width="*" Header="Sales Return">
+                        <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding SalesReturn}" />
+                            </DataTemplate>
+                        </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+
+
+        </Grid>
+        <Grid Grid.Row="3">
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Content="No Records found"
+                FontSize="20"
+                FontStyle="Normal"
+                Visibility="{Binding ClosingStockDetails, Converter={StaticResource InverseArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </Grid>
+</UserControl>

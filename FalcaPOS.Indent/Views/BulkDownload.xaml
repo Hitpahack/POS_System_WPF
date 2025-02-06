@@ -1,0 +1,266 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.BulkDownload"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+              xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <converters:ZeroToVisiblityConverter x:Key="zerovisibility"></converters:ZeroToVisiblityConverter>
+        <converters:NullToVisibilityConverter x:Key="nulltovisibility"></converters:NullToVisibilityConverter>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        <Style x:Key="GridViewToggleButtonColumnStyle"
+			   TargetType="telerik:GridViewCell" BasedOn="{StaticResource GridViewCellStyle}">
+            <Setter Property="Padding"
+					Value="0,0,0,0" />
+        </Style>
+        <converters:ArrayToVisibilityConverter x:Key="arraytovisibility"></converters:ArrayToVisibilityConverter>
+        <converters:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+       
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" Width="150" Height="40" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Store *"
+             materialDesign:HintAssist.IsFloating="True"
+             materialDesign:TextFieldAssist.HasClearButton="True"
+             ItemsSource="{Binding Stores}"
+             DisplayMemberPath="Name"
+             SelectedItem="{Binding SelectedStore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+             AutomationProperties.AutomationId="cmbIndentIndentPaymentUpdateDownloadStoreId">
+                </ComboBox>
+                <Button  Grid.Column="1" Margin="10 5 2 0" Command="{Binding SupplierRefreshCommand}" AutomationProperties.AutomationId="btnIndentIndentPaymentUpdateDownloadRefreshId"
+                 Style="{StaticResource MaterialDesignFlatButton}"
+         ToolTip="Refresh">
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button>
+                <ComboBox  Grid.Column="2" Width="150" Height="40" 
+            x:Name="MultiSelectCombox" 
+               materialDesign:HintAssist.Hint="Supplier *"
+             materialDesign:HintAssist.IsFloating="True"
+             materialDesign:TextFieldAssist.HasClearButton="True"
+             AutomationProperties.AutomationId="cmbIndentIndentPaymentUpdateDownloadSupplierId"                  
+             ItemsSource="{Binding Suppliers}"
+             SelectedItem="{Binding SelectedSupplier,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox  x:Name="myCtrl"  Content="{Binding SupplierName}"
+                     IsChecked="{Binding Path=IsEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.OnCheckedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding ElementName=myCtrl}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.OnUnCheckedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding ElementName=myCtrl}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </CheckBox>
+
+                            </StackPanel>
+
+                        </DataTemplate>
+
+                    </ComboBox.ItemTemplate>
+
+                </ComboBox>
+                <DatePicker Text="{Binding FromDate,Mode=TwoWay}" Grid.Column="3" Margin="10 5 0 0" materialDesign:HintAssist.Hint="From Date" materialDesign:HintAssist.IsFloating="True" Width="100"></DatePicker>
+                <DatePicker Text="{Binding ToDate,Mode=TwoWay}" Grid.Column="4" Margin="10 5 0 0" materialDesign:HintAssist.Hint="To Date" materialDesign:HintAssist.IsFloating="True" Width="100"></DatePicker>
+                <Button Grid.Column="5" AutomationProperties.AutomationId="btnIndentIndentPaymentUpdateDownloadSearchId" Margin="0 0 0 0" Style="{StaticResource RoundTextButton}" Command="{Binding SearchCommand}" Width="120">Search</Button>
+                <Button Grid.Column="6" AutomationProperties.AutomationId="btnIndentIndentPaymentUpdateDownloadResetId" Margin="10 0 0 0"  Style="{StaticResource RoundButton}" Command="{Binding ResetCommand}" Width="38" Height="38">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+                <StackPanel Grid.Column="7" IsEnabled="{Binding IsExportEnabled}" Margin="10 0 0 0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+
+                    <Image Width="25" Height="25" Source="/FalcaPOS.Indent;component/Resources/sbi.png" />
+
+                    <RadioButton Margin="10 0 0 0" AutomationProperties.AutomationId="rbIndentIndentPaymentUpdateDownloadSBIBankId" Content="SBI Bank" IsChecked="{Binding SelectedBank,Converter={StaticResource RadioButtonConverter},ConverterParameter='SBI'}"></RadioButton>
+
+                    <Image Margin="20 0 0 0" Height="25" Width="25" Source="/FalcaPOS.Indent;component/Resources/IBN.png" />
+
+                    <RadioButton  AutomationProperties.AutomationId="rbIndentIndentPaymentUpdateDownloadICICIBankId"  Content="ICICI Bank" IsChecked="{Binding SelectedBank,Converter={StaticResource RadioButtonConverter},ConverterParameter='ICICI'}" Margin="10 0 0 0"></RadioButton>
+                </StackPanel>
+                <Button Grid.Column="8"  AutomationProperties.AutomationId="btnIndentIndentPaymentUpdateDownloadDownloadId"  Margin="10 0 0 0" Style="{StaticResource RoundButton}" Command="{Binding ExportCommand}"  IsEnabled="{Binding IsExportEnabled}" ToolTip="Download XL File" Height="38" Width="38"  >
+                    <Button.Content>
+                        <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
+            
+        </Grid>
+       
+        <telerik:RadGridView  x:Name="bulk" Grid.Row="1" 
+                                  Grid.ColumnSpan="2"  
+                                  IsReadOnly="True"  
+                                  Margin="0 0 0 240"
+                AutoGenerateColumns="False"
+                CanUserReorderColumns="False"   
+                RowDetailsVisibilityMode="VisibleWhenSelected"
+                ShowGroupPanel="False"
+                IsFilteringAllowed="False"
+               ScrollViewer.CanContentScroll="True"
+               RowIndicatorVisibility="Collapsed"                   
+               ItemsSource="{Binding BulkPaymentModels,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewToggleRowDetailsColumn CellStyle="{StaticResource GridViewToggleButtonColumnStyle}" />
+                <telerik:GridViewColumn>
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox   Style="{StaticResource MaterialDesignAccentCheckBox}" ToolTip="SelectAll" HorizontalAlignment="Left" IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedSupplierCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedSupplierCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewDataColumn Width="*" Header="Supplier" DataMemberBinding="{Binding  SupplierName}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" Header="Total C/N Amount" DataMemberBinding="{Binding  CNAmount}"></telerik:GridViewDataColumn>
+                <telerik:GridViewColumn Header="Bank Details">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl Height="40" Margin="5 0 0 0" HorizontalAlignment="Center"  Grid.Column="3" ItemsSource="{Binding BankDetails}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel></WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <CheckBox  Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}" IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Content="{Binding BankName}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Checked">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectBankCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.UnSelectBankCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CheckBox>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewDataColumn Width="*" Header="Account No" DataMemberBinding="{Binding SelectedBankDetail.AccountNo}"></telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.RowDetailsTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <telerik:RadGridView   Grid.Row="1"
+         RowIndicatorVisibility="Collapsed" 
+         IsReadOnly="True"
+         AutoGenerateColumns="False"
+         CanUserReorderColumns="False"
+          ShowGroupPanel="False"
+         IsFilteringAllowed="True"
+         ItemsSource="{Binding IndentLists,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewToggleRowDetailsColumn CellStyle="{StaticResource GridViewToggleButtonColumnStyle}" />
+                                <telerik:GridViewColumn Header="PoNo">
+                                    <telerik:GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox AutomationProperties.AutomationId="cbIndentIndentPaymentUpdateDownloadCardPONumberId"  Style="{StaticResource MaterialDesignAccentCheckBox}" Margin="0 0 0 0" Grid.Column="0" IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Content="{Binding PoNumber}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Checked">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedIndentCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedIndentCommand,RelativeSource={RelativeSource AncestorType={x:Type local:BulkDownload}}}" CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </CheckBox>
+                                        </DataTemplate>
+                                    </telerik:GridViewColumn.CellTemplate>
+                                </telerik:GridViewColumn>
+                                <telerik:GridViewDataColumn Header="PO Qty" DataMemberBinding="{Binding PoQty}"/>
+                                <telerik:GridViewDataColumn Header="Date" DataMemberBinding="{Binding Date}"/>
+                        
+                                <telerik:GridViewDataColumn Header="Store" DataMemberBinding="{Binding StoreName}"/>
+                                <telerik:GridViewDataColumn Header="Total" DataMemberBinding="{Binding TotalEstimantedAmount}"/>
+                                <telerik:GridViewDataColumn Header="C\N Adjusted" DataMemberBinding="{Binding TotalAmount}"/>
+                                <telerik:GridViewDataColumn  Header="TDS" DataMemberBinding="{Binding TDS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <telerik:GridViewDataColumn  Header="Payable Amount" DataMemberBinding="{Binding PayableAmount}"/>
+                                <telerik:GridViewDataColumn  Header="Payable Date" DataMemberBinding="{Binding PaymentDate}"/>
+                                <telerik:GridViewColumn Header="">
+                                    <telerik:GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Margin="0 0 0 0" AutomationProperties.AutomationId="btnIndentIndentPaymentUpdateDownloadCardAdjustId"  HorizontalAlignment="Center" Width="100" Style="{StaticResource RoundTextButton}" 
+                                                    Visibility="{Binding CNAmount,Converter={StaticResource zerovisibility},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:BulkDownload}}, Path=DataContext.AdjustCommand}" 
+                                                    CommandParameter="{Binding}">
+                                                Adjust
+                                            </Button>
+                                        </DataTemplate>
+                                    </telerik:GridViewColumn.CellTemplate>
+                                </telerik:GridViewColumn>
+                            </telerik:RadGridView.Columns>
+                            <telerik:RadGridView.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <telerik:RadGridView 
+                                            
+                                            ShowGroupPanel="False"
+                       IsReadOnly="True"
+                       CanUserReorderColumns="False"
+                       RowIndicatorVisibility="Collapsed" 
+                       ItemsSource="{Binding invoiceDetails,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+                                        </telerik:RadGridView>
+                                       
+                                    </Grid>
+                                   
+                                </DataTemplate>
+                            </telerik:RadGridView.RowDetailsTemplate>
+                        </telerik:RadGridView>
+
+                    </Grid>
+                </DataTemplate>
+            </telerik:RadGridView.RowDetailsTemplate>
+        </telerik:RadGridView>
+
+    </Grid>
+</UserControl>

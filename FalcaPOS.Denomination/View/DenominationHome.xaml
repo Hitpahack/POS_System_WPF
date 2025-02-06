@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="FalcaPOS.Denomination.View.DenominationHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Denomination.View"
+             mc:Ignorable="d" 
+               xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:prism="http://prismlibrary.com/" xmlns:viewmodel="clr-namespace:FalcaPOS.Denomination.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:DenominationViewModel}"
+             Padding="10"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="white"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--<Controls:MetroTabControl
+        Margin="0,5,0,0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="Segoe UI"
+        Controls:HeaderedControlHelper.HeaderFontSize="18"
+        Controls:TabControlHelper.Underlined="TabItems"
+        AutomationProperties.AutomationId="tcEODhomeId"
+        Background="white"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+
+        <Controls:MetroTabItem x:Name="add" AutomationProperties.AutomationId="tiEODaddId" Header="Add">
+            <ContentControl  prism:RegionManager.RegionName="DenominationAdd" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem x:Name="storeview" AutomationProperties.AutomationId="tiEODstoreviewId"   Header="View">
+            <ContentControl prism:RegionManager.RegionName="StoreDenominationView" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem x:Name="finaceview" AutomationProperties.AutomationId="tiEODfinanceviewId"   Header="View">
+            <ContentControl prism:RegionManager.RegionName="FinanceDenominationView" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem x:Name="depositview" Header="Deposit View" AutomationProperties.AutomationId="tiEODcashdepositId">
+            <ContentControl  prism:RegionManager.RegionName="DepositView" />
+        </Controls:MetroTabItem>
+    </Controls:MetroTabControl>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" 
+                Style="{DynamicResource MaterialDesignFlatLightButton}"
+                       FontSize="15"
+                       Visibility="{Binding IsEODCashAddPage,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                       Cursor="Hand"
+                       FontWeight="Medium" 
+                       FontFamily="{DynamicResource Poppins}"
+                       Command="{Binding ViewDenominationsAndDepositsCommand}" CommandParameter="{Binding}"
+                VerticalAlignment="Top"
+                AutomationProperties.AutomationId="btnEODFlyoutViewId"
+                       HorizontalAlignment="Right">
+            <Button.Content>
+                <TextBlock Text="View" TextDecorations="Underline" ></TextBlock>
+            </Button.Content>
+        </Button>
+
+        <Button Grid.Row="0" 
+                 VerticalAlignment="Top"
+                       Style="{DynamicResource MaterialDesignFlatLightButton}"
+                       Visibility="{Binding IsCashViewPage,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                       FontSize="15" 
+                       Cursor="Hand"
+                       FontWeight="Medium"
+                      FontFamily="{DynamicResource Poppins}"
+                AutomationProperties.AutomationId="btnEODFlyoutBackId"
+                 Command="{Binding BackToAddCashCommand}" CommandParameter="{Binding}"
+                       HorizontalAlignment="Right">
+            <Button.Content>
+                <TextBlock Text="Back" TextDecorations="Underline" ></TextBlock>
+            </Button.Content>
+        </Button>
+
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="DenominationAndDepositsDetailsView"  Visibility="{Binding IsCashViewPage,Converter={StaticResource BooleanToVisibilityConverter}}"  />
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="DenominationAdd"  Visibility="{Binding IsEODCashAddPage,Converter={StaticResource BooleanToVisibilityConverter}}"  />
+    </Grid>
+
+    
+</UserControl>

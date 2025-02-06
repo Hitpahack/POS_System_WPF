@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="FalcaPOS.Denomination.View.DenominationFinanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Denomination.View"
+            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+           xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+
+        <UserControl.Resources>
+            <Style TargetType="{x:Type TextBlock}" x:Key="HorizontalExpanderContentTextBlock">
+                <Setter Property="Opacity" Value=".68"/>
+                <Setter Property="Text" Value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="VerticalExpanderContentTextBlock" BasedOn="{StaticResource HorizontalExpanderContentTextBlock}">
+                <Setter Property="MaxWidth" Value="180"/>
+            </Style>
+
+            <Style TargetType="{x:Type Border}" x:Key="HorizontalDividerBorder">
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Height" Value="1"/>
+            </Style>
+
+            <Style TargetType="{x:Type Border}" x:Key="VerticalDividerBorder" BasedOn="{StaticResource HorizontalDividerBorder}">
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Width" Value="1"/>
+            </Style>
+        <Style x:Key="stylelabel" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 5 0 0"></Setter>
+        </Style>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+       
+       
+        <DataTemplate x:Key="DenominationList" DataType="{x:Type ItemsControl}">
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource VerticalDividerBorder}"/>
+                <Expander ExpandDirection="Right"  IsExpanded="{Binding IsExpand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <Expander.Header>
+                        <TextBlock FontFamily="Bold" FontSize="16"
+                                Text="{Binding Date}"
+                                RenderTransformOrigin=".5,.5">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Expanded" >
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.FetchDenominationCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                       AncestorType={x:Type local:DenominationFinanceView}}}" CommandParameter="{Binding}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <local:DenominationView  DenominationModel="{Binding Path=DenominationModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding Path=.,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></local:DenominationView>
+                   
+                </Expander>
+                <Border Style="{StaticResource VerticalDividerBorder}"/>
+
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+       
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="8*" />
+                   
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" >
+            <ComboBox
+                   Width="200"
+                    Margin="10,0,10,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Store Name"
+                    AutomationProperties.AutomationId="cmbEODDenominationFinanceId"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Stores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedStore}"
+                    />
+        </StackPanel>
+        <materialDesign:Card Grid.Row="1" Grid.ColumnSpan="2">
+            <ItemsControl ItemTemplate="{StaticResource DenominationList}"  Style="{DynamicResource itemcontrolstyle}" ItemsSource="{Binding ListItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </materialDesign:Card>
+
+      
+    </Grid>
+        
+
+</UserControl>

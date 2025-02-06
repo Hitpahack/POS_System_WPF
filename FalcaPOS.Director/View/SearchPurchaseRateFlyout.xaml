@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="FalcaPOS.Director.View.SearchPurchaseRateFlyout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Director.View"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+       
+        <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="Width" Value="150" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="Width" Value="150" />
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+           
+
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="0 30 0 0" Grid.Row="0" Grid.Column="0">
+            <ComboBox
+                    materialDesign:HintAssist.Hint="Supplier Name"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbPurchaseRateOnSearchSupplierNameId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Suppliers}"
+                    SelectedValue="{Binding SelectedSupplier,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Margin="0 30 0 0" Grid.Row="0" Grid.Column="1">
+           <DatePicker Width="150"
+                materialDesign:HintAssist.Hint="From Invoice Date"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="dpPurchaseRateStartDateId"
+                        materialDesign:TextFieldAssist.HasClearButton="False"
+                SelectedDate="{Binding Path=SearchModelItem.FromInvoiceDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Margin="0 30 0 0" Grid.Row="0" Grid.Column="2">
+            <DatePicker Width="150"
+                materialDesign:HintAssist.Hint="To Invoice Date"
+                materialDesign:HintAssist.IsFloating="True"
+                         materialDesign:TextFieldAssist.HasClearButton="False"
+                AutomationProperties.AutomationId="dpPurchaseRateEndDateId"
+                SelectedDate="{Binding Path=SearchModelItem.ToInvocieDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Margin="0 30 0 0" Grid.Row="0" Grid.Column="3">
+            <ComboBox
+                x:Name="cmbproductTypes"
+                materialDesign:HintAssist.Hint="Sub Category"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbPurchaseRateOnSearchSubCategoryId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding ProductTypes}"
+                SelectedValue="{Binding SelectedProductType}"
+                Text="{Binding Path=SearchModelItem.ProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ProductTypeChange}" CommandParameter="{Binding ElementName=cmbproductTypes, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+           
+        </StackPanel>
+        <StackPanel Margin="0 30 0 0" Grid.Row="0" Grid.Column="4">
+            <ComboBox
+                x:Name="cmbmanufacture"
+                materialDesign:HintAssist.Hint="Brand"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbPurchaseRateOnSearchBrandId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Manufacturers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedManufacturer}"
+                Text="{Binding Path=SearchModelItem.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ManufacturerChange}" CommandParameter="{Binding ElementName=cmbmanufacture, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Margin="0 30 0 0" Grid.Row="0" Grid.Column="5">
+            <ComboBox
+                    materialDesign:HintAssist.Hint="Product Name"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbPurchaseRateOnSearchProductNameId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding ProductDetailsList}"
+                    SelectedValue="{Binding SelectedProduct}" 
+                   Text="{Binding Path=SearchModelItem.ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Margin="0 20 0 0" Grid.Row="1" Grid.Column="0">
+            <TextBox
+                    materialDesign:HintAssist.Hint="SKU"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbPurchaseRateOnSearchSKUId"
+                 Text="{Binding Path=SearchModelItem.SKU}"
+                     />
+        </StackPanel>
+        <StackPanel Margin="0 20 0 0" Grid.Row="1" Grid.Column="1">
+            <ComboBox
+                    materialDesign:HintAssist.Hint="Store"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbPurchaseRateOnSearchStoreId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Stores}"
+                    SelectedValue="{Binding SelectedStore}"
+                 Text="{Binding Path=SearchModelItem.StoreName}"/>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="4"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Margin="0,0,15,0"
+                Style="{StaticResource RoundTextButton}"
+                AutomationProperties.AutomationId="btnPurchaseRateOnSearchSearchId"
+                Command="{Binding Search}"
+                CommandParameter="{Binding SearchModelItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                Search
+            </Button>
+            <Button
+                Width="40" Height="40"
+                Margin="15,0,0,0"
+                AutomationProperties.AutomationId="btnPurchaseRateOnSearchResetId"
+                Command="{Binding Reset}"
+                Style="{StaticResource RoundButton}"
+                CommandParameter="{Binding SearchModelItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

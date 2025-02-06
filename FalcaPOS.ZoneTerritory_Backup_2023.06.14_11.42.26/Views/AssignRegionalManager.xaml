@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="FalcaPOS.ZoneTerritory.Views.AssignRegionalManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"              
+             xmlns:local="clr-namespace:FalcaPOS.ZoneTerritory.Views"
+              xmlns:prism="http://prismlibrary.com/" xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             x:Name="AssignRegionalManagerUI"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,10,0" />
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        <converters:MultiConverter x:Key="MultiConverter"/>
+    </UserControl.Resources>
+    <Grid Height="220">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="0"  Height="60px" Background="{DynamicResource MahApps.Brushes.Accent}" Orientation="Horizontal">
+            <Image Margin="10 5 0 0" Width="45px" Height="36px" HorizontalAlignment="Left" Source="{DynamicResource logo}"></Image>
+            <TextBlock Margin="20 0 0 0" Foreground="White" VerticalAlignment="Center" Style="{DynamicResource PoppinsMedium}" FontSize="15px" Text="">Assign Region Manager</TextBlock>
+            <Button HorizontalAlignment="Right" Margin="180 0 0 0" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}"  ToolTip="Close" Foreground="White" Content="X" FontSize="20" >
+            </Button>
+        </StackPanel>
+
+        
+
+        <StackPanel Grid.Row="1" Margin="0 10 0 0"  Orientation="Horizontal" HorizontalAlignment="Center">
+            <materialDesign:PackIcon                            
+                                Kind="PersonEdit"
+                                 Margin="0 15 10 0" Style="{StaticResource IconMargin}"
+                                />
+            <ComboBox  Margin="0 0 15 0" Width="200" ItemsSource="{Binding RegionalManagerList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   materialDesign:HintAssist.Hint="Select RM *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    DisplayMemberPath="Name"
+                    materialDesign:TextFieldAssist.HasClearButton="True" VerticalAlignment="Center"                   
+                    SelectedValue="{Binding SelectedRM,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
+        </StackPanel>
+       
+
+        <StackPanel Grid.Row="3" Margin="0 10 0 10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button  Width="120" Margin="0 0 0 0" Style="{DynamicResource RoundTextButton}" Command="{Binding AddRegionalManagerCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiConverter}">
+                        <Binding ElementName="btnclose"></Binding>
+                        <Binding Path="Tag" ElementName="AssignRegionalManagerUI"></Binding>
+                    </MultiBinding>
+                </Button.CommandParameter>
+                Save</Button>
+            <Button Width="50" Margin="10 0 0 0"  Style="{DynamicResource RoundButton}"   Command="{Binding AddRegionalManagerResetCommand}" CommandParameter="{Binding}" >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"></materialDesign:PackIcon>
+                </Button.Content>
+            </Button>
+
+        </StackPanel>
+
+        <!--<Image Grid.Column="1"  Grid.Row="1" Grid.RowSpan="3" StretchDirection="Both" Source="{DynamicResource greenshadow_addcustomer}">
+
+        </Image>-->
+
+
+    </Grid>
+</UserControl>

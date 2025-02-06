@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="FalcaPOS.AddInventory.Views.CategoryList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.AddInventory.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+              xmlns:converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+              xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converter:InverseBooleanToVisibilityConverter x:Key="InverseBoolean" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel
+                Margin="0,10"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Label FontSize="20">Category</Label>
+                <ContentControl prism:RegionManager.RegionName="AddCategory" />
+            </StackPanel>
+        </Grid>
+
+        <telerik:RadGridView
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                ShowGroupPanel="False"
+                CanUserReorderColumns="False"
+                CanUserSortColumns="True"
+                Margin="0 0 0 200"
+                RowIndicatorVisibility="Collapsed"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Width="*" Header="Category">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding CategoryName}" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" Header="Enable">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding IsEnable}" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="*" Header="Certificate">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label x:Name="textBlock" Content="{Binding IsCertificate}" />
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsCertificate}" Value="False" >
+                                    <Setter TargetName="textBlock" Property="Content" Value="Red" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                            
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <!--<telerik:GridViewDataColumn Width="*" Header="DepartCode">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding DeptCode}" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>-->
+                <!--<telerik:GridViewDataColumn Width="*" Header="">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding DataContext.EnableDisableProductTypeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ProductTypeList}}}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="Disable"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Visibility="{Binding Isenabled, Converter={StaticResource BooleanToVisibility}}">
+                                    <materialDesign:PackIcon Kind="Trash" />
+                                </Button>
+                                <Button
+                                        Margin="5,0,0,0"
+                                        Background="Gray"
+                                        Command="{Binding DataContext.EnableDisableProductTypeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ProductTypeList}}}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="Enable"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Visibility="{Binding Isenabled, Converter={StaticResource InverseBoolean}}">
+                                    <materialDesign:PackIcon Kind="TrashRestore" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>-->
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+    </Grid>
+</UserControl>

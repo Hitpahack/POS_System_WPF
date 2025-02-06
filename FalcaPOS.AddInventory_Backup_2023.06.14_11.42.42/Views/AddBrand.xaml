@@ -1,0 +1,111 @@
+﻿<UserControl
+    x:Class="FalcaPOS.AddInventory.Views.AddBrand"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <materialDesign:PopupBox IsPopupOpen="{Binding PopupClose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StaysOpen="True">
+            <materialDesign:PopupBox.ToggleContent>
+                <materialDesign:PackIcon Kind="PlusThick" />
+            </materialDesign:PopupBox.ToggleContent>
+            <Grid Width="250" Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <!--<RowDefinition />-->
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="8,10,10,20"
+                    FontSize="20"
+                    Text="{Binding Title}" />
+
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <RadioButton
+                        Margin="0,0,5,0"
+                        Content="Add New Brand"
+                        GroupName="mapType"
+                        IsChecked="{Binding MapToProductType, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <RadioButton
+                        Content="Map to Sub Category"
+                        GroupName="mapType"
+                        IsChecked="{Binding MapToProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <ComboBox
+                    Grid.Row="2"
+                    Width="250"
+                    materialDesign:HintAssist.Hint="Sub Category"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbAddBrandProductTypesId"
+                    DisplayMemberPath="Name"
+                    IsTextSearchEnabled="True"
+                    ItemsSource="{Binding ProductTypes}"
+                    SelectedValue="{Binding SelectedProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                <ComboBox
+                    Grid.Row="3"
+                    Width="250"
+                    materialDesign:HintAssist.Hint="Select Brand"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    AutomationProperties.AutomationId="cmbAddBrandsId"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Manufacturers}"
+                    SelectedValue="{Binding SelectedManufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Visibility="{Binding MapToProductType, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBox
+                    Grid.Row="3"
+                    Width="250"
+                    materialDesign:HintAssist.Hint="Brand Name"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtAddBrandNameId"
+                    Text="{Binding ManufacturerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Visibility="{Binding MapToProductType, Converter={StaticResource InverseBoolToVisConverter}}" />
+
+                <Button
+                    Grid.Row="4"
+                    Width="80"
+                    Margin="10,20,0,0"
+                    HorizontalAlignment="Right"
+                    AutomationProperties.AutomationId="btnAddBrandId"
+                   
+                    Command="{Binding AddManufacturerCommand}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource RoundTextButton}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MapToProductType}" Value="true">
+                                    <Setter Property="Content" Value="Map" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding MapToProductType}" Value="false">
+                                    <Setter Property="Content" Value="Add" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </Grid>
+
+        </materialDesign:PopupBox>
+
+    </Grid>
+</UserControl>

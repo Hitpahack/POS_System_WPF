@@ -1,0 +1,251 @@
+﻿<UserControl x:Class="FalcaPOS.Sales.Views.AppOrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Sales.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>      
+
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Badged.Background}"></Setter>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>        
+        <Button HorizontalAlignment="Right" Margin="0 0 30 0" Width="120"  Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Command="{Binding RefreshAppOrderCommand}" 
+                Style="{StaticResource MaterialDesignOutlinedButton}">Refresh</Button>
+        <StackPanel Grid.Row="1" Margin="0 0 0 0" >
+
+            <ItemsControl  x:Name="itemcontrol" Style="{StaticResource itemcontrolstyle}" ItemsSource="{Binding appOrderModels,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <materialDesign:Card  Padding="10" Margin="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="8*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Column="0" Grid.Row="0" Margin="10">
+                                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                            <materialDesign:PackIcon                               
+                                Kind="Person"
+                                Style="{StaticResource IconMargin}" />
+                                            <TextBox
+                                x:Name="Name"
+                                Width="180"
+                                Margin="5,0,0,7"
+                                materialDesign:HintAssist.Hint="Name"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="txtcustomernameId"
+                                IsReadOnly="True"
+                                IsEnabled="False"
+                                Text="{Binding Name}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                            <materialDesign:PackIcon                               
+                                Kind="Phone"
+                                Style="{StaticResource IconMargin}" />
+                                            <TextBox
+                                Width="180"
+                                Margin="5,10,0,7"
+                                materialDesign:HintAssist.Hint="Phone"
+                                materialDesign:HintAssist.IsFloating="True"
+                               AutomationProperties.AutomationId="dpSalesViewInvoiceDateId"
+                               IsEnabled="False"
+                                 Text="{Binding Phone}"           
+                               />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                            <materialDesign:PackIcon                               
+                                Kind="Calendar"
+                                Style="{StaticResource IconMargin}" />
+                                            <DatePicker
+                                Width="180"
+                                Margin="5,10,0,7"
+                                materialDesign:HintAssist.Hint="Order Date"
+                                materialDesign:HintAssist.IsFloating="True"
+                                AutomationProperties.AutomationId="dporderDateId"
+                                IsEnabled="False"
+                                SelectedDate="{Binding OrderDate}"
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+
+                                    <StackPanel Grid.Column="1" Grid.Row="0"  Margin="0 12 5 10" Orientation="Horizontal">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon                               
+                                        Kind="MapMarker"
+                                         Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"/>
+
+                                                <TextBlock Margin="5 0 0 0"  Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                                             <Run  Text="SHIPPING ADDRESS" />
+                                                </TextBlock>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Vertical" Margin="15 5 0 0">
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                                    <Label
+                                 Content="{Binding ShippingAddress.Street}" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                                    <Label Margin="0 2 0 0"
+                                 Content="{Binding ShippingAddress.State}" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                                    <Label Margin="0 2 0 0"
+                                 Content="{Binding ShippingAddress.District}" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                                    <Label Margin="0 2 0 0"
+                                 Content="{Binding ShippingAddress.City}" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                                    <Label Margin="0 2 0 0"
+                                 Content="{Binding ShippingAddress.Pincode}" />
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                            
+                                            
+                                        </StackPanel>
+                                       
+                                      <mde:TabControlStepper Visibility="Collapsed" Margin="50 0 0 0" Width="700" x:Name="m_stepper"  
+                                                             IsLinear="{Binding IsLinear,Mode=TwoWay,Converter={StaticResource InverseBoolToVisConverter}}"
+                                                             SelectedIndex="{Binding SelectedIndex}"
+                                                             ContentAnimationsEnabled="True"
+                                                            DoneIconTemplate="{DynamicResource MaterialDesignStepDoneIconTemplate}"
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <TabItem>
+                                                    <TabItem.Header>
+                                                        <mde:StepTitleHeader FirstLevelTitle="Processs" SecondLevelTitle="Store person" />
+                                                    </TabItem.Header>
+                                                </TabItem>
+                                                <TabItem>
+                                                    <TabItem.Header>
+                                                        <mde:StepTitleHeader FirstLevelTitle="InTransit" SecondLevelTitle="Store Person" />
+                                                    </TabItem.Header>
+                                                </TabItem>
+                                               
+                                                <TabItem>
+                                                    <TabItem.Header>
+                                                        <mde:StepTitleHeader FirstLevelTitle="Delivery" SecondLevelTitle="Store Person" />
+                                                    </TabItem.Header>
+                                                </TabItem>
+                                          
+
+
+                                        </mde:TabControlStepper>
+                                       
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Margin="10 2 2 2">
+                                        <TextBlock Margin="0 0 0 0" Padding="5" Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                                         <Run  Text="PRODUCTS" />
+                                        </TextBlock>
+                                        <materialDesign:Card Grid.Row="0" Grid.Column="1" Height="40" Padding="10" Margin="2 2 5 0">
+
+                                            <Grid  >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0"  HorizontalAlignment="Center" Text="SKU"></TextBlock>
+                                                <TextBlock Grid.Column="1" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="Sub Category"></TextBlock>
+                                                <TextBlock Grid.Column="2" Margin="10 0 0 0"   HorizontalAlignment="Center" Text="Brand"></TextBlock>
+                                                <TextBlock Grid.Column="3" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="Product Name"></TextBlock>
+                                                <TextBlock Grid.Column="4" Margin="10 0 0 0" HorizontalAlignment="Center" Text="Order"></TextBlock>
+                                                <TextBlock Grid.Column="5" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="POS Availablity"></TextBlock>
+                                                <TextBlock Grid.Column="6" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="Selling Price"></TextBlock>
+
+                                            </Grid>
+
+                                        </materialDesign:Card>
+                                        <ItemsControl ItemsSource="{Binding Products}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <materialDesign:Card   Height="40" Padding="10"  Margin="2 2 5 0 ">
+                                                        <Grid >
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="0"  HorizontalAlignment="Center" Text="{Binding SKU}"></TextBlock>
+                                                            <TextBlock Grid.Column="1" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="{Binding DepartmentName}"></TextBlock>
+                                                            <TextBlock Grid.Column="2" Margin="10 0 0 0"   HorizontalAlignment="Center" Text="{Binding Brand}"></TextBlock>
+                                                            <TextBlock Grid.Column="3" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="{Binding ProductName}"></TextBlock>
+                                                            <TextBlock Grid.Column="4" Margin="10 0 0 0" HorizontalAlignment="Center" Text="{Binding OrderQty}"></TextBlock>
+                                                            <TextBlock Grid.Column="5" Margin="10 0 0 0" HorizontalAlignment="Center" Text="{Binding StockQty}" Foreground="Green"></TextBlock>
+                                                            <TextBlock Grid.Column="6" Margin="10 0 0 0"  HorizontalAlignment="Center" Text="{Binding SellingPrice}"></TextBlock>
+
+                                                        </Grid>
+                                                    </materialDesign:Card>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Right">
+                                            <Button Visibility="{Binding IsProcess,Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{ Binding DataContext.ProcessCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AppOrdersView}}}"
+                                                    CommandParameter="{Binding}">Process</Button>
+
+                                            <Button Visibility="{Binding IsProcess,Mode=OneWay, Converter={StaticResource InverseBoolToVisConverter}}" Command="{ Binding DataContext.DeliveryCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AppOrdersView}}}"
+                                                    CommandParameter="{Binding}">Delivery</Button>
+                                            
+                                            <Button Command="{ Binding DataContext.CancelCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AppOrdersView}}}" 
+                                                    CommandParameter="{Binding}" Margin="50 0 10 0">Cancel</Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+
+                                </Grid>
+
+                            </materialDesign:Card>
+                        </Grid>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

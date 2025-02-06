@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.Confimationpopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:DialogHost Width="500" Height="100">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <Label HorizontalContentAlignment="Center" FontSize="18">Are you confirm to update?</Label>
+            </StackPanel>
+            <StackPanel
+           Grid.Row="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+
+                <Button
+                Margin="5"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AutomationProperties.AutomationId="btnUpdateConfirmId"
+                Command="{Binding YesCommand}"
+                Content="Yes"
+                Style="{StaticResource RoundTextButton}" />
+                <Button
+                Margin="5"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AutomationProperties.AutomationId="btnUpdateCancelId"
+                Command="{Binding NoCommand}"
+                Content="No"
+                Style="{StaticResource RoundTextButton}" />
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

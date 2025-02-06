@@ -1,0 +1,274 @@
+
+  [
+    {
+      "Types": "Purchase",
+      "PurchaseLedger": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "40000001-Purchase-Exempted",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "40000002-Purchase-Taxable-5%",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "40000003-Purchase-Taxable-12%",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "40000004-Purchase-Taxable-18%",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "40000005-Purchase-Taxable-28%",
+          "Remarks": ""
+
+        }
+      ],
+      "LedgerCGST": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "0%",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "12110001-CGST Input Tax Credit-2.5%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "12110002-CGST Input Tax Credit-6%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "12110003-CGST Input Tax Credit-9%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "12110004-CGST Input Tax Credit-14%",
+          "Remarks": "Within same State"
+
+        }
+      ],
+      "LedgerSGST": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "0%",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "12110005-SGST Input Tax Credit-2.5%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "12110006-SGST Input Tax Credit-6%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "12110007-SGST Input Tax Credit-9%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "12110008-SGST Input Tax Credit-14%",
+          "Remarks": "Within same State"
+
+        }
+
+
+      ],
+      "PurchaseBetweentwostates": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "0%",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "12110009-IGST Input Tax Credit-5%",
+          "Remarks": "Between Two States"
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "12110010-IGST Input Tax Credit-12%",
+          "Remarks": "Between Two States"
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "12110011-IGST Input Tax Credit-18%",
+          "Remarks": "Between Two States"
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "12110012-IGST Input Tax Credit-28%",
+          "Remarks": "Between Two States"
+
+        }
+
+      ]
+
+    },
+    {
+      "Types": "Sales",
+      "SalesLedger": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "30000001-Sales-Exempted",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "30000002-Sales-Taxable-5%",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "30000003-Sales-Taxable-12%",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "30000004-Sales-Taxable-18%",
+          "Remarks": ""
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "30000005-Sales-Taxable-28%",
+          "Remarks": ""
+
+        }
+      ],
+      "LiabilityCGST": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "0%",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "12110013-CGST Output Tax Liability-2.5%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "12110014-CGST Output Tax Liability-6%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "12110015-CGST Output Tax Liability-9%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "12110016-CGST Output Tax Liability-14%",
+          "Remarks": "Within same State"
+
+        }
+      ],
+      "LiabilitySGST": [
+        {
+          "GSTRate": "Nil",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "0%",
+          "LedgerHead": "",
+          "Remarks": "NA"
+
+        },
+        {
+          "GSTRate": "5%",
+          "LedgerHead": "12110017-SGST Output Tax Liability-2.5%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "12%",
+          "LedgerHead": "12110018-SGST Output Tax Liability-6%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "18%",
+          "LedgerHead": "12110019-SGST Output Tax Liability-9%",
+          "Remarks": "Within same State"
+
+        },
+        {
+          "GSTRate": "28%",
+          "LedgerHead": "12110020-SGST Output Tax Liability-14%",
+          "Remarks": "Within same State"
+
+        }
+
+
+      ]
+
+
+    }
+
+  
+
+]

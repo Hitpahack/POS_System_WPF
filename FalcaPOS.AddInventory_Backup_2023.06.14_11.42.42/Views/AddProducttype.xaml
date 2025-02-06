@@ -1,0 +1,124 @@
+﻿<UserControl
+    x:Class="FalcaPOS.AddInventory.Views.AddProducttype"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.AddInventory.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+    </UserControl.Resources>
+    <materialDesign:PopupBox IsPopupOpen="{Binding PopupClose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StaysOpen="True">
+        <materialDesign:PopupBox.ToggleContent>
+            <materialDesign:PackIcon Kind="PlusThick" />
+        </materialDesign:PopupBox.ToggleContent>
+        <Grid Width="200" Margin="8,8,8,8">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="8,8,8,8"
+                FontSize="20"
+                Text="Add Sub Category" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <ComboBox
+                    Width="180"
+                    Margin="0,0,0,10"
+                    materialDesign:HintAssist.Hint="Select Category *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtAddSubCategoryNameId"
+                    DisplayMemberPath="CategoryName"
+                    ItemsSource="{Binding CategoryList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox
+                    Width="180"
+                    Margin="0,0,0,10"
+                    materialDesign:HintAssist.Hint="Sub Category *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtAddSubCategoryNameId"
+                    Text="{Binding ProductTypeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>
+           
+            <!--<StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox
+                    Width="180"
+                    Margin="0,0,0,10"
+                    materialDesign:HintAssist.Hint="Departname code *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtAddProductTypeDeptCodeId"
+                    MaxLength="3"
+                    Text="{Binding DeptCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" >
+
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="" RegularExpression="^[0-9.\-]+$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                <TextBox
+                    Width="180"
+                    Margin="0,0,0,10"
+                    materialDesign:HintAssist.Hint="Last created dept code"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="txtCurrentDeptCodeId"
+                    IsReadOnly="True"
+                    Text="{Binding CurrentDeptCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>-->
+
+
+            <!--<StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox
+                    materialDesign:HintAssist.Hint="ProductType short code*"
+                    materialDesign:HintAssist.IsFloating="True"
+                    MaxLength="3"
+                    Text="{Binding ShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </StackPanel>-->
+
+            <!--<StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox
+                    materialDesign:HintAssist.Hint="HSN/SAC Code"
+                    materialDesign:HintAssist.IsFloating="True"
+                    Width="180"
+                    Text="{Binding HSNCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>-->
+            <Button
+                Grid.Row="4"
+                Width="80"
+                Margin="10"
+                HorizontalAlignment="Right"
+                AutomationProperties.AutomationId="btnAddProductTypeCreateId"
+                Command="{Binding AddProductTypeCommand}"
+                Style="{StaticResource RoundTextButton}">
+                Add
+            </Button>
+        </Grid>
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Opened">
+                <prism:InvokeCommandAction Command="{Binding PopUpOpendCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+    </materialDesign:PopupBox>
+
+</UserControl>

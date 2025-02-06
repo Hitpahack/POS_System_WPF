@@ -1,0 +1,500 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Invoice.Views.InvoiceHome"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FalcaPOS.Invoice.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        
+        <converters:StringToShortDateConverter x:Key="StringToShortDateConverter" />
+        <converters:ArrayToVisibilityConverter x:Key="ArrayToVisibilityConverter" />
+        <converters:BackendRoleToVisibilityConverter x:Key="BackendRoleToVisibilityConverter" />
+        <converters:BackendRoleCollapseVisibilityConverter x:Key="BackendRoleCollapseVisibilityConverter" />
+        <converters:MultiConverter x:Key="MultiConverter"></converters:MultiConverter>
+        <converters:DeleteInvoiceFileVisibilityConverter x:Key="DeleteInvoiceFileVisibilityConverter"></converters:DeleteInvoiceFileVisibilityConverter>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                
+                <StackPanel             
+                Margin="10"
+                Orientation="Vertical">
+                    <Label FontSize="16" FontWeight="Bold">PURCHASE INVOICES</Label>
+                    <Label Margin="0 10 0 0 " Visibility="{Binding Path=TotalCount,Converter={StaticResource NotZeroToVisibilityConverter}}" Content="{Binding TotalCount, Mode=TwoWay}" ContentStringFormat="TOTAL : {0}" />
+                    <StackPanel Margin="0 5 0 0 " Orientation="Horizontal">
+                        <Rectangle Width="15" Height="15" Fill="#FFC107">
+                        </Rectangle>
+                        <Label Margin="10 0 0 0" ToolTip="DC Record">DC Record</Label>
+                    </StackPanel>
+                </StackPanel>
+                <local:DownloadInvoiceListpopUp Visibility="{Binding Path=TotalCount,Converter={StaticResource NotZeroToVisibilityConverter}}"   DataContext="{Binding Path=.,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Margin="5 5 0 0" Width="100" Content="Show only DC" x:Name="isdcctrl" IsChecked="{Binding IsDc,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OnCheckedCommand,ElementName=isdcctrl}"  />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction Command="{Binding DataContext.UnOnCheckedCommand,ElementName=isdcctrl}"  />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
+            </StackPanel>
+          
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    
+                </Grid.ColumnDefinitions>
+
+                <DatePicker Visibility="{Binding FromtoDateVisibilty,Converter={StaticResource InverseBoolToVisConverter}}"
+                    Grid.Column="0" Width="150"
+                    Margin="5,0,10,0"
+                    HorizontalAlignment="Stretch"
+                    materialDesign:HintAssist.Hint="POS Entry From Date *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                    SelectedDate="{Binding FromDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DatePicker Visibility="{Binding FromtoDateVisibilty,Converter={StaticResource InverseBoolToVisConverter}}"
+                    Grid.Column="1" Width="150"
+                    Margin="5,0,10,0"
+                    materialDesign:HintAssist.Hint="POS Entry To Date *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                    SelectedDate="{Binding ToDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+               
+
+                <ComboBox
+                    Grid.Column="2"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Store Name"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Stores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedStore}"
+                    Visibility="{Binding Path=., Converter={StaticResource BackendRoleCollapseVisibilityConverter}}" />
+                <Button
+                    Grid.Column="4"
+                    Margin="10,0,10,0"  Width="120"
+                    Style="{StaticResource RoundTextButton}"
+                    Command="{Binding SearchPurchaseInvoiceCommand}">
+                    Search
+                </Button>
+                <Button
+                    Grid.Column="3"
+                    Margin="10,0,10,0" 
+                    Height="38" Width="38"
+                    Command="{Binding RefreshCommand}"
+                     Style="{StaticResource RoundButton}" >
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"/>
+                    </Button.Content>
+                </Button>
+              
+
+              
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2" Margin="10">
+            <ItemsControl Style="{DynamicResource itemcontrolstyle}" Name="invoiceList" ItemsSource="{Binding InvoiceList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5,5,5,5">
+                            <materialDesign:Card Margin="2">
+                                <Expander HorizontalAlignment="Stretch">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Expanded" >
+                                            <i:InvokeCommandAction Command="{Binding Path=DataContext.FetchProductCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                       AncestorType={x:Type local:InvoiceHome}}}" CommandParameter="{Binding}" />
+                                        </i:EventTrigger>
+
+                                    </i:Interaction.Triggers>
+                                    <Expander.Header >
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                                                <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                <ColumnDefinition Width="3.5*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+
+                                            </Grid.ColumnDefinitions>
+                                            <Rectangle Width="15" Height="15" Grid.Column="0" Visibility="{Binding IsDcNumber, Converter={StaticResource BooleanToVisibilityConverter}}" Fill="#FFC107">
+                                            </Rectangle>
+
+                                            <Label Grid.Column="1"
+                                                Content="{Binding InvoiceNumber}"
+                                                FontSize="12"  ToolTip="{Binding InvoiceNumber}"
+                                                FontWeight="SemiBold" />
+                                            <TextBlock Margin="0 5 0 0" FontSize="14" Grid.Column="2"   Visibility="{Binding IsDcNumber, Converter={StaticResource InverseBoolToVisConverter}}"
+                                                FontWeight="SemiBold"  ToolTip="{Binding InvoiceDate, Converter={StaticResource StringToShortDateConverter}}" Text="{Binding InvoiceDate, Converter={StaticResource StringToShortDateConverter}}"></TextBlock>
+
+                                            
+                                            <TextBlock Margin="0 5 0 0" FontSize="14" Grid.Column="2"   Visibility="{Binding IsDcNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                FontWeight="SemiBold" ToolTip="{Binding DcNumberDate, Converter={StaticResource StringToShortDateConverter}}" Text="{Binding DcNumberDate, Converter={StaticResource StringToShortDateConverter}}"></TextBlock>
+
+                                            <StackPanel Margin="0 -12 0 0" Orientation="Vertical" Grid.Column="3">
+                                                <Label FontSize="09" Foreground="{DynamicResource MahApps.Brushes.Accent}">POS Entry Date</Label>
+                                                <TextBlock  FontSize="14"  
+                                                FontWeight="SemiBold"  ToolTip="{Binding CreatedDate, Converter={StaticResource StringToShortDateConverter}}" Text="{Binding CreatedDate, Converter={StaticResource StringToShortDateConverter}}"></TextBlock>
+
+
+                                            </StackPanel>
+                                            <TextBlock Margin="20 5 0 0" FontSize="14" Grid.Column="4"
+                                                FontWeight="SemiBold"  ToolTip="{Binding SupplierName}" Text="{Binding SupplierName}"></TextBlock>
+                                            <StackPanel Grid.Column="5" Orientation="Horizontal">
+                                                <materialDesign:PackIcon Margin="0 4 0 0" Kind="Rupee"></materialDesign:PackIcon>
+                                                <Label  Content="{Binding GrossTotal}" 
+                                                FontSize="12"
+                                                FontWeight="SemiBold" />
+                                            </StackPanel>
+                                            <Label FontSize="12" FontWeight="Bold" Grid.Column="6" ToolTip="{Binding Path=StoreName}" Content="{Binding Path=StoreName}"></Label>
+                                            <Label FontSize="12" Margin="20 0 0 0" FontWeight="Bold" Grid.Column="7" ToolTip="{Binding InvoiceDays}" Content="{Binding InvoiceDays}"></Label>
+                                           
+                                        </Grid>
+
+                                    </Expander.Header>
+                                    <Grid Margin="20,10,10,0">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="8*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel  Grid.Column="0">
+                                            <StackPanel
+                                               
+                                                Orientation="Horizontal"
+                                                Visibility="{Binding IsDcNumber, Converter={StaticResource InverseBoolToVisConverter}}">
+                                                <Label Content="Invoice Number : " />
+                                                <Label FontSize="12" Content="{Binding InvoiceNumber}" />
+                                            </StackPanel>
+                                            <StackPanel
+                                               
+                                            Margin="0 5 0 0"
+                                                Orientation="Horizontal"
+                                                Visibility="{Binding IsDcNumber, Converter={StaticResource InverseBoolToVisConverter}}">
+                                                <Label Content="Invoice Date : " />
+                                                <Label FontSize="12" Content="{Binding InvoiceDate, Converter={StaticResource StringToShortDateConverter}}" />
+                                            </StackPanel>
+                                            <StackPanel
+                                          
+                                                Orientation="Horizontal"
+                                                Visibility="{Binding IsDcNumber, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <Label FontSize="12" Content="Dc Number : " />
+                                                <Label Content="{Binding DcNumber}" />
+                                                <Button   Visibility="{Binding IsEditButton, Converter={StaticResource BooleanToVisibilityConverter}}"  Margin="10 0 0 0" Height="35" Width="45"
+                                                        Command="{Binding DataContext.EditDcNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type local:InvoiceHome}}}"
+                                                        CommandParameter="{Binding}"
+                                                        ToolTip="Edit dc number"
+                                                        >
+                                                    <Button.Content>
+                                                        <materialDesign:PackIcon Kind="Pencil" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </StackPanel>
+                                            <StackPanel
+                                               
+                                                Orientation="Horizontal"
+                                            Margin="0 5 0 0"
+                                                Visibility="{Binding IsDcNumber, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <Label FontSize="12" Content="Dc  Date : " />
+                                                <Label Content="{Binding DcNumberDate, Converter={StaticResource StringToShortDateConverter}}" />
+                                            </StackPanel>
+                                            <StackPanel  Margin="0 10 0 0" Orientation="Horizontal">
+                                                <Label Content="Store name : " />
+                                                <Label Content="{Binding StoreName}" />
+                                            </StackPanel>
+                                            <Grid   Margin="0,10,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Row="0" Grid.Column="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <StackPanel Grid.Column="0"  Margin="0,5,0,5" HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <Button HorizontalAlignment="Right" HorizontalContentAlignment="Right" 
+                                                         Command="{Binding DataContext.AddFilesCommand, RelativeSource={RelativeSource AncestorType={x:Type local:InvoiceHome}}}"
+                                                            CommandParameter="{Binding InvoiceId}" Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                                            <Button.Content>
+                                                                <materialDesign:PackIcon
+                                                               Width="24"
+                                                              Height="24"
+                                                               Kind="AttachFile" />
+                                                            </Button.Content>
+                                                        </Button>
+                                                        <Label FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Content="ADD/DOWNLOAD INVOICE ATTACHMENTS"></Label>
+                                                    </StackPanel>
+                                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding TempFiles}" Margin="0 0 0 10 ">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <materialDesign:Card
+                                                               materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                                                Height="60" Margin="0 0 0 5" Padding="5"                                
+                                >
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                            <ColumnDefinition Width="8*"></ColumnDefinition>
+                                                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition></RowDefinition>
+                                                                            <RowDefinition></RowDefinition>
+                                                                        </Grid.RowDefinitions>
+
+                                                                        <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                                                                        <Label  Grid.Column="1"                                  
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileName}"
+                                    ToolTip="{Binding FileName}" />
+
+                                                                        <Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />
+
+
+                                                                        <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Right"
+                                     Command="{Binding DataContext.DeleteUploadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:InvoiceHome}}}"
+                                                                            CommandParameter="{Binding FileId}"
+                                                                           
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                                                            <materialDesign:PackIcon Kind="Trash" ToolTip="Remove" />
+                                                                        </Button>
+
+
+                                                                    </Grid>
+                                                                </materialDesign:Card>
+
+
+
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                    <Button Margin="0 0 0 10"
+                                                            Grid.Row="2"
+                                                            Grid.Column="1" HorizontalAlignment="Right"
+                                                    Width="120"
+                                                            Command="{Binding DataContext.UploadInvoiceFilesCommand, RelativeSource={RelativeSource AncestorType={x:Type local:InvoiceHome}}}"
+                                                            CommandParameter="{Binding InvoiceId}"
+                                                            Visibility="{Binding TempFiles, Converter={StaticResource ArrayToVisibilityConverter}, Mode=TwoWay}">
+                                                        Upload Files
+                                                    </Button>
+                                                    <ItemsControl x:Name="fileAttachments" Grid.Row="3" ItemsSource="{Binding FileAttachments}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <materialDesign:Card
+                                                              materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                                              Height="60" Margin="0 0 0 5" Padding="5"                              
+                                                               >
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                            <ColumnDefinition Width="8*"></ColumnDefinition>
+                                                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition></RowDefinition>
+
+                                                                        </Grid.RowDefinitions>
+
+                                                                        <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                                                                        <Label  Grid.Column="1"                              
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileName}"
+                                    ToolTip="{Binding FileName}" />
+
+
+
+
+                                                                        <StackPanel Grid.Row="0"  Grid.Column="2" Orientation="Horizontal">
+                                                                            <Button 
+                                    Command="{Binding DataContext.DownloadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:InvoiceHome}}}"
+                                                                    CommandParameter="{Binding FileId}"
+                                                                   
+                                                Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                                ToolTip="Download">
+                                                                                <Button.Content>
+                                                                                    <materialDesign:PackIcon  Kind="ArrowDownward" />
+                                                                                </Button.Content>
+                                                                            </Button>
+
+                                                                            <Button Visibility="{Binding Path=.,Converter={StaticResource DeleteInvoiceFileVisibilityConverter}}" Padding="0,0,20,0" CommandParameter="{Binding FileId}"     Style="{StaticResource MaterialDesignToolForegroundButton}" Command="{Binding DataContext.DeleteFileCommand,RelativeSource={RelativeSource AncestorType={x:Type local:InvoiceHome}}}">
+                                                                                <Button.Content>
+                                                                                    <materialDesign:PackIcon ToolTip="Delete file"  Kind="Trash" />
+                                                                                </Button.Content>
+                                                                                
+
+                                                                            </Button>
+                                                                        </StackPanel>
+                                                                        
+                                                                    </Grid>
+                                                                </materialDesign:Card>
+
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+
+                                                </Grid>
+
+
+
+
+                                            </Grid>
+
+                                        </StackPanel>
+
+                                        <Grid Grid.Column="1" Margin="5 0 0 0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="250"/>
+                                            </Grid.RowDefinitions>
+                                            <telerik:RadGridView  RowIndicatorVisibility="Collapsed" ShowGroupPanel="False" Grid.Row="0" AutoGenerateColumns="False" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{Binding StockProducts,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                <telerik:RadGridView.Columns>
+                                                    <!--<DataGridTemplateColumn Width="*" Header="DepartName">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label ToolTip="{Binding ProductTypeName}" Content="{Binding ProductTypeName}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+
+                                                    </DataGridTemplateColumn>
+                                                    <DataGridTemplateColumn Width="*" Header="DepartCode">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label Content="{Binding DeptCode}" ToolTip="{Binding DeptCode}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>-->
+
+                                                    <!--</DataGridTemplateColumn>-->
+                                                    <telerik:GridViewColumn Width="*" Header="Product Name">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label ToolTip="{Binding ProductName}" Content="{Binding ProductName}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+                                                    <telerik:GridViewColumn Width="100" Header="SKU">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label ToolTip="{Binding ProductSKU}" Content="{Binding ProductSKU}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+                                                    <telerik:GridViewColumn Width="*" Header="Brand Name">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label ToolTip="{Binding ManufactureName}" Content="{Binding ManufactureName}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+                                                    <telerik:GridViewColumn Width="*" Header="Rate">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label ToolTip="{Binding ProductRate}" Content="{Binding ProductRate}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+                                                    <telerik:GridViewColumn Width="*" Header="Selling Price">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label ToolTip="{Binding ProductSellingPrice}" Content="{Binding ProductSellingPrice}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+
+                                                    <telerik:GridViewColumn Width="*" Header="Qty">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label Content="{Binding ProductSubQty}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+
+                                                    <telerik:GridViewColumn Width="*" Header="MRP">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label Content="{Binding ProductMRP}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+                                                    <telerik:GridViewColumn Width="*" Header="Misc Charge">
+                                                        <telerik:GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Label Content="{Binding Misc}" />
+                                                            </DataTemplate>
+                                                        </telerik:GridViewColumn.CellTemplate>
+
+                                                    </telerik:GridViewColumn>
+
+                                                </telerik:RadGridView.Columns>
+                                            </telerik:RadGridView>
+                                        </Grid>
+
+
+                                    </Grid>
+                                </Expander>
+                            </materialDesign:Card>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Grid>
+
+</UserControl>

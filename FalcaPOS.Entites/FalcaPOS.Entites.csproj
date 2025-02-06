@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1BA75442-F3C1-41B5-A933-190406C2D7AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FalcaPOS.Entites</RootNamespace>
+    <AssemblyName>FalcaPOS.Entites</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Prism, Version=7.2.0.1422, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.2.0.1422\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.5.0.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.5.0.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddInventory\AddStockProductViewModel.cs" />
+    <Compile Include="AddInventory\FileAttachment.cs" />
+    <Compile Include="AddInventory\InvoiceListViewModel.cs" />
+    <Compile Include="AddInventory\StockProductViewModel.cs" />
+    <Compile Include="AddInventory\UpdateInvoiceProductViewModel.cs" />
+    <Compile Include="AddInventory\UpdateInvoiceViewModel.cs" />
+    <Compile Include="Asserts\AddAssertModel.cs" />
+    <Compile Include="Asserts\AssertsModel.cs" />
+    <Compile Include="Asserts\AssertsModelResponse.cs" />
+    <Compile Include="Asserts\SearchAssertsModel.cs" />
+    <Compile Include="Attributes\AttributesCollection.cs" />
+    <Compile Include="Attributes\AttributeType.cs" />
+    <Compile Include="Attributes\AttributeMapping.cs" />
+    <Compile Include="Attributes\IgnorePropertyAttribute.cs" />
+    <Compile Include="Attributes\ProductAttribute.cs" />
+    <Compile Include="Attributes\ProductAttributeMapping.cs" />
+    <Compile Include="Common\ExportHeaderType.cs" />
+    <Compile Include="Common\FileUploadInfo.cs" />
+    <Compile Include="Common\InvoiceSearchParams.cs" />
+    <Compile Include="Common\PDFFileResult.cs" />
+    <Compile Include="Coupon\CouponViewModel.cs" />
+    <Compile Include="Customers\Address.cs" />
+    <Compile Include="Customers\CustomerDetails.cs" />
+    <Compile Include="Dashboard\DashboardCustomer.cs" />
+    <Compile Include="Denomination\DenominationModel.cs" />
+    <Compile Include="Director\PurchaseRateSearchModel.cs" />
+    <Compile Include="Dtos\MapperConfig.cs" />
+    <Compile Include="Dtos\ModelDtos.cs" />
+    <Compile Include="EwayBill\EWayBillModel.cs" />
+    <Compile Include="Finance\FinanceSale.cs" />
+    <Compile Include="Finance\FinanceSearch.cs" />
+    <Compile Include="Finance\TallyExportModel.cs" />
+    <Compile Include="Indent\IndentCreateModel.cs" />
+    <Compile Include="Indent\IndentListSearch.cs" />
+    <Compile Include="Location\Village.cs" />
+    <Compile Include="Location\PincodeDetails.cs" />
+    <Compile Include="Location\District.cs" />
+    <Compile Include="Location\State.cs" />
+    <Compile Include="Login\Login.cs" />
+    <Compile Include="Login\LoginResponse.cs" />
+    <Compile Include="Login\LoginTimeModel.cs" />
+    <Compile Include="Manufacturers\Manufacturer.cs" />
+    <Compile Include="Notification\Notification.cs" />
+    <Compile Include="Products\ProductCreate.cs" />
+    <Compile Include="Products\ProductSearchModel.cs" />
+    <Compile Include="Products\ProductViewModel.cs" />
+    <Compile Include="ProductTypes\ProductType.cs" />
+    <Compile Include="ProductTypes\ProductTypeManufacturer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\InventoryReportModel.cs" />
+    <Compile Include="Rsp\RspSummaryModel.cs" />
+    <Compile Include="Sales\AddSales.cs" />
+    <Compile Include="Sales\BusinessModel.cs" />
+    <Compile Include="Sales\CouponsSchemes.cs" />
+    <Compile Include="Sales\InvoiceDetailsViewModel.cs" />
+    <Compile Include="Sales\SalesInvoice.cs" />
+    <Compile Include="Sales\SalesPayment.cs" />
+    <Compile Include="Sales\SalesProduct.cs" />
+    <Compile Include="Sales\SalesProductSpec.cs" />
+    <Compile Include="Sales\SchemeDTO.cs" />
+    <Compile Include="Sales\SearchParams.cs" />
+    <Compile Include="Sku\Category.cs" />
+    <Compile Include="Sku\ProductCertificateFileInfo.cs" />
+    <Compile Include="Sku\SkuModel.cs" />
+    <Compile Include="StockAge\StockAgeData.cs" />
+    <Compile Include="Stock\AddStockProduct.cs" />
+    <Compile Include="Stock\ClosingStockDetails.cs" />
+    <Compile Include="Stock\ClosingStockSearch.cs" />
+    <Compile Include="Stock\ExpiryStockProductViewModel.cs" />
+    <Compile Include="Stock\SellingPriceUpdateViewModel.cs" />
+    <Compile Include="Stock\StockModelRespons.cs" />
+    <Compile Include="Stock\StockTransferModelForEWayModel.cs" />
+    <Compile Include="Stock\UpdateDCNumberViewModel.cs" />
+    <Compile Include="Stock\UserInvoiceListViewModel.cs" />
+    <Compile Include="Stock\ValidateInputResponse.cs" />
+    <Compile Include="Stores\Store.cs" />
+    <Compile Include="Stores\StoreLicense.cs" />
+    <Compile Include="Suppliers\Supplier.cs" />
+    <Compile Include="Team\RegisterResponse.cs" />
+    <Compile Include="User\User.cs" />
+    <Compile Include="Zone\NewZone.cs" />
+    <Compile Include="Zone\Territory.cs" />
+    <Compile Include="Zone\ZoneTerritoryView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

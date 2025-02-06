@@ -1,0 +1,266 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Stock.Views.StoreStockSearchFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convert="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <convert:StoreSearchAdminBackendConverter x:Key="StoreSearchAdminBackendVisibilityConverter" />
+        <convert:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisConverter"/>
+        <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="Width" Value="150" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="Width" Value="150" />
+        </Style>
+
+    </UserControl.Resources>
+    <Grid Width="auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>       
+            <TextBox Grid.Row="1" Grid.Column="2"
+                      VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Invoice Number"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtStockSeacrhInvoiceNumberId"
+                Text="{Binding Path=StockModelItem.SerialNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <ComboBox 
+                        Grid.Row="0" Grid.Column="0"
+                Margin="0 0 0 0"
+            
+                        Width="150"
+                        Height="40"
+                        Name="cmbProductSearchList"
+                        materialDesign:HintAssist.Hint="Search product"
+                         materialDesign:HintAssist.IsFloating="True"
+                        IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsEditable="True"
+                        IsTextSearchEnabled="True"
+                        ItemsSource="{Binding ProductsSearchList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding SelectedProductSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignComboBox}"
+                        ToolTip="{Binding SelectedProductSearch.ProductName}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding ProductName}" />
+                        <Label Content="{Binding ProductSKU}" ContentStringFormat="(SKU {0})" />
+                        <Label Content="{Binding Brand}" ContentStringFormat="({0})" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <prism:InvokeCommandAction Command="{Binding SearchProductSelectionChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <TextBox Text="{Binding ElementName=cmbProductSearchList, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TextChanged">
+                    <prism:InvokeCommandAction Command="{Binding SearchTextChangedCommand}" CommandParameter="{Binding ElementName=cmbProductSearchList, Path=Text}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+       
+        
+            <ComboBox Grid.Row="0" Grid.Column="1"
+                x:Name="cmbproductTypes"
+                       VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Sub Category"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSeacrhProductTypesId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding ProductTypes}"
+                SelectedValue="{Binding SelectedProductType}"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=StockModelItem.ProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ProductTypeChange}" CommandParameter="{Binding ElementName=cmbproductTypes, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        <TextBox
+                
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Sub Category"
+                 materialDesign:HintAssist.IsFloating="True"
+             Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                  IsEnabled="False"
+                Text="{Binding SelectedSearchProduct.ProductType.Name}" />
+
+        <ComboBox  Grid.Row="0" Grid.Column="2"
+                        VerticalAlignment="Center"
+                x:Name="cmbmanufacture"
+                materialDesign:HintAssist.Hint="Brand"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSeacrhBrandsId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Manufacturers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedManufacturer}"
+                   Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=StockModelItem.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ManufacturerChange}" CommandParameter="{Binding ElementName=cmbmanufacture, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        <TextBox
+                
+                Grid.Row="0"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Brand"
+                materialDesign:HintAssist.IsFloating="True"
+             Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                  IsEnabled="False"
+                Text="{Binding SelectedSearchProduct.Manufacturer.Name}" />
+
+
+        <ComboBox  Grid.Row="0" Grid.Column="3"
+                        VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Product Name"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSeacrhProductsId"
+                Visibility="{Binding SelectedSearchProduct,Converter={StaticResource InvertedNullVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"   
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding ProductDetailsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Path=StockModelItem.ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBox
+                Grid.Row="0"
+                Grid.Column="3"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Product Name"
+                 materialDesign:HintAssist.IsFloating="True"
+             Visibility="{Binding SelectedSearchProduct,Converter={StaticResource NullableToVisibilityConverter},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                  IsEnabled="False"
+                Text="{Binding SelectedSearchProduct.Name}" />
+
+
+        <ComboBox Grid.Row="0" Grid.Column="4"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Reference"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSeacrhReferencesId"
+                ItemsSource="{Binding Reference}"
+                SelectedValue="{Binding Path=StockModelItem.Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+       
+       
+            <DatePicker Grid.Row="1" Grid.Column="0"
+                Width="150"
+                materialDesign:HintAssist.Hint="Invoice From Date"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="dpStockSearchFromId"
+                Text="{Binding Path=StockModelItem.InvoiceFromDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+     
+       
+            <DatePicker  Grid.Row="1" Grid.Column="1"
+                Width="150"
+                materialDesign:HintAssist.Hint="Invoice To Date"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="dpStockSearchToId"
+                Text="{Binding Path=StockModelItem.InvoiceToDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+       
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="0 10 0 0"
+            Visibility="{Binding Path=StockModelItem.IsParent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource InverseBoolToVisConverter}}">
+            <ComboBox
+               
+                x:Name="cmbStore"
+                materialDesign:HintAssist.Hint="Store"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbStockSearchStoresId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Stores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedStore}"
+                VirtualizingPanel.IsContainerVirtualizable="True"
+                VirtualizingPanel.IsVirtualizing="True" />
+        </StackPanel>
+        <!--<StackPanel Grid.Row="2" Grid.Column="0">
+            <TextBox
+                materialDesign:HintAssist.Hint="Specification"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtStockSearchSpecificationNameId"
+                Text="{Binding Path=StockModelItem.Name}"
+                Visibility="{Binding NameVisibility}" />
+
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1">
+            <TextBox
+                Margin="0,0,0,0"
+                materialDesign:HintAssist.Hint="Specification Value"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="txtStockSearchSpecificationValueId"
+                Text="{Binding Path=StockModelItem.Value}"
+                Visibility="{Binding ValueVisibility}" />
+
+        </StackPanel>-->
+       
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="3" Grid.ColumnSpan="2"
+            Margin="20,0,0,0"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Margin="0,0,15,0"
+                AutomationProperties.AutomationId="btnStockSearchStartId"
+                Command="{Binding StockSearch}"
+                CommandParameter="{Binding StockModelItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                Search
+            </Button>
+            <Button
+                Width="80"
+                Margin="15,0,0,0"
+                AutomationProperties.AutomationId="btnStockSearchResetId"
+                Command="{Binding Reset}"
+                 Style="{StaticResource MaterialDesignOutlinedButton}"
+                CommandParameter="{Binding StockModelItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                Reset
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

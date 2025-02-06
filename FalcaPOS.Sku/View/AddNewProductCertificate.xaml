@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="FalcaPOS.Sku.View.AddNewProductCertificate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+               xmlns:local="clr-namespace:FalcaPOS.Sku.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="NewCustomerIcon" TargetType="materialDesign:PackIcon">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0 20 5 0"/>
+        </Style>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,10,0" />
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Width="400" Margin="0 0 0 10" Background="White" Orientation="Vertical">
+        <Border BorderBrush="#252572" BorderThickness="1" Background="#252572">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                Width="100"
+                Height="20"
+                AutomationProperties.AutomationId="imgPopupNewCustomerId"
+                Source="{DynamicResource logo}"/>
+                <TextBlock Grid.Column="1" Foreground="#FFFFFF" Style="{DynamicResource po}" FontSize="20" Text="Add New Certificate" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                <Button AutomationProperties.AutomationId="btnSKUCertificateDataEditExitId"   Grid.Column="2" Foreground="#FFFFFF" HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close"  Content="X" FontSize="20" >
+                </Button>
+            </Grid>
+
+
+        </Border>
+
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="100"/>
+               
+                <RowDefinition Height="63"/>
+            </Grid.RowDefinitions>
+
+            <TextBox AutomationProperties.AutomationId="txtSKUCertificateDataEditBrandId" Text="{Binding Brand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" IsEnabled="False" FontSize="12" Margin="20 10 0 0" Grid.Row="0" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Brand" materialDesign:HintAssist.IsFloating="True" IsReadOnly="True" ></TextBox>
+
+            <StackPanel Margin="20 10 0 0" Grid.Row="1"  Orientation="Horizontal">
+                <materialDesign:PackIcon  Style="{StaticResource IconMargin}" Kind="Certificate"/>
+                <TextBox  Margin="5 0 0 0"   
+                         AutomationProperties.AutomationId="txtSKUCertificateDataEditCertificateNumberId"
+                         Text="{Binding CertificateNo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" materialDesign:HintAssist.Hint="Certificate No. *" materialDesign:HintAssist.IsFloating="True"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2"  Margin="0 5 0 0">
+                <materialDesign:PackIcon Kind="DateRange" Margin="0 20 0 0" Style="{StaticResource IconMargin}"/>
+                <DatePicker AutomationProperties.AutomationId="dpSKUCertificateDataEditIssueDateId" Width="200" Margin="10 0 0 0" DisplayDateEnd="{x:Static sys:DateTime.Today}"  SelectedDate="{Binding IssueDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Issue Date *" materialDesign:HintAssist.IsFloating="True"></DatePicker>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3"  Margin="0 5 0 0">
+                <materialDesign:PackIcon Kind="DateRange" Margin="0 20 0 0" Style="{StaticResource IconMargin}"/>
+                <DatePicker AutomationProperties.AutomationId="dpSKUCertificateDataEditValidUptoDateId" Width="200" Margin="10 0 0 0" DisplayDateStart="{x:Static sys:DateTime.Today}"   SelectedDate="{Binding ValidUpto,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Valid Upto *" materialDesign:HintAssist.IsFloating="True"></DatePicker>
+            </StackPanel>
+
+            <StackPanel Margin="0 20 28 0" Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center">
+                <Button AutomationProperties.AutomationId="btnSKUCertificateDataEditAddBrandCertificateId" Style="{StaticResource MaterialDesignToolForegroundButton}" Margin="3 0 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}" Command="{Binding AddFileAttachmentCommand}" CommandParameter="{Binding}">
+                    <Button.Content>
+                        <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Kind="AttachFile" />
+                    </Button.Content>
+                </Button>
+                <Label FontSize="12" Margin="0 0 14 0" VerticalAlignment="Center" Content="ADD BRAND CERTIFICATE * "></Label>
+            </StackPanel>
+
+            <ItemsControl Width="230" Grid.Row="5" ItemsSource="{Binding FileUploadListInfo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card
+                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                Height="60" Margin="2" Padding="5"                                
+                                >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+
+
+
+                                <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                                <Label  Grid.Column="1"                                  
+                                   AutomationProperties.AutomationId="lblSKUCertificateDataEditBrandCertificateFileNameId"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileName}"
+                                    ToolTip="{Binding FileName}" />
+
+                                <Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                       AutomationProperties.AutomationId="lblSKUCertificateDataEditBrandCertificateFileSizeId"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />
+
+
+                                <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Right"
+                                    Foreground="Red"  
+                                    AutomationProperties.AutomationId="btnSKUCertificateDataEditBrandCertificateDeleteId"
+                                    Command="{Binding DataContext.DeleteFileAttachmentCommand,RelativeSource={RelativeSource  AncestorType={x:Type local:AddNewProductCertificate}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <materialDesign:PackIcon Kind="Trash" ToolTip="Remove" />
+                                </Button>
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+
+            <StackPanel Margin="0 10 0 10" Grid.Row="6"  Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button AutomationProperties.AutomationId="btnSKUCertificateDataEditSaveId" Width="120" Margin="0 0 0 0" Style="{DynamicResource RoundTextButton}" CommandParameter="{Binding ElementName=btnclose}" Command="{Binding SaveCommand}">Save</Button>
+                <Button AutomationProperties.AutomationId="btnSKUCertificateDataEditRefreshId"  Width="50" Margin="10 0 0 0"  Style="{DynamicResource RoundButton}" CommandParameter="{Binding}"   Command="{Binding RefreshCommand}" >
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh"></materialDesign:PackIcon>
+                    </Button.Content>
+                </Button>
+
+            </StackPanel>
+
+
+
+
+            <Image Grid.Column="2" Height="500" Grid.RowSpan="9" Margin="20 0 0 0" StretchDirection="Both" Source="{DynamicResource greenshadow_addcustomer}">
+
+            </Image>
+        </Grid>
+    </StackPanel>
+</UserControl>

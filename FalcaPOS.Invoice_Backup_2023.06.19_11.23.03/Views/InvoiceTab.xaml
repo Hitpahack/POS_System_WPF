@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="FalcaPOS.Invoice.Views.InvoiceTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Invoice.Views"
+              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:constants="clr-namespace:FalcaPOS.Common.Constants;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Controls:MetroTabControl
+        Margin="0,10,0,0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="Segoe UI"
+        Controls:HeaderedControlHelper.HeaderFontSize="18"
+        Controls:TabControlHelper.Underlined="TabItems"
+        AutomationProperties.AutomationId="tcpurchasehomeId"
+        Background="Transparent"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+
+        <Controls:MetroTabItem
+            AutomationProperties.AutomationId="tipurchaseId"
+            Header="Purchase Invoice"
+            >
+            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_PURCHASE_INVOICE}" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem Visibility="Collapsed"
+            AutomationProperties.AutomationId="tipurchasereturnId"
+            Header="Purchase Returns">
+            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_PURCHASE_RETURNS}" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem
+            AutomationProperties.AutomationId="tipurchasereturnId"
+            Header="CreditNote View">
+            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_PURCHASE_RETURNS_VIEW}" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem Visibility="{Binding IsViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+            AutomationProperties.AutomationId="ticreditnotesummaryId"
+            Header="CreditNote Summary">
+            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_CREDITNOTE_SUMMARY}" />
+        </Controls:MetroTabItem>
+
+
+    </Controls:MetroTabControl>
+</UserControl>

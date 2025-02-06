@@ -1,0 +1,186 @@
+﻿<UserControl x:Class="FalcaPOS.Suppliers.Views.SupplierList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Suppliers.Views"             
+              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             xmlns:prims="http://prismlibrary.com/"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             prims:ViewModelLocator.AutoWireViewModel="True"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0 15 0 0">
+            <Label Content="{Binding RowCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label FontSize="17" Margin="0 10 0 0">Add Supplier</Label>
+            <ContentControl prims:RegionManager.RegionName="AddSupplier" />
+           
+            <Button       Width="38"
+                          Height="38"
+                        Margin="100,0,0,0"
+                        Style="{StaticResource RoundButton}"
+                        Command="{Binding RefreshSupplierlistCommand}"
+                        >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+            </Button>
+            <Button  Margin="30 0 0 0"    
+                   Name="btnSave"
+                   Width="38"
+                     Height="38"
+                  Command="{Binding GetSupplieDetailCommand}"
+                     CommandParameter="{Binding}"
+                  Style="{StaticResource RoundButton}"
+                  ToolTip="Download Excel">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <telerik:RadGridView      Margin="0,0,0,200"
+                    AutoGenerateColumns="False"
+                    AutomationProperties.AutomationId="dgFinancesalesId"
+                    CanUserDeleteRows="False"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="True"   
+                    Background="White"
+                   RowIndicatorVisibility="Collapsed"
+                                 ShowGroupPanel="False"
+                    RowDetailsVisibilityMode="VisibleWhenSelected"
+                    ScrollViewer.CanContentScroll="True"
+                   Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Suppliers,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <telerik:RadGridView.Columns>
+
+
+                <telerik:GridViewColumn Width="*" Header="Name">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+                <telerik:GridViewColumn Width="*" Header="GSTIN">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding GstNumber}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="PAN">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding PAN}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="Suppliertype">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Suppliertype}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+
+                <telerik:GridViewColumn Width="*" Header="Tally Code">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding TallyCode}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+
+                <telerik:GridViewColumn Width="*" Header="Phone number">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Address.Phone}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="Email">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Address.Email}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="District">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Address.District}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="State">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Address.State}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+
+
+                <telerik:GridViewColumn Width="*" Header="Pincode">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Address.Pincode}" />
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+                <telerik:GridViewColumn Width="*" Header="">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button 
+                                    Name="btnNewTab"
+                                    Width="50"
+                                    Command="{Binding DataContext.CreateNewSuppliertabCommand, RelativeSource={RelativeSource AncestorType={x:Type local:SupplierList}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    ToolTip="Details">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="ListStatus" />
+
+                                        </StackPanel>
+
+                                    </Button.Content>
+
+                                </Button>
+
+
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+            </telerik:RadGridView.Columns>
+          
+
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="FalcaPOS.Indent.Views.IntentPopupStatusChange"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+           xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Indent.Views" 
+             mc:Ignorable="d" 
+              xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <StackPanel  Width="350" Height="270" Background="White" Orientation="Vertical">
+        <Button HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Foreground="Red" Content="X" FontSize="20" >
+        </Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                 <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="currentstatus" Grid.Row="0" FontSize="12" Foreground="{DynamicResource MahApps.Brushes.Accent}"  Margin="20 0 0 0"  HorizontalAlignment="Center" Text="{Binding CurrentStatus}" ></TextBlock>
+            <RadioButton x:Name="approvel" Grid.Row="1" Width="200"  Margin="0 20 0 0" HorizontalAlignment="Center" IsChecked="{Binding NextStatus, Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter=Approve}" Content="Approve"></RadioButton>
+            <RadioButton x:Name="reject" IsEnabled="False" Grid.Row="2" Width="200" Margin="0 20 0 0" HorizontalAlignment="Center" IsChecked="{Binding NextStatus , Converter={StaticResource ResourceKey=RadioButtonConverter}, ConverterParameter=Reject}" Content="Reject"></RadioButton>
+
+            <TextBox x:Name="reason" Width="200" Grid.Row="3" Margin="0 10 0 0" Visibility="{Binding IsReasonVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" materialDesign:HintAssist.Hint="Reason" materialDesign:HintAssist.IsFloating="True"  Text="{Binding Reason}"></TextBox>
+            <Button Width="200"  Command="{Binding DataContext. SubmitCommand,RelativeSource={RelativeSource AncestorType={x:Type local:IntentPopupStatusChange}}}" CommandParameter="{Binding ElementName=btnclose}" VerticalAlignment="Bottom" x:Name="btnsendrequest" Margin="0 30 0 0"  Grid.Row="4">
+                    Update
+                </Button >
+            </Grid>
+       
+    </StackPanel>
+</UserControl>

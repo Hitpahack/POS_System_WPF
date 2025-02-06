@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="FalcaPOS.Stock.Views.StockApproval"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+              xmlns:Converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+            xmlns:prism="http://prismlibrary.com/"
+            Padding="10"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converter:ArrayToVisibilityConverter x:Key="ArrayToVisibility" />
+        <Converter:ArrayToVisibilityInverseConverter x:Key="InverseArrayToVisibility" />
+        <Style x:Key="Iconmargin" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5 0 0 0"></Setter>
+        </Style>
+        <Style x:Key="GridViewToggleButtonColumnStyle"
+TargetType="telerik:GridViewCell" BasedOn="{StaticResource GridViewCellStyle}">
+            <Setter Property="Padding"
+		Value="0,0,0,0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Margin="0 0 10 0" Width="38" Height="38" Style="{StaticResource RoundButton}" Command="{Binding StockApprovalRefreshCommand}">
+            <materialDesign:PackIcon Kind="Refresh"/>
+        </Button>
+        <telerik:RadGridView VirtualizingPanel.VirtualizationMode="Recycling" Visibility="{Binding StockTransferRequest, Converter={StaticResource ArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" 
+                            Grid.ColumnSpan="2" 
+                            ShowGroupPanel="True"
+                            RowIndicatorVisibility="Collapsed" 
+                              
+                            ScrollViewer.CanContentScroll="True"
+                            IsReadOnly="True"
+                            AutoGenerateColumns="False"
+                            CanUserReorderColumns="False" 
+                            IsFilteringAllowed="True"
+                             Margin="0 0 0 200"                    
+                            ItemsSource="{Binding StockTransferRequest,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewToggleRowDetailsColumn CellStyle="{StaticResource GridViewToggleButtonColumnStyle}" />
+                <telerik:GridViewDataColumn Width="*" Header="SR No." DataMemberBinding="{Binding SRNumber}"/>
+                <telerik:GridViewDataColumn Width="*" Header="SR Date" DataMemberBinding="{Binding SRDate}"/>
+                <telerik:GridViewDataColumn Width="*" Header="From" DataMemberBinding="{Binding FromLocation}"/>
+                <telerik:GridViewDataColumn Width="*" Header="To" DataMemberBinding="{Binding ToLocation}"/>
+                <telerik:GridViewDataColumn Width="*" Header="Status" DataMemberBinding="{Binding Status}"/>
+                <telerik:GridViewColumn Header=""  Width="250">
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button 
+Style="{StaticResource MaterialDesignIconButton}"  
+Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:StockApproval}}, Path=DataContext.EditQtyChangeCommand}"    
+CommandParameter="{Binding}">
+                                    <materialDesign:PackIcon Kind="Pencil"/>
+                                </Button>
+                                <Button 
+                         Content="Approve"
+                         Style="{StaticResource RoundTextButton}"  
+                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:StockApproval}}, Path=DataContext.StockTransferApproveCommand}"    
+                         CommandParameter="{Binding}">
+                                </Button>
+                                <Button 
+                                    Content="Reject"
+                                    Style="{StaticResource RoundTextButtonRedColor}"   
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:StockApproval}}, Path=DataContext.StockTransferRejectCommand}"    
+                                    CommandParameter="{Binding}">
+                                </Button>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                </telerik:GridViewColumn>
+
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.RowDetailsTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <telerik:RadGridView         
+                          IsFilteringAllowed="False"
+                          ShowGroupPanel="False"
+                          RowIndicatorVisibility="Collapsed"
+                          AutoGenerateColumns="False"
+                          ItemsSource="{Binding transferProducts,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn IsReadOnly="True" Header="Category" DataMemberBinding="{Binding Category}"/>
+                                <telerik:GridViewDataColumn IsReadOnly="True" Header="Sub Category" DataMemberBinding="{Binding SubCategory}"/>
+                                <telerik:GridViewDataColumn IsReadOnly="True" Header="SKU" DataMemberBinding="{Binding ProductSKU}"/>
+                                <telerik:GridViewDataColumn IsReadOnly="True" Header="Brand" DataMemberBinding="{Binding Brand}"/>
+                                <telerik:GridViewDataColumn IsReadOnly="True" Header="Product" DataMemberBinding="{Binding ProductName}"/>
+                                <telerik:GridViewDataColumn IsReadOnly="True" Header="Transfer Qty" DataMemberBinding="{Binding TransferQty}"/>
+                              
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+                    </Grid>
+                </DataTemplate>
+            </telerik:RadGridView.RowDetailsTemplate>
+        </telerik:RadGridView>
+
+        <Label
+    Grid.Row="1"
+Grid.ColumnSpan="2"
+      HorizontalAlignment="Center"
+     VerticalAlignment="Center"
+      Content="No Records found"
+      FontSize="20"
+      FontStyle="Normal"
+   Visibility="{Binding StockTransferRequest, Converter={StaticResource InverseArrayToVisibility}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+    />
+    </Grid>
+
+</UserControl>

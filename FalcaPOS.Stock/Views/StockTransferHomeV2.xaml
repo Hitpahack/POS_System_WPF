@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="FalcaPOS.Stock.Views.StockTransferHomeV2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Stock.Views" xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+    Padding="10"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Controls:MetroTabControl
+        Margin="0,5,0,0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="Segoe UI"
+        Controls:HeaderedControlHelper.HeaderFontSize="18"
+        Controls:TabControlHelper.Underlined="TabItems"
+        AutomationProperties.AutomationId="tcStockHomeId"
+        Background="white"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tiStockTransferId" Visibility="{Binding IsTransferVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BooleanToVisibilityConverter}}"   Header="Create Request">
+            <ContentControl prism:RegionManager.RegionName="StockTransferHome" />
+        </Controls:MetroTabItem>
+       
+        <Controls:MetroTabItem AutomationProperties.AutomationId="tiStocksTransferSearchRequestId" Visibility="{Binding IsTransferSearchVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BooleanToVisibilityConverter}}"   Header="Search Request">
+            <ContentControl prism:RegionManager.RegionName="StockTransferSearch" />
+        </Controls:MetroTabItem>
+      
+        
+    </Controls:MetroTabControl>
+</UserControl>

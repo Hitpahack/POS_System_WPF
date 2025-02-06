@@ -1,0 +1,213 @@
+﻿<UserControl x:Class="FalcaPOS.Denomination.View.NewDenominationFinanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+               xmlns:converter="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:FalcaPOS.Denomination.View"
+               xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" x:Key="HorizontalExpanderContentTextBlock">
+            <Setter Property="Opacity" Value=".68"/>
+            <Setter Property="Text" Value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="VerticalExpanderContentTextBlock" BasedOn="{StaticResource HorizontalExpanderContentTextBlock}">
+            <Setter Property="MaxWidth" Value="180"/>
+        </Style>
+
+        <Style TargetType="{x:Type Border}" x:Key="HorizontalDividerBorder">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="1"/>
+        </Style>
+
+        <Style TargetType="{x:Type Border}" x:Key="VerticalDividerBorder" BasedOn="{StaticResource HorizontalDividerBorder}">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="1"/>
+        </Style>
+        <Style x:Key="stylelabel" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 5 0 0"></Setter>
+        </Style>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+        <converter:ArrayToVisibilityConverter x:Key="Arraytovisible"></converter:ArrayToVisibilityConverter>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}" />
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ComboBox
+                   Width="200"
+                    Margin="0,0,40,0"
+                HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Store Name"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Stores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding SelectedStore}"
+                    />
+            <DatePicker Width="160"
+                        Margin="0 0 40 0"
+                        DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:HintAssist.Hint="From Date" 
+                        materialDesign:TextFieldAssist.HasClearButton="True" 
+                        Text="{Binding FromDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </DatePicker>
+
+
+            <DatePicker Width="160"
+                        Margin="0 0 40 0"
+                        DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:HintAssist.Hint="To Date" 
+                        materialDesign:TextFieldAssist.HasClearButton="True" 
+                        Text="{Binding ToDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </DatePicker>
+            <Button  Margin="10 0 20 0"
+                     Height="38" Width="38" 
+                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:NewDenominationFinanceView}}, 
+                     Path=DataContext.ResetDenominationCommand}"  
+                     CommandParameter="{Binding}"  
+                     Style="{StaticResource RoundButton}" >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+            </Button>
+            <Button Margin="10 0 0 0" Style="{StaticResource RoundButton}"   IsEnabled="{Binding IsExportEnabled}" ToolTip="Download XL File" Height="38" Width="38"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:NewDenominationFinanceView}}, Path=DataContext.DenominationExportCommand}"  CommandParameter="{Binding}">
+                <Button.Content>
+                    <Image Width="17" Height="17" Source="{DynamicResource Grid_Download}"/>
+                </Button.Content>
+            </Button>
+            <Button  Margin="10 0 20 0" 
+                     
+                     Style="{StaticResource RoundTextButton}"
+                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:NewDenominationFinanceView}}, 
+                     Path=DataContext.FetchDenominationCommand}" 
+                     CommandParameter="{Binding}">SEARCH</Button>
+           
+            
+
+        </StackPanel>
+       
+        <!--<ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
+            <local:DenominationView Margin="0 10 0 10"  Visibility="{Binding IsVisiblePage,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center"  DenominationModel="{Binding Path=DenominationModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding Path=.,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></local:DenominationView>
+
+        </ScrollViewer>-->
+        <DataGrid Margin="0 0 0 170" CanUserAddRows="False" Visibility="{Binding DenominationModel,Converter={StaticResource Arraytovisible},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  AlternatingRowBackground="#e3e3e3" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="3" 
+                  AutoGenerateColumns="False" 
+                  ItemsSource="{Binding DenominationModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*" Header="OnDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding DenominationDate}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Store">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Store}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Opening Cash">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding OpeningCash}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Cash Sale">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Cash}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Cash Return">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding SalesReturnCash}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn Width="*" Header="Credit Sale">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left"  Text="{Binding Credit}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTemplateColumn Width="*" Header="UPI Sale">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding UPI}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Total Sales">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding TotalSales}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Bank Deposit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding Deposit}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Closing Cash">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding ClosingCash}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Margin="0 0 0 0" Width="50" Height="25" Style="{StaticResource MaterialDesignOutlinedButton}" ToolTip="Denomination View"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:NewDenominationFinanceView}}, Path=DataContext.NoteDetailsViewCommand}"  CommandParameter="{Binding}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon Kind="Eye" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+    </Grid>
+
+</UserControl>

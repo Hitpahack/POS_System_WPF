@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="FalcaPOS.PurchaseReturns.View.PurchaseReturnHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.PurchaseReturns.View"
+              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+            xmlns:constants="clr-namespace:FalcaPOS.Common.Constants;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+              Background="White"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <!--<Controls:MetroTabControl
+        Margin="0,10,0,0"
+        Controls:HeaderedControlHelper.HeaderFontFamily="Segoe UI"
+        Controls:HeaderedControlHelper.HeaderFontSize="18"
+        Controls:TabControlHelper.Underlined="TabItems"
+        AutomationProperties.AutomationId="tcHomeId"
+        Background="Transparent"
+    
+         SelectedIndex="{Binding SelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+
+        <Controls:MetroTabItem 
+            AutomationProperties.AutomationId="ticreateId"
+            Header="Create" >
+            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_STORE_PURCHASE_RETURNS}" />
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem 
+            AutomationProperties.AutomationId="tiviewId"
+
+            Header="View">
+            <ContentControl prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_STORE_PURCHASE_RETURNS_VIEW}" />
+        </Controls:MetroTabItem>
+       
+      
+
+    </Controls:MetroTabControl>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button
+                   Margin="0 10 0 0" 
+                   FontSize="15Px" 
+                    Cursor="Hand"
+                   Style="{DynamicResource PoppinsMedium}" 
+                   Foreground="#252572" 
+                  Background="Transparent"
+                BorderBrush="Transparent"
+                   Height="28" 
+                   HorizontalAlignment="Right" 
+               
+                 Visibility="{Binding IsCreate,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                Command="{Binding ViewRequestCommand}" CommandParameter="{Binding}">
+            <Button.Content>
+                <TextBlock AutomationProperties.AutomationId="tbPurchaseReturnViewRequestId"  TextDecorations="Underline" Text="View Request"></TextBlock>
+            </Button.Content>
+        </Button>
+
+        <Button
+                   Margin="0 10 0 0" 
+                   FontSize="15px" 
+                  Style="{DynamicResource PoppinsMedium}"
+                   Foreground="#252572" 
+                  Background="Transparent"
+                BorderBrush="Transparent"
+                   Height="28" 
+                Visibility="{Binding IsView,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                   HorizontalAlignment="Right" 
+                Command="{Binding BackCommand}" CommandParameter="{Binding}">
+            <Button.Content>
+                <TextBlock AutomationProperties.AutomationId="tbPurchaseReturnViewRequestBackId" TextDecorations="Underline" Text="Back"></TextBlock>
+            </Button.Content>
+        </Button>
+        <ContentControl x:Name="ctncreate" 
+                        Visibility="{Binding IsCreate,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Grid.Row="1" prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_STORE_PURCHASE_RETURNS}" />
+        <ContentControl x:Name="ctnview" 
+                        Visibility="{Binding IsView,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Grid.Row="1" prism:RegionManager.RegionName="{x:Static constants:AppConstants.REGION_STORE_PURCHASE_RETURNS_VIEW}" />
+    </Grid>
+   
+</UserControl>

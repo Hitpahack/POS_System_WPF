@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="FalcaPOS.Sku.View.AddSKU"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:FalcaPOS.Sku.View"
+               xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ArrayToVisibilityConverter x:Key="ArrayToVisibilityConverter" />
+        <converters:ArrayToVisibilityInverseConverter x:Key="ArrayToVisibilityInverseConverter" />
+        
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"></RowDefinition>
+           
+            <RowDefinition></RowDefinition>
+          
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.ColumnSpan="2" Margin="0 0 0 0"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button  AutomationProperties.AutomationId="btnSKUCreateCreateId" Content="Create" Width="120" Margin="10" Command="{Binding CreateSKURequest}" CommandParameter="{Binding}" Style="{StaticResource RoundTextButton}"></Button>
+
+            <Button  AutomationProperties.AutomationId="btnSKUCreateRefreshId" Width="38" Height="38" Margin="50 10 10 10"  Command="{Binding ResetSKURequest}" Style="{StaticResource RoundButton}">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button.Content>
+           </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            
+            
+            <ComboBox Grid.Column="0" Width="200" Margin="50 0 0 0"
+                  
+                    materialDesign:HintAssist.Hint="Category"
+                    materialDesign:HintAssist.IsFloating="True"
+                    AutomationProperties.AutomationId="cmbSKUCreateCategoryId"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  DisplayMemberPath="CategoryName"
+                  ItemsSource="{Binding CategoryList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValue="{Binding SelectedCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding DataContext.CategorySelectionChangeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddSKU}}}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+            <ComboBox Grid.Column="0" Width="200" Margin="50 0 0 0"
+                  
+                    materialDesign:HintAssist.Hint="Sub Category"
+                    materialDesign:HintAssist.IsFloating="True"
+                       AutomationProperties.AutomationId="cmbSKUCreateSubCategoryId"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  DisplayMemberPath="SubCategoryName"
+                  ItemsSource="{Binding SubCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValue="{Binding SelectedSubCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding DataContext.SubCategoryChangeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddSKU}}}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+            <TextBox Grid.Column="0"
+                      materialDesign:HintAssist.IsFloating="True"
+                      materialDesign:HintAssist.Hint="Last Product SKU"
+                      AutomationProperties.AutomationId="txtSKUCreateLastProductSKUId"
+                     Text="{Binding LastSKU,Mode=TwoWay}"
+                      Width="100"
+                      IsEnabled="False"
+                      Margin="50 0 0 0"
+                     VerticalAlignment="Center" HorizontalAlignment="Left">
+
+            </TextBox>
+            
+           
+
+
+        </StackPanel>
+       
+        
+
+        <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource itemcontrolstyle}" Margin="0 10 0 0"   ItemsSource="{Binding BrandCards, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:BrandCard
+                                    AddBrandCardCommand="{Binding DataContext.AddBrandCardCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}"
+                                    DataContext="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    RemoveBrandCardCommand="{Binding DataContext.RemoveBrandCardCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}" 
+                                    AddFileAttachmentCommand="{Binding DataContext.AddFileAttachmentCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}"
+                                    FileUploadListInfo="{Binding  Path=FileUploadListInfo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  ViewFileAttachmentCommand="{Binding DataContext.ViewFileAttachmentCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}"
+                         DeleteUploadFileCommand="{Binding DataContext.DeleteUploadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}"
+                        />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        
+    </Grid>
+</UserControl>

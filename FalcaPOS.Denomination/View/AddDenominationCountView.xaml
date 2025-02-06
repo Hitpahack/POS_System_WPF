@@ -1,0 +1,418 @@
+﻿<UserControl x:Class="FalcaPOS.Denomination.View.AddDenominationCountView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+            xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+             xmlns:local="clr-namespace:FalcaPOS.Denomination.View"
+              xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="600
+             ">
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,10,0" />
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        <SolidColorBrush x:Key="MaterialCardColour" Color="#F5F5F5"/>
+        <SolidColorBrush x:Key="MaterialCardHighlightColour" Color="#B7B7B7"/>
+    </UserControl.Resources>
+    <StackPanel Width="470" Background="White" Orientation="Vertical">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.ColumnSpan="2" Height="60px" Background="{DynamicResource MahApps.Brushes.Accent}" Orientation="Horizontal">
+                <Image Margin="10 5 0 0" Width="45px" Height="36px" HorizontalAlignment="Left" Source="{DynamicResource logo}"></Image>
+                <TextBlock Margin="20 5 0 0" Foreground="White" VerticalAlignment="Center" Style="{DynamicResource PoppinsMedium}" FontSize="15px" Text="">Denomination</TextBlock>
+                <Button AutomationProperties.AutomationId="btnEODAddDenominationExitId" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Margin="240 0 0 0" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}"  ToolTip="Close" Foreground="White" Content="X" FontSize="20" >
+                </Button>
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="110"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="3" materialDesign:ShadowAssist.ShadowEdges="None" Background="{StaticResource MaterialCardColour}" Margin="10 10 0 10">
+                    <Grid Grid.Row="0" Grid.ColumnSpan="3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">-->
+
+                        <Label HorizontalContentAlignment="Left" FontFamily="{DynamicResource Poppins}" FontSize="14" Grid.Row="0" FontWeight="Bold" Grid.Column="0" Foreground="#9B9B9A" Content="Closing Cash Balance"></Label>
+                        <materialDesign:PackIcon Kind="Rupee" HorizontalAlignment="Left" Margin="0 8 0 0" Grid.Row="0" Grid.Column="1" Foreground="#9B9B9A" Style="{StaticResource IconMargin}"/>
+                        <Label  AutomationProperties.AutomationId="lblEODAddDenominationClosingCashBalanceId" FontWeight="Bold" FontSize="14" Foreground="#9B9B9A" HorizontalAlignment="Left" Margin ="25 0 0 0"  Grid.Row="0" Grid.Column="1" Content="{Binding DenominationModel.ClosingCash}"></Label>
+                        <!--</StackPanel>-->
+
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="3" Grid.Row="10">-->
+                        <Label  HorizontalContentAlignment="Left" FontFamily="{DynamicResource Poppins}" Grid.Row="1" Grid.Column="0" FontSize="14" FontWeight="Bold" Content="Sales Return Cash"></Label>
+                        <materialDesign:PackIcon Kind="Rupee" Margin="0 8 0 0"  Grid.Row="1" Grid.Column="1" Style="{StaticResource IconMargin}"/>
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenominationSalesReturnCashId" x:Name="txtsalesreturn" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="30,-15,0,0" Grid.Row="1" Grid.Column="1" MaxLength="7" HorizontalAlignment="Left" VerticalAlignment="Center" Width="60" FontSize="14"  
+                             Text="{Binding DenominationModel.SalesReturnCash,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterDaySalesReturnCashCommand}" CommandParameter="{Binding ElementName=txtsalesreturn}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <!--</StackPanel>-->
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">-->
+                        <Label  HorizontalContentAlignment="Left" FontSize="14" FontWeight="Bold" Grid.Column="0" Grid.Row="2" Margin="0 5 20 0" Foreground= "#9B9B9A" Content="Cash in Hand"></Label>
+                        <materialDesign:PackIcon Kind="Rupee" Margin="0 13 0 0" Grid.Column="1" Grid.Row="2" Foreground="#9B9B9A" Style="{StaticResource IconMargin}"/>
+                        <Label AutomationProperties.AutomationId="lblEODAddDenominationcashInHandId" FontWeight="Bold" FontSize="14" Foreground= "#9B9B9A" Margin="25 5 0 0" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Content="{Binding DenominationModel.ClosingCash}"></Label>
+                        <!--</StackPanel>-->
+                    </Grid>
+                </materialDesign:Card>
+                <!--<Grid Grid.Row="0" Grid.ColumnSpan="3" >
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        -->
+                <!--<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">-->
+                <!--
+                    
+                            <Label HorizontalContentAlignment="Left" FontSize="14" Grid.Row="0" FontWeight="Bold" Grid.Column="0" Foreground="#9B9B9A" Content="Closing Cash Balance"></Label>
+                            <materialDesign:PackIcon Kind="Rupee" HorizontalAlignment="Left" Margin="0 8 0 0" Grid.Row="0" Grid.Column="1" Foreground="#9B9B9A" Style="{StaticResource IconMargin}"/>
+                    <Label FontWeight="Bold" FontSize="14" Foreground="#9B9B9A" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Content="{Binding DenominationModel.ClosingCash}"></Label>
+                        -->
+                <!--</StackPanel>-->
+
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="3" Grid.Row="10">-->
+                <!--
+                            <Label  HorizontalContentAlignment="Left" Grid.Row="1" Grid.Column="0" FontSize="14" FontWeight="Bold" Content="Sales Return Cash"></Label>
+                    <materialDesign:PackIcon Kind="Rupee" Margin="0 8 0 0"  Grid.Row="1" Grid.Column="1" Style="{StaticResource IconMargin}"/>
+                    <TextBox x:Name="txtsalesreturn" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20 0 0 0" Grid.Row="1" Grid.Column="1" MaxLength="7" HorizontalAlignment="Right" VerticalAlignment="Center" Width="96" FontSize="14"  
+                             Text="{Binding DenominationModel.SalesReturnCash,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="KeyUp">
+                                        <i:InvokeCommandAction Command="{Binding EnterDaySalesReturnCashCommand}" CommandParameter="{Binding ElementName=txtsalesreturn}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <i:Interaction.Behaviors>
+                                    <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        -->
+                <!--</StackPanel>-->
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">-->
+                <!--
+                            <Label  HorizontalContentAlignment="Left" FontSize="14" FontWeight="Bold" Grid.Column="0" Grid.Row="2" Margin="0 0 20 0" Foreground= "#9B9B9A" Content="Cash in Hand"></Label>
+                    <materialDesign:PackIcon Kind="Rupee" Margin="0 8 0 0" Grid.Column="1" Grid.Row="2" Foreground="#9B9B9A" Style="{StaticResource IconMargin}"/>
+                    <Label FontWeight="Bold" FontSize="14" Foreground= "#9B9B9A" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Content="{Binding DenominationModel.ClosingCash}"></Label>
+                        -->
+                <!--</StackPanel>-->
+                <!--
+                    </Grid>-->
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="1" Grid.ColumnSpan="3"  Margin="10,0,0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Margin="10 0 0 0">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label  HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="2000"></Label>
+                        </StackPanel>
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination2000Id" x:Name="txt2000" MaxLength="4" Grid.Column="1" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96" Grid.Row="1" Text="{Binding DenominationModel.notes_2000,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount2000Command}" CommandParameter="{Binding ElementName=txt2000}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <Label  Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}"  HorizontalContentAlignment="Right" FontSize="14"  Grid.Column="2" Grid.Row="1"  Content="{Binding DenominationModel.notes_2000}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" Width="100" >
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount2000Id"  HorizontalContentAlignment="Left" Width="80"  Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin2000}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="2" Grid.ColumnSpan="3" Margin="10,2,0,5" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Row="2" Width="56">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="500"></Label>
+                        </StackPanel>
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination500Id" x:Name="txt500"  Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" MaxLength="4"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96"  Grid.Column="1" Grid.Row="2" Text="{Binding DenominationModel.notes_500,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount500Command}" CommandParameter="{Binding ElementName=txt500}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <Label Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}"  HorizontalContentAlignment="Center" FontSize="14"  Grid.Column="1" Grid.Row="2"  Content="{Binding DenominationModel.notes_500}" Grid.ColumnSpan="2" Margin="0,0,95,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount500Id"   HorizontalContentAlignment="Left" Width="80" Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin500}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="3" Grid.ColumnSpan="3" Margin="10,2,0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Row="3" Width="56">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label  HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="200"></Label>
+                        </StackPanel>
+
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination200Id" x:Name="txt200" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" MaxLength="4"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96"  Grid.Column="1" Grid.Row="3" Text="{Binding DenominationModel.notes_200,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount200Commands}" CommandParameter="{Binding ElementName=txt200}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+
+                        <Label  Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}"  HorizontalContentAlignment="Center" FontSize="14"  Grid.Column="1" Grid.Row="3"  Content="{Binding DenominationModel.notes_200}" Grid.ColumnSpan="2" Margin="0,0,95,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="3" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount200Id"  HorizontalContentAlignment="Left" Width="80"  Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin200}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="4" Grid.ColumnSpan="3" Margin="10,2,0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Row="4" Width="52">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label  HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="100"></Label>
+                        </StackPanel>
+
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination100Id" x:Name="txt100" MaxLength="4"  Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96"  Grid.Column="1" Grid.Row="4" Text="{Binding DenominationModel.notes_100,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount100Command}" CommandParameter="{Binding ElementName=txt100}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+
+                        <Label Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}"  HorizontalContentAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="4" Content="{Binding DenominationModel.notes_100}" Grid.ColumnSpan="2" Margin="0,0,95,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="4" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee"  Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount100Id"   HorizontalContentAlignment="Left"  Width="80" Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin100}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="5" Grid.ColumnSpan="3" Margin="10,2,0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Row="5" Width="46">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label  HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="50"></Label>
+                        </StackPanel>
+
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination50Id" x:Name="txt50" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" MaxLength="4"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96"  Grid.Column="1" Grid.Row="5" Text="{Binding DenominationModel.notes_50,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount50Command}" CommandParameter="{Binding ElementName=txt50}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <Label Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}" HorizontalContentAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="5"   Content="{Binding DenominationModel.notes_50}" Grid.ColumnSpan="2" Margin="0,0,95,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="5" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount50Id"  HorizontalContentAlignment="Left"  Width="80" Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin50}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="6" Grid.ColumnSpan="3" Margin="10,2,0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Row="6" Width="46">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label  HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="20"></Label>
+                        </StackPanel>
+
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination20Id" x:Name="txt20"  Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}" MaxLength="5"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96" Grid.Column="1" Grid.Row="6"   Text="{Binding DenominationModel.notes_20,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount20Command}" CommandParameter="{Binding ElementName=txt20}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+
+                        <Label Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}" HorizontalContentAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="6"   Content="{Binding DenominationModel.notes_20}" Grid.ColumnSpan="2" Margin="0,0,95,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="6" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount20Id"   HorizontalContentAlignment="Left" Width="80"  Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin20}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="7" Grid.ColumnSpan="3" Margin="10,2,0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Row="7" Width="42">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label  HorizontalContentAlignment="Center"  Margin="0 5 0 0" FontSize="16"  Content="10"></Label>
+                        </StackPanel>
+
+                        <TextBox AutomationProperties.AutomationId="txtEODAddDenomination10Id" x:Name="txt10" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}"  MaxLength="5"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96" Grid.Column="1" Grid.Row="7"  Text="{Binding DenominationModel.notes_10,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCount10Command}" CommandParameter="{Binding ElementName=txt10}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+
+                        <Label Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}" HorizontalContentAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="7"  Content="{Binding DenominationModel.notes_10}" Grid.ColumnSpan="2" Margin="0,0,95,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="7" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCount10Id"  HorizontalContentAlignment="Left" Width="80"  Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Totalin10}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None"  Grid.Row="8" Grid.ColumnSpan="3" Margin="10,2,0,5" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label  HorizontalContentAlignment="Left" Margin="10 0 0 0" FontSize="14" Grid.Column="0" Grid.Row="8" Content="Coins"></Label>
+                        <TextBox  AutomationProperties.AutomationId="txtEODAddDenominationCoinsId" x:Name="txtcoins" Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource BooleanToVisibilityConverter}}"  MaxLength="6"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="96"  Grid.Column="1" Grid.Row="8"   Text="{Binding DenominationModel.Coins,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="25">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding EnterTxtChangeCountCoinsCommand}" CommandParameter="{Binding ElementName=txtcoins}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <Label  Visibility="{Binding DenominationModel.IsRole,Converter={StaticResource InverseBoolToVisConverter}}" HorizontalContentAlignment="Center" FontSize="14"  Grid.Column="1" Grid.Row="8"  Content="{Binding DenominationModel.Coins}" Grid.ColumnSpan="2" Margin="0,0,95,0" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="8" Width="96">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label AutomationProperties.AutomationId="lblEODAddDenominationCountCoinsId"  HorizontalContentAlignment="Left" Width="80"  Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.TotalinCoins}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Background="{StaticResource MaterialCardColour}" materialDesign:ShadowAssist.ShadowEdges="None" Grid.Row="9" Grid.ColumnSpan="3" Margin="10,2,0,0" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label  HorizontalContentAlignment="Left" Margin="10 0 0 0" FontWeight="Bold" FontSize="16" Grid.Column="0" Grid.Row="9" Content="Total"></Label>
+                        <StackPanel Orientation="Horizontal"  Margin="0,0,0,0" HorizontalAlignment="Left"  Grid.Column="2" Grid.Row="9">
+                            <materialDesign:PackIcon Kind="Rupee" Margin="0 15 0 0" Style="{StaticResource IconMargin}"/>
+                            <Label   FontWeight="Bold"  Margin="0 5 0 0" FontSize="16"  Content="{Binding DenominationModel.Total,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <Button AutomationProperties.AutomationId="btnEODAddDenominationRefreshId" Width="40" Height="35" Grid.Row="10" Grid.Column="1" Margin="0,12,20,10" HorizontalAlignment="Right" Style="{DynamicResource RoundButton}" 
+                  Command="{Binding ClearCommand}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="Refresh" />
+                    </Button.Content>
+                </Button>
+                <Button AutomationProperties.AutomationId="btnEODAddDenominationSubmitId" Grid.Row="10" Grid.Column="2" Width="100" Margin="0 12 0 10" HorizontalAlignment="Right" CommandParameter="{Binding ElementName=btnclose}" Command="{Binding SubmitCommand}" Style="{DynamicResource RoundTextButton}" Content="Submit"></Button>
+            </Grid>
+
+            <Image Grid.Column="1" StretchDirection="Both" VerticalAlignment="Bottom" Grid.RowSpan="2" Margin="15 10 0 0" Source="{DynamicResource greenshadow_addcustomer}">
+            </Image>
+
+        </Grid>
+    </StackPanel>
+
+</UserControl>

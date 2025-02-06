@@ -1,0 +1,476 @@
+[
+  {
+    "No": "1.0.0.0",
+    "Comments": "First Release",
+    "OnDate": "14-March-2021"
+  },
+  {
+    "No": "1.0.0.4",
+    "Comments": "Minior Bug fixes",
+    "OnDate": "16-March-2021"
+  },
+  {
+    "No": "1.0.0.5",
+    "Comments": "GST validation, @@Phone number validation,@@Bug Fixes Performance changes and other minor improvements.",
+    "OnDate": "17-March-2021"
+  },
+  {
+    "No": "1.0.0.6",
+    "Comments": "Invoice update bug fix,@@Release Notes added, @@UI scroll fix",
+    "OnDate": "18-March-2021"
+  },
+  {
+    "No": "1.0.0.7",
+    "Comments": "Price logic changes",
+    "OnDate": "22-April-2021"
+  },
+  {
+    "No": "1.0.0.8",
+    "Comments": "Bug Fixes and application improvements",
+    "OnDate": "26-April-2021"
+  },
+  {
+    "No": "1.0.0.9",
+    "Comments": "Bug Fixes and Field validations",
+    "OnDate": "26-April-2021"
+  },
+  {
+    "No": "1.0.0.10",
+    "Comments": "Bug Fixes",
+    "OnDate": "28-April-2021"
+  },
+  {
+    "No": "1.0.0.11",
+    "Comments": "Customer GSTIN ,HSN code added",
+    "OnDate": "05-May-2021"
+  },
+  {
+    "No": "1.0.0.12",
+    "Comments": "Include Transport charges,@@Misc & Margin Charges",
+    "OnDate": "07-May-2021"
+  },
+  {
+    "No": "1.0.0.13",
+    "Comments": "Enabled Printer,Toast timeout increased",
+    "OnDate": "10-May-2021"
+  },
+  {
+    "No": "1.0.0.14",
+    "Comments": "Price bug fix in super backend,other bug fixes",
+    "OnDate": "11-May-2021"
+  },
+  {
+    "No": "1.0.1.0",
+    "Comments": "Invoice history for super backend ",
+    "OnDate": "12-May-2021"
+  },
+  {
+    "No": "1.0.1.1",
+    "Comments": "Special char in invoice name bug fix,@@Invoice slot product type and brand name bug fix.",
+    "OnDate": "13-May-2021"
+  },
+  {
+    "No": "1.0.1.2",
+    "Comments": "Invoice search bug fix",
+    "OnDate": "17-May-2021"
+  },
+  {
+    "No": "1.0.1.3",
+    "Comments": "Barcode print blocker bug fix",
+    "OnDate": "18-May-2021"
+  },
+  {
+    "No": "1.0.1.4",
+    "Comments": "Border issue in invoice deatils fix",
+    "OnDate": "19-May-2021"
+  },
+  {
+    "No": "1.0.1.5",
+    "Comments": "Group product changes ,Bug fixes",
+    "OnDate": "28-May-2021"
+  },
+  {
+    "No": "1.0.1.6",
+    "Comments": "Stock Grid changes,Bug fixes",
+    "OnDate": "31-May-2021"
+  },
+  {
+    "No": "1.0.1.7",
+    "Comments": "UI scroll issues , Bug fixes",
+    "OnDate": "01-June-2021"
+  },
+  {
+    "No": "1.0.1.8",
+    "Comments": "Invoice format changes,UI Bug fixes",
+    "OnDate": "08-June-2021"
+  },
+  {
+    "No": "1.0.1.9",
+    "Comments": "Backend UI changes",
+    "OnDate": "11-June-2021"
+  },
+  {
+    "No": "1.0.1.10",
+    "Comments": "Product type refresh,@@UI Bug Fixes,@@Auto Update Feature",
+    "OnDate": "14-June-2021"
+  },
+  {
+    "No": "1.0.2.0",
+    "Comments": "DC Number changes,Admin Dashboard changes ",
+    "OnDate": "30-June-2021"
+  },
+  {
+    "No": "1.0.2.1",
+    "Comments": "Auto Update Fix,Duplicate Invoice number fix",
+    "OnDate": "30-June-2021"
+  },
+  {
+    "No": "1.0.2.2",
+    "Comments": "Bug Fixes",
+    "OnDate": "02-July-2021"
+  },
+  {
+    "No": "1.0.2.3",
+    "Comments": "HSN Code Changes",
+    "OnDate": "07-July-2021"
+  },
+  {
+    "No": "1.0.2.4",
+    "Comments": "Printer changes",
+    "OnDate": "09-July-2021"
+  },
+  {
+    "No": "1.0.2.5",
+    "Comments": "Product level discount , Auto Update bug fixes",
+    "OnDate": "16-July-2021"
+  },
+  {
+    "No": "1.0.2.6",
+    "Comments": "Service charge invoice, Product MRP changes, Bug Fixes",
+    "OnDate": "21-July-2021"
+  },
+  {
+    "No": "1.0.2.7",
+    "Comments": "Defective Qty Changes, Inward Damage Info",
+    "OnDate": "21-July-2021"
+  },
+  {
+    "No": "1.0.2.8",
+    "Comments": "Defective Qty Bug Fixes, GST in Service invoice",
+    "OnDate": "22-July-2021"
+  },
+  {
+    "No": "1.0.2.9",
+    "Comments": "Sales invoice address , @@Barcode label changes, @@Bug Fixes",
+    "OnDate": "27-July-2021"
+  },
+  {
+    "No": "1.0.3.0",
+    "Comments": "Finance Role,Export Sale Reports,@@Bug Fixes",
+    "OnDate": "31-July-2021"
+  },
+  {
+    "No": "1.0.3.1",
+    "Comments": "Finance service report,Invoice Changes, @@Bug Fixes",
+    "OnDate": "03-August-2021"
+  },
+  {
+    "No": "1.0.3.2",
+    "Comments": "Farmer Sales Return, @@Bug Fixes",
+    "OnDate": "11-August-2021"
+  },
+  {
+    "No": "1.0.3.3",
+    "Comments": "Produt SKU,Sales Summery report, @@Bug Fixes",
+    "OnDate": "12-August-2021"
+  },
+  {
+    "No": "1.0.3.4",
+    "Comments": "Product search by name and SKU",
+    "OnDate": "16-August-2021"
+  },
+  {
+    "No": "1.0.3.5",
+    "Comments": "Update customer address in sales",
+    "OnDate": "18-August-2021"
+  },
+  {
+    "No": "1.0.3.6",
+    "Comments": "Stock Search bug fix",
+    "OnDate": "19-August-2021"
+  },
+  {
+    "No": "1.0.3.7",
+    "Comments": "Create brand and Mapping brand to product type",
+    "OnDate": "23-August-2021"
+  },
+  {
+    "No": "1.0.3.8",
+    "Comments": "Brand refresh issue, user create bug fixes",
+    "OnDate": "23-August-2021"
+  },
+  {
+    "No": "1.0.3.9",
+    "Comments": "Closing stock report,Invoice Changes",
+    "OnDate": "01-Sept-2021"
+  },
+  {
+    "No": "1.0.4.0",
+    "Comments": "SKU and Dept Changes added",
+    "OnDate": "08-Sept-2021"
+  },
+  {
+    "No": "1.0.4.1",
+    "Comments": "Bug Fixes",
+    "OnDate": "08-Sept-2021"
+  },
+  {
+    "No": "1.0.4.2",
+    "Comments": "Invoice file upload,SKU sheet,@@Daily Stock Report",
+    "OnDate": "15-Sept-2021"
+  },
+  {
+    "No": "1.0.4.3",
+    "Comments": "Invoice file upload bug fixes,@@Daily stock report bug fixes",
+    "OnDate": "16-Sept-2021"
+  },
+  {
+    "No": "1.0.4.4",
+    "Comments": "Sales mail integration @@Bug fixes",
+    "OnDate": "23-Sept-2021"
+  },
+  {
+    "No": "1.0.4.5",
+    "Comments": "Bug fixes",
+    "OnDate": "24-Sept-2021"
+  },
+  {
+    "No": "1.0.4.6",
+    "Comments": "New roles added,Delete files,Bug Fixes",
+    "OnDate": "11-Oct-2021"
+  },
+  {
+    "No": "1.0.4.7",
+    "Comments": "Bug Fixes",
+    "OnDate": "12-Oct-2021"
+  },
+  {
+    "No": "1.0.4.8",
+    "Comments": "Bug Fixes",
+    "OnDate": "13-Oct-2021"
+  },
+
+  {
+    "No": "1.0.4.9",
+    "Comments": "Invoice discount @@Expiry Products @@Bug Fixes",
+    "OnDate": "10-Nov-2021"
+  },
+
+  {
+    "No": "1.0.5.0",
+    "Comments": "Bug Fixes",
+    "OnDate": "12-Nov-2021"
+  },
+
+  {
+    "No": "1.0.5.1",
+    "Comments": "Bug Fixes",
+    "OnDate": "15-Nov-2021"
+  },
+  {
+    "No": "1.0.5.2",
+    "Comments": "Bug Fixes",
+    "OnDate": "22-Nov-2021"
+  },
+  {
+    "No": "1.0.5.3",
+    "Comments": "Bug Fixes",
+    "OnDate": "23-Nov-2021"
+  },
+  {
+    "No": "1.0.5.4",
+    "Comments": "Denomination menu on store and finance login @@Entry date for inward invoice on purchase invoice menu @@Bug Fixes",
+    "OnDate": "01-Dec-2021"
+  },
+  {
+    "No": "1.0.5.5",
+    "Comments": "Bug Fixes",
+    "OnDate": "01-Dec-2021"
+  },
+  {
+    "No": "1.0.5.6",
+    "Comments": "Indent menu added",
+    "OnDate": "14-Dec-2021"
+  },
+  {
+    "No": "1.0.5.7",
+    "Comments": "Bug Fixes",
+    "OnDate": "17-Dec-2021"
+  },
+  {
+    "No": "1.0.5.8",
+    "Comments": "Bug Fixes",
+    "OnDate": "21-Dec-2021"
+  },
+  {
+    "No": "1.0.5.9",
+    "Comments": "Cheque payment @@Sales page redesign @@Bug Fixes",
+    "OnDate": "29-Dec-2021"
+  },
+  {
+    "No": "1.0.6.0",
+    "Comments": "@@Bug Fixes",
+    "OnDate": "30-Dec-2021"
+  },
+  {
+    "No": "1.0.6.1",
+    "Comments": "Added notification for new product,brand,department  @@Bug Fixes",
+    "OnDate": "19-Jan-2022"
+  },
+  {
+    "No": "1.0.6.2",
+    "Comments": "Subunit type in product level @@Tally export menu @@Bug Fixes",
+    "OnDate": "18-Feb-2022"
+  },
+  {
+    "No": "1.0.6.3",
+    "Comments": "Master supplier details @@IGST on purchase export @@Bug Fixes",
+    "OnDate": "03-Mar-2022"
+  },
+  {
+    "No": "1.0.6.4",
+    "Comments": "Denomination page redesign @@Bug Fixes",
+    "OnDate": "08-Mar-2022"
+  },
+  {
+    "No": "1.0.6.5",
+    "Comments": "Added stock transfer tab @@Stock Ageing @@Bug Fixes",
+    "OnDate": "13-Apr-2022"
+  },
+  {
+    "No": "1.0.6.6",
+    "Comments": "@@Bug Fixes",
+    "OnDate": "19-Apr-2022"
+  },
+  {
+    "No": "1.0.6.7",
+    "Comments": "Added Denomination view on Store  @@Stock Transfer page redesign @@Bug Fixes",
+    "OnDate": "04-May-2022"
+  },
+  {
+    "No": "1.0.6.8",
+    "Comments": "Bug Fixes",
+    "OnDate": "06-May-2022"
+  },
+  {
+    "No": "1.0.6.9",
+    "Comments": "Added New SKU Menu @@Added Indent search flyout  @@Sales invoice bottom some kannada text added @@View all DC in finance and Backend  @@Bug Fixes",
+    "OnDate": "06-Jun-2022"
+  },
+  {
+    "No": "1.0.7.0",
+    "Comments": "Bug Fixes",
+    "OnDate": "09-Jun-2022"
+  },
+  {
+    "No": "1.0.7.1",
+    "Comments": "Bug Fixes",
+    "OnDate": "14-Jun-2022"
+  },
+  {
+    "No": "1.0.7.2",
+    "Comments": "Added New SKU Menu @@Bug Fixes",
+    "OnDate": "24-Jun-2022"
+  },
+  {
+    "No": "1.0.7.3",
+    "Comments": "@@Bug Fixes",
+    "OnDate": "30-Jun-2022"
+  },
+  {
+    "No": "1.0.7.4",
+    "Comments": "Redesign SKU View Page @@Added Indent Payment @@Bug Fixes",
+    "OnDate": "28-July-2022"
+  },
+  {
+    "No": "1.0.7.5",
+    "Comments": "@@Bug Fixes",
+    "OnDate": "29-July-2022"
+  },
+  {
+    "No": "1.0.7.6",
+    "Comments": "@@Bug Fixes",
+    "OnDate": "03-Aug-2022"
+  },
+  {
+    "No": "1.0.7.7",
+    "Comments": "Production issue hot fixes",
+    "OnDate": "04-Sep-2022"
+  },
+  {
+    "No": "1.0.7.8",
+    "Comments": "Added New Menu Purchase Return @@Bug Fixes",
+    "OnDate": "15-Sep-2022"
+  },
+  {
+    "No": "1.0.7.9",
+    "Comments": "Bug Fixes",
+    "OnDate": "16-Sep-2022"
+  },
+  {
+    "No": "1.0.8.0",
+    "Comments": "Bug Fixes",
+    "OnDate": "22-Sep-2022"
+  },
+  {
+    "No": "1.0.8.1",
+    "Comments": "Bug Fixes",
+    "OnDate": "24-Sep-2022"
+  },
+  {
+    "No": "1.0.8.2",
+    "Comments": "Credit sales option disabled",
+    "OnDate": "13-Oct-2022"
+  },
+  {
+    "No": "1.0.8.3",
+    "Comments": "Indent Partial payment @@Indent Bulk upload and download",
+    "OnDate": "02-Nov-2022"
+  },
+  {
+    "No": "1.0.8.4",
+    "Comments": "Bug Fixes",
+    "OnDate": "10-Nov-2022"
+  },
+  {
+    "No": "1.0.8.5",
+    "Comments": "IndentPayment against invoice,@@2Lakh Cash Validation in Sales Page,@@Indent Search by Payment status,@@Creditnote Summary Page,@@Added Export Option in Expired Page and Update Expiry Date,@@Stockage Menu Added for PM login,@@Removed Director Approval from Indent,@@Margin Value and Percentage while setting selling price for PM,@@Daily stock report entry option enable for every week Saturday and same day  Mail should trigger, @@Bug Fixes",
+    "OnDate": "29-Dec-2022"
+  },
+  {
+    "No": "1.0.8.6",
+    "Comments": "Sales page pos discount field disabled, @@Bug Fixes",
+    "OnDate": "06-Jan-2023"
+  },
+  {
+    "No": "1.0.8.7",
+    "Comments": "A Cash Deposit Add/View & Approve menu has been introduced,@@Purchase manager updates selling price,@@Print the license numbers on the sales invoice bill,@@Store Stock Aging with Selling Price,@@Stock search using the SKU field,@@EOD multiple denomination submission, and if they fail to submit the denomination, sales will be blocked the following day,@@StoreTransferQty and SalesReturnQty are two new columns has been added to ClosingStockReport",
+    "OnDate": "06-Feb-2023"
+  },
+  {
+    "No": "1.0.8.8",
+    "Comments": "Bug Fixes",
+    "OnDate": "09-Feb-2023"
+  },
+  {
+    "No": "1.0.8.9",
+    "Comments": "Export option for all tabs in Expiry product menu,@@Added a new auditor role,@@Add denomination json file moved to data base only api changes and script,@@View denomination Tab Store, FromDate, ToDate Search option, and Export option,@@Added tallycode field for new supplier,@@Finance sales  report added 9 extra columns which have fiscal date details,@@Bug fixes",
+    "OnDate": "21-Mar-2023"
+  },
+  {
+    "No": "1.0.9.0",
+    "comments": "Bug Fixes",
+    "OnDate": "28-Mar-2023"
+  }
+
+]

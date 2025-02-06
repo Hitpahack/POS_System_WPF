@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="FalcaPOS.ZoneTerritory.Views.AddNewZone"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"              
+             xmlns:local="clr-namespace:FalcaPOS.ZoneTerritory.Views"
+              xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,10,0" />
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Height="300" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="0"  Height="60px" Background="{DynamicResource MahApps.Brushes.Accent}" Orientation="Horizontal">
+            <Image Margin="10 5 0 0" Width="45px" Height="36px" HorizontalAlignment="Left" Source="{DynamicResource logo}"></Image>
+            <TextBlock Margin="20 0 0 -13" Foreground="White" VerticalAlignment="Center" Style="{DynamicResource PoppinsMedium}" FontSize="15px" Text="">Add New Zone</TextBlock>
+            <Button AutomationProperties.AutomationId="btnZoneAndTerritoryAddZoneCloseId" HorizontalAlignment="Right" Margin="180 0 0 0" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}"  ToolTip="Close" Foreground="White" Content="X" FontSize="20" >
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
+            <materialDesign:PackIcon Kind="GoogleEarth" Margin="10 15 10 0" Style="{StaticResource IconMargin}"/>
+            <TextBox AutomationProperties.AutomationId="txtZoneAndTerritoryAddZoneZoneNameId"  Margin="-5 0 0 0"  Text="{Binding ZoneName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" materialDesign:HintAssist.Hint="Zone Name* " materialDesign:HintAssist.IsFloating="True">
+             </TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="0 10 0 0"  Orientation="Horizontal" HorizontalAlignment="Center">
+            <materialDesign:PackIcon Kind="Pin" Margin="10 21 10 0" Style="{StaticResource IconMargin}"/>
+            <ComboBox  Margin="-5 0 0 0" Width="200" ItemsSource="{Binding StatesList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   materialDesign:HintAssist.Hint="Select State *"
+                       AutomationProperties.AutomationId="cmbZoneAndTerritoryAddZoneSelectStateId"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True" VerticalAlignment="Center"
+                    DisplayMemberPath="Name"
+                    SelectedValue="{Binding SelectedState,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Margin="0 0 0 0"  Orientation="Horizontal" HorizontalAlignment="Center">
+            <materialDesign:PackIcon  Kind="User" Margin="10 26 10 0" Style="{StaticResource IconMargin}" />
+            <ComboBox  Margin="-5 0 0 0" Width="200" ItemsSource="{Binding RegionalManagerList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   materialDesign:HintAssist.Hint="Select RM *"
+                       AutomationProperties.AutomationId="cmbZoneAndTerritoryAddZoneSelectRMId"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True" VerticalAlignment="Center"
+                    DisplayMemberPath="Name"
+                    SelectedValue="{Binding SelectedRM,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>          
+        </StackPanel>
+        <StackPanel Grid.Row="4" Margin="0 10 0 10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button AutomationProperties.AutomationId="btnZoneAndTerritoryAddZoneAddZoneId" Width="120" Margin="0 0 0 0" Style="{DynamicResource RoundTextButton}" CommandParameter="{Binding ElementName=btnclose}" Command="{Binding AddZoneCommand}">Add Zone</Button>
+            <Button AutomationProperties.AutomationId="btnZoneAndTerritoryAddZoneRefreshId" Width="50" Margin="10 0 0 0"  Style="{DynamicResource RoundButton}"   Command="{Binding ResetCommand}" CommandParameter="{Binding}" >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"></materialDesign:PackIcon>
+                </Button.Content>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

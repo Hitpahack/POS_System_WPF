@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="FalcaPOS.Assert.View.EditAssetsPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Assert.View"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
+              xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Width="400" Height="200" Background="White" Orientation="Vertical" AutomationProperties.AutomationId="ticasedepositapprovepopupid">
+       
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="0 5 0 0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource PoppinsMedium}" FontSize="15px" Text="">Edit Asset</TextBlock>
+            <Button HorizontalAlignment="Right" x:Name="btnclose" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButton}" Margin="0 5 5 5" ToolTip="Close" Foreground="Red" Content="X" FontSize="20" >
+            </Button>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBox Width="80" 
+                         Margin="0 0 20 0"
+                         materialDesign:HintAssist.Hint="Good Stock" 
+                         materialDesign:HintAssist.IsFloating="True"
+                         Text="{Binding GoodStock,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                <TextBox Width="80" 
+                         Margin="0 0 20 0"
+                         materialDesign:HintAssist.Hint="Damage Stock" 
+                         materialDesign:HintAssist.IsFloating="True"
+                         Text="{Binding DamageStock,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                <TextBox Width="80" 
+                         Margin="0 0 20 0"
+                         materialDesign:HintAssist.Hint="Total Stock" 
+                         materialDesign:HintAssist.IsFloating="True"
+                         IsEnabled="False"
+                         Text="{Binding TotalStock,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <TextBox   Width="200" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Damage Reason" Grid.Row="2"
+                     Text="{Binding Reason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0"></TextBox>
+            <Button Margin="0 20 0 0" Grid.Column="0" Grid.Row="3" Width="120" Content="Submit"
+                    Command="{Binding EditBtnSubmitCommand}" CommandParameter="{Binding ElementName=btnclose}"></Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

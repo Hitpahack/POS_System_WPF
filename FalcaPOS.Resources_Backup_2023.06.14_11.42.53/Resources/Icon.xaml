@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <BitmapImage x:Key="loginbanner" UriSource="/FalcaPOS.Resources;component/Images/Login_Image.png" />
+    <BitmapImage x:Key="roleicon" UriSource="/FalcaPOS.Resources;component/Images/roleicon.jpg" />
+    <BitmapImage x:Key="profile" UriSource="/FalcaPOS.Resources;component/Images/profile.png" />
+    <BitmapImage x:Key="fileicon" UriSource="/FalcaPOS.Resources;component/Images/fileextension.png" />
+    <BitmapImage x:Key="logo" UriSource="/FalcaPOS.Resources;component/Images/logo.png" />
+    <BitmapImage x:Key="logo2x" UriSource="/FalcaPOS.Resources;component/Images/logo2x.png" />
+    <BitmapImage x:Key="greenshadow" UriSource="/FalcaPOS.Resources;component/Images/greenshadow.png" />
+    <BitmapImage x:Key="greenshadow_addcustomer" UriSource="/FalcaPOS.Resources;component/Images/greenshadow_addcustomer.png" />
+    
+    <!--Store Images-->
+
+    <BitmapImage x:Key="Store1" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store1.png" />
+    <BitmapImage x:Key="Store2" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store2.png" />
+    <BitmapImage x:Key="Store3" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store3.png" />
+    <BitmapImage x:Key="Store4" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store4.png" />
+    <BitmapImage x:Key="Store5" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store5.png" />
+    <BitmapImage x:Key="Store6" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store6.png" />
+    <BitmapImage x:Key="Store7" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store7.png" />
+    <BitmapImage x:Key="Store8" UriSource="/FalcaPOS.Resources;component/Images/StoreImages/Store8.png" />
+    
+    
+    <!--Menu Icon-->
+    <BitmapImage x:Key="menu_sales" UriSource="/FalcaPOS.Resources;component/Images/Menu/menu_sales.png" />
+    <BitmapImage x:Key="ExpiryMenu" UriSource="/FalcaPOS.Resources;component/Images/Menu/Expiry.png" />
+    
+    <!--Grid Icon-->
+    <BitmapImage x:Key="Grid_Download" UriSource="/FalcaPOS.Resources;component/Images/GridIcon/Download.png" />
+    <BitmapImage x:Key="Grid_Upload" UriSource="/FalcaPOS.Resources;component/Images/GridIcon/Upload.png" />
+    <BitmapImage x:Key="Grid_Share" UriSource="/FalcaPOS.Resources;component/Images/GridIcon/Share.png" />
+    
+    <BitmapImage x:Key="Loading" UriSource="/FalcaPOS.Resources;component/Images/loading.gif" />
+
+    <!--Other Icon-->
+    <BitmapImage x:Key="Search" UriSource="/FalcaPOS.Resources;component/Images/HeaderIcon/Search.png" />
+    <BitmapImage x:Key="District" UriSource="/FalcaPOS.Resources;component/Images/CustomerIcon/District.png" />
+    <BitmapImage x:Key="State" UriSource="/FalcaPOS.Resources;component/Images/CustomerIcon/State.png" />
+    <BitmapImage  x:Key="CustomerDetailIcon" UriSource="/FalcaPOS.Resources;component/Images/CustomerIcon/CustomerType.png" />
+    <BitmapImage x:Key="Gst" UriSource="/FalcaPOS.Resources;component/Images/CustomerIcon/Gst.png" />
+    <BitmapImage x:Key="VillageIcon" UriSource="/FalcaPOS.Resources;component/Images/CustomerIcon/Village.png" />
+    <BitmapImage x:Key="PinIcon" UriSource="/FalcaPOS.Resources;component/Images/CustomerIcon/Pin.png" />
+
+
+
+
+</ResourceDictionary>

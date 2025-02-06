@@ -1,0 +1,224 @@
+﻿<UserControl x:Class="FalcaPOS.Sku.View.BrandCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FalcaPOS.Sku.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:FalcaPOS.Common.Converters;assembly=FalcaPOS.Common"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+               xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+              DataContext="{Binding}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ArrayToVisibilityConverter x:Key="ArrayToVisibilityConverter" />
+        <converters:ArrayToVisibilityInverseConverter x:Key="ArrayToVisibilityInverseConverter" />
+        <BooleanToVisibilityConverter x:Key="Boolentovisibility"></BooleanToVisibilityConverter>
+    </UserControl.Resources>
+    <Border
+        x:Name="brandBorder"
+        Background="Transparent"
+        BorderBrush="Transparent"
+        BorderThickness="1"
+        CornerRadius="4">
+        <Grid Height="300">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="1.3*"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button AutomationProperties.AutomationId="btnSKUCreateDeleteId" Grid.Column="0"  Margin="0,10,0,0"   Command="{Binding RemoveBrandCardCommand,RelativeSource={RelativeSource AncestorType=UserControl}}"                                     
+                                        CommandParameter="{Binding Path=BrandGUIDId}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <materialDesign:PackIcon Foreground="Red"  Kind="Trash" ToolTip="Remove" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button AutomationProperties.AutomationId="btnSKUCreateAddId" Grid.Column="0" Grid.RowSpan="2" Margin="20,10,0,0"  Command="{Binding AddBrandCardCommand,RelativeSource={RelativeSource AncestorType=UserControl}}"                                      
+                                       >
+                    <Button.Template>
+                        <ControlTemplate>
+                            <materialDesign:PackIcon Foreground="Green"  Kind="PlusBold" ToolTip="Add" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+            <ComboBox Grid.Column="1" Width="180"
+                      materialDesign:HintAssist.Hint="Brand *"
+                    materialDesign:HintAssist.IsFloating="True"
+                  AutomationProperties.AutomationId="cmbSKUCreateSelectBrandId"
+                      VerticalAlignment="Center" HorizontalAlignment="Left"
+                  DisplayMemberPath="Name"
+                  ItemsSource="{Binding Manufacturers,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValue="{Binding SelectedManufacturer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+            </ComboBox>
+
+            <ComboBox Visibility="{Binding PrincipleProsVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="2" Width="180" Margin="20 0 0 0"                      
+                      materialDesign:HintAssist.Hint="Supplier *"
+                      AutomationProperties.AutomationId="cmbSKUCreateSelectSupplierId"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                      VerticalAlignment="Center" HorizontalAlignment="Left"
+                       DisplayMemberPath="Name"
+                  ItemsSource="{Binding Suppliers,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                   SelectedValue="{Binding SelectedSuppliers,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+               
+            </ComboBox>
+            <StackPanel Margin="20 0 0 0" Visibility="{Binding PrincipleProsVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="3" VerticalAlignment="Center" Orientation="Horizontal">
+                <materialDesign:PackIcon Height="20" Width="20"  Kind="Numbers" Margin="0 20 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                <TextBox  Margin="5 0 0  0" VerticalAlignment="Center" Width="120" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="{Binding headerNo, StringFormat='{}{0} *'}" Text="{Binding Number}"></TextBox>
+            </StackPanel>
+
+            <DatePicker Visibility="{Binding PrincipleProsVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0,0,0" Grid.Column="4"
+                    materialDesign:HintAssist.Hint="Date of Issue *"
+                    materialDesign:HintAssist.IsFloating="True"
+                    SelectedDate="{Binding IssueDate}"
+                    DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+           
+
+            <StackPanel Visibility="{Binding CroptxtBoxVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20 0 0 0"  Grid.Column="5" VerticalAlignment="Center" Orientation="Horizontal">
+                <materialDesign:PackIcon Height="20" Width="20"  Kind="GitIssue" Margin="0 10 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                <TextBox Margin="5 0 0  0" VerticalAlignment="Center" Width="120" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.Hint="Authority by Whom issued *" Text="{Binding Author}"></TextBox>
+            </StackPanel>
+
+            <Grid  Visibility="{Binding PrincipleProsVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="7" Grid.Row="0" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"></RowDefinition>
+                    <RowDefinition Height="0.7*"></RowDefinition>
+                    <RowDefinition Height="1.5*"></RowDefinition>
+                    <RowDefinition Height="2.5*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Margin="10,0,0,0"  Orientation="Horizontal" Grid.Row="0">
+                    <Button HorizontalAlignment="Right" HorizontalContentAlignment="Right" Command="{Binding AddFileAttachmentCommand,RelativeSource={RelativeSource AncestorType=UserControl}}" Style="{StaticResource MaterialDesignToolForegroundButton}" CommandParameter="{Binding}">
+                    <Button.Content>
+                        <materialDesign:PackIcon
+                        Width="20"
+                        Height="20"
+                        Kind="AttachFile" />
+                    </Button.Content>
+                </Button>
+                    <Label FontSize="12" VerticalAlignment="Center" Content="{Binding AttachmentName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
+                </StackPanel>
+
+                <TextBlock VerticalAlignment="Center" Margin="0 10 0 0" HorizontalAlignment="Center" Grid.Row="1">OR</TextBlock>
+
+                <StackPanel   Grid.Row="2"  Margin="10 25 0 0"  Orientation="Horizontal">
+                    <materialDesign:PackIcon Height="20" Width="20"  Kind="AttachFile" Margin="0 10 0 0" Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"></materialDesign:PackIcon>
+                    <Button Margin="5 0 0  0" VerticalAlignment="Center" Command="{Binding SearchExistingSKUCertificateCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" Content="{Binding SearchHeaderName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"></Button>
+                
+                </StackPanel>
+
+                    <ItemsControl Grid.Row="3" Height="100" Margin="10 0 0 40" ItemsSource="{Binding FileUploadListInfo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card
+                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                Height="50" Margin="2" Padding="5"                                
+                                >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                  
+
+                                        <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                                        <Label  Grid.Column="1"                                  
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileName}"
+                                    ToolTip="{Binding FileName}" />
+
+                                        <Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />
+
+                                    <Button Visibility="Collapsed" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" IsEnabled="False"
+                                    HorizontalAlignment="Left"
+                                    Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"      
+                                    Command="{Binding DataContext.DeleteUploadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:BrandCard}}}"
+                                    CommandParameter="{Binding FileId}"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                        <materialDesign:PackIcon Kind="Download" ToolTip="Download" />
+                                    </Button>
+
+                                    <Button Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Left"
+                                    Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"      
+                                    Command="{Binding DataContext.ViewFileAttachmentCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                        <materialDesign:PackIcon Kind="Eye" ToolTip="download" />
+                                    </Button>
+                                    <Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Right"
+                                    Foreground="Red"       
+                                    Command="{Binding DataContext.DeleteUploadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AddSKU}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                        <materialDesign:PackIcon Kind="Trash" ToolTip="Remove" />
+                                    </Button>
+
+                                </Grid>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                
+            </Grid>
+
+            <ItemsControl Margin="0 20 0 0" Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="1" Style="{StaticResource itemcontrolstyleforsmallheight}" ItemsSource="{Binding SKUProducts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding SKUProducts, Converter={StaticResource ArrayToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:SKUProductCard Margin="0 5 0 0"
+                                    AddSKUProductCardCommand="{Binding DataContext.AddskuProductCardCommand, RelativeSource={RelativeSource AncestorType={x:Type local:BrandCard}}}"
+                                    DataContext="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    RemoveSKUProductCardCommand="{Binding DataContext.RemoveSKuProductCardCommand, RelativeSource={RelativeSource AncestorType={x:Type local:BrandCard}}}"
+                           />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </Grid>
+    </Border>
+</UserControl>

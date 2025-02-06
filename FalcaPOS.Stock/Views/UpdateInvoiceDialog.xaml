@@ -1,0 +1,202 @@
+﻿<UserControl
+    x:Class="FalcaPOS.Stock.Views.UpdateInvoiceDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:FalcaPOS.Stock.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="750" d:DesignWidth="450"
+    >
+
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="MaxWidth" Value="450" />
+            <Setter Property="MaxHeight" Value="750" />
+            <Setter Property="ResizeMode" Value="NoResize" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterOwner" />
+        </Style>
+    </prism:Dialog.WindowStyle>
+
+    <UserControl.Resources>
+        <Style x:Key="IconMargin" TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Height="auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="11*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="50" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.ColumnSpan="2" Height="60px" Background="{DynamicResource MahApps.Brushes.Accent}" Orientation="Horizontal" VerticalAlignment="Center">
+            <Image Margin="10 5 0 0" Width="45px" Height="36px" HorizontalAlignment="Left" Source="{DynamicResource logo}"></Image>
+            <TextBlock Margin="20 5 0 0" Foreground="White" VerticalAlignment="Center" Style="{DynamicResource PoppinsMedium}" FontSize="15px" Text="">Update Invoice Number</TextBlock>
+            <Button AutomationProperties.AutomationId="btnEODAddDepositExitId" HorizontalAlignment="Right" Margin="150 0 0 0" x:Name="btnclose" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"  ToolTip="Close" Foreground="White" Content="X" FontSize="20" >
+            </Button>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Grid.Row="1" >
+            <StackPanel
+            Margin="5">
+                <TextBox    
+                materialDesign:HintAssist.Hint="Dc Number"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtUpdateInvoiceDCNumberId"
+                IsReadOnly="True"
+                Text="{Binding DCNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+            
+            Margin="5">
+                <TextBox
+                materialDesign:HintAssist.Hint="Dc number date"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtUpdateInvoiceDCNumberDateId"
+                IsReadOnly="True"
+                Text="{Binding DcDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+        
+            Margin="5">
+                <TextBox
+                materialDesign:HintAssist.Hint="Supplier Name"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtUpdateInvoiceSupplierId"
+                IsReadOnly="True"
+                Text="{Binding SupplierName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel
+            Margin="5">
+                <TextBox
+                materialDesign:HintAssist.Hint="Store Name"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtUpdateInvoiceStoreId"
+                IsReadOnly="True"
+                Text="{Binding StoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+           
+            Margin="5">
+                <TextBox
+                materialDesign:HintAssist.Hint="Invoice Number *"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="txtUpdateInvoiceInvoiceNumberId"
+                Text="{Binding InvoiceNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+            Margin="5">
+
+                <DatePicker
+                Margin="0,0,0,20"
+                materialDesign:HintAssist.Hint="Invoice Date *"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="dpUpdateInvoiceInvoiceDateId"
+                DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                SelectedDate="{Binding InvoiceDate}"
+                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+                <Button HorizontalAlignment="Right" HorizontalContentAlignment="Right" 
+                                                         Command="{Binding DataContext.AddFilesCommand, RelativeSource={RelativeSource AncestorType={x:Type local:UpdateInvoiceDialog}}}"
+                                                            CommandParameter="{Binding InvoiceId}" Style="{StaticResource MaterialDesignToolForegroundButton}">
+                    <Button.Content>
+                        <materialDesign:PackIcon
+                                                               Width="24"
+                                                              Height="24"
+                                                               Kind="AttachFile" />
+                    </Button.Content>
+                </Button>
+                <Label FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Content="ADD INVOICE ATTACHMENTS"></Label>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" >
+
+            <Button
+                Margin="5"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AutomationProperties.AutomationId="btnUpdateInvoiceConfirmId"
+                Command="{Binding UpdateInvoiceNumberCommand}"
+                Content="Update" 
+                Style="{DynamicResource RoundTextButton}" />
+            <Button
+                Margin="5"
+                Width="50"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AutomationProperties.AutomationId="btnUpdateInvoiceCancelId"
+                 Command="{Binding ResetCommand}" CommandParameter="{Binding}"
+                Style="{DynamicResource RoundButton}" >
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Refresh"></materialDesign:PackIcon>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <ItemsControl Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"  Style="{StaticResource itemcontrolstyleuploadinvoice}" ItemsSource="{Binding TempFiles,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="20 0 0 0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card
+                                                               materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                                                Height="60" Margin="0 0 0 5" Padding="5"                                
+                                >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="8*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Image Source="{DynamicResource fileicon}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></Image>
+
+                            <Label  Grid.Column="1"                                  
+                                   
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding FileName}"
+                                    ToolTip="{Binding FileName}" />
+
+                            <Label Grid.Column="1" Grid.Row="1"
+                                        VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Path=Size}"
+                                    ToolTip="{Binding Path=Size}" />
+
+                            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                                    HorizontalAlignment="Right"
+                                     Command="{Binding DataContext.DeleteUploadFileCommand, RelativeSource={RelativeSource AncestorType={x:Type local:UpdateInvoiceDialog}}}"
+                                                                            CommandParameter="{Binding FileId}"
+                                                                           
+                                    Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                <materialDesign:PackIcon Kind="Trash" ToolTip="Remove" />
+                            </Button>
+
+                        </Grid>
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Image Grid.Column="1" VerticalAlignment="Top" Height="600" Margin="0 0 0 0" Stretch="UniformToFill" Grid.Row="1" Grid.RowSpan="3" Source="{DynamicResource greenshadow_addcustomer}"/>
+
+    </Grid>
+</UserControl>

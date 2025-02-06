@@ -1,0 +1,375 @@
+﻿<UserControl
+    x:Class="FalcaPOS.AddInventory.Views.AddProduct"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:FalcaPOS.AddInventory.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:FalcaPOS.AddInventory.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="750"
+    d:DesignWidth="700"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:MultiConverter x:Key="MultiConvert" />
+    </UserControl.Resources>
+
+
+    <materialDesign:PopupBox  IsPopupOpen="{Binding PopupClose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" StaysOpen="True">
+        <materialDesign:PopupBox.ToggleContent>
+            <materialDesign:PackIcon Kind="PlusThick" />
+        </materialDesign:PopupBox.ToggleContent>
+        <Grid Margin="20 20 20 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="8*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="4* " />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="1* " />
+                <RowDefinition Height="1* " />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+               Margin="8 8 8 8"
+                HorizontalAlignment="Center"
+                FontSize="20"
+                Text="Add New Product"
+                TextAlignment="Center" />
+            <ComboBox
+                x:Name="cmbProductType"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="220"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Sub Category *"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbAddProductProductTypesId"
+                IsEditable="False"
+                ItemsSource="{Binding ProductTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding SelectedProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Path=Name}" />
+                            <Label Content="{Binding Path=DeptCode}" ContentStringFormat="(Dept Code {0})" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding ProductTypeChangedCommand}" />
+
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="220"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Brand *"
+                materialDesign:HintAssist.IsFloating="True"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                AutomationProperties.AutomationId="cmbAddProductBrandsId"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Manufacturers}"
+                SelectedValue="{Binding SelectedManufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <TextBox
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="220"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Product Name *"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="cmbAddProductProductProductNameId"
+                Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <TextBox
+                Grid.Row="4"
+                Grid.Column="1"
+                Width="220"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Description *"
+                materialDesign:HintAssist.IsFloating="True"
+                AutomationProperties.AutomationId="cmbAddProductDescriptionNameId"
+                Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <ComboBox
+                Grid.Row="5"
+                Grid.Column="1"
+                Width="220"
+                materialDesign:HintAssist.Hint="Sub Unit Type *"
+                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        ItemsSource="{Binding SubUnitTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding SelectedSubUnitType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </ComboBox>
+            <!--<StackPanel
+                Visibility="Collapsed"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="0,0,0,0">
+                <Label>Inventory Track Mode</Label>
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding InvTrackModes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="Border" Padding="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Checkerz" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <RadioButton
+                                            VerticalAlignment="Center"
+                                            Content="{Binding Description}"
+                                            GroupName="BarCodeTypeGroup"
+                                            IsChecked="{Binding IsSelected}"
+                                            Style="{StaticResource MaterialDesignDarkRadioButton}" />
+                                    </Grid>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>-->
+
+
+            <TextBox
+                Grid.Row="6"
+                Grid.Column="1"
+                Width="220"
+                Margin="0,0,0,20"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Product SKU *"
+                materialDesign:HintAssist.IsFloating="True"
+                MaxLength="6"
+                Text="{Binding ProductSKU, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+
+            <TextBox
+                Grid.Row="7"
+                Grid.Column="1"
+                Width="220"
+                Margin="0,0,0,20"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Product Last SKU"
+                materialDesign:HintAssist.IsFloating="True"
+                IsReadOnly="True"
+                Text="{Binding LastkSKU, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+            <!--<TextBox
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="0,0,0,20"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Product Short Code*"
+                materialDesign:HintAssist.IsFloating="True"
+                MaxLength="3"
+                Text="{Binding ProductShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />-->
+            
+            <!--as per magesh comment removed attribute-->
+            
+            <!--<StackPanel Grid.Row="7" Grid.Column="0">
+                <StackPanel Orientation="Horizontal">
+                    <Label FontSize="13">Attribute</Label>
+                    <ContentControl Margin="5,0,0,0" prism:RegionManager.RegionName="AddAttribute" />
+                </StackPanel>
+                <ScrollViewer
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Height="200"
+                    CanContentScroll="True"
+                    VerticalScrollBarVisibility="Visible">
+                    <ItemsControl
+                        ItemsSource="{Binding AttributeTypes}"
+                        ScrollViewer.CanContentScroll="True"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.AttributeAddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddProduct}}}" CommandParameter="{Binding}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Label Content="{Binding Path=Name}" />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+            </StackPanel>-->
+           
+            <!--<Grid
+                Grid.Row="7"
+                Grid.Column="1"
+                Grid.IsSharedSizeScope="True">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontSize="13">
+                    Product Attribute
+                </Label>
+
+                <ScrollViewer Grid.Row="1" Grid.Column="0">
+                    <ItemsControl x:Name="itmctlattribute" ItemsSource="{Binding AttributeTypesKeyValuePairs}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    x:Name="grdAttribute"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Right">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="0,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding Path=Key.Name}"
+                                        FontWeight="Bold" />
+                                    <Button
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding DataContext.DeleteAtributeValueCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddProduct}}}"
+                                        CommandParameter="{Binding}">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <materialDesign:PackIcon Kind="Bin">
+                                                    --><!--<i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <prism:InvokeCommandAction Command="{Binding DeleteAtributeValueCommand}" CommandParameter="{Binding}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>--><!--
+
+                                                </materialDesign:PackIcon>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Orientation="Horizontal">
+                                        <WrapPanel Orientation="Horizontal">
+                                            <ItemsControl ItemsSource="{Binding Path=Value}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <materialDesign:Chip
+                                                            Margin="4"
+                                                            Content="{Binding Path=AttributeName}"
+                                                            DeleteCommand="{Binding DataContext.DeleteSingleAtributeValueCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddProduct}}}"
+                                                            DeleteCommandParameter="{Binding}"
+                                                            IsDeletable="True">
+                                                            --><!--<i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <prism:InvokeCommandAction Command="{Binding DeleteAtributeValueCommand}"></prism:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>--><!--
+                                                        </materialDesign:Chip>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                    <TextBox
+                                        x:Name="txtAttributeName"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,5,0,5"
+                                        materialDesign:HintAssist.Hint="Add Value"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Text="{Binding Path=AttributeName}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Return" Command="{Binding DataContext.AddAttributeValueCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddProduct}}}">
+                                                <KeyBinding.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiConvert}">
+                                                        <Binding Path="Key.Name" />
+                                                        <Binding ElementName="txtAttributeName" Path="Text" />
+                                                    </MultiBinding>
+                                                </KeyBinding.CommandParameter>
+                                            </KeyBinding>
+                                            <KeyBinding Key="Enter" Command="{Binding DataContext.AddAttributeValueCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AddProduct}}}">
+                                                <KeyBinding.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiConvert}">
+                                                        <Binding Path="Key.Name" />
+                                                        <Binding ElementName="txtAttributeName" Path="Text" />
+                                                    </MultiBinding>
+                                                </KeyBinding.CommandParameter>
+                                            </KeyBinding>
+                                        </TextBox.InputBindings>
+
+                                    </TextBox>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </ScrollViewer>
+            </Grid>-->
+
+            <Button
+                Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Width="80"
+                Margin="10"
+                HorizontalAlignment="Right"
+                AutomationProperties.AutomationId="btnAddProductCreateId"
+                Command="{Binding AddNewProductCommand}"
+                Style="{StaticResource MaterialDesignRaisedDarkButton}">
+                Add
+            </Button>
+
+        </Grid>
+
+
+    </materialDesign:PopupBox>
+
+</UserControl>

@@ -1,0 +1,75 @@
+﻿<UserControl
+    x:Class="FalcaPOS.AddInventory.Views.BarCodeDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behavior="clr-namespace:FalcaPOS.Common.Behaviors;assembly=FalcaPOS.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    Width="1000"
+    Height="200"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{Binding BarCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            FontSize="20" />
+
+        <TextBox
+            Grid.Column="1"
+            materialDesign:HintAssist.Hint="Number of Barcode to print"
+            materialDesign:HintAssist.IsFloating="True"
+            Text="{Binding PrintCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <i:Interaction.Behaviors>
+                <behavior:TextBoxInputRegExBehaviour EmptyValue="0" RegularExpression="^[0-9]*$" />
+            </i:Interaction.Behaviors>
+        </TextBox>
+
+        <!--IsEnabled="{Binding IsPrinterDisConnected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="20,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Style="{StaticResource RoundTextButton}"
+            Command="{Binding RefreshPrinterCommand}"
+            >
+            Refresh Printers
+        </Button>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="3"
+            Margin="20,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Style="{StaticResource RoundTextButton}"
+            Command="{Binding PrintBarCodeCommand}"
+            Content="Print" />
+
+
+
+    </Grid>
+
+</UserControl>
