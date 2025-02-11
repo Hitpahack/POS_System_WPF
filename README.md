@@ -29,9 +29,6 @@ Here’s your updated **Tech Stack** section with icons for **C#, .NET, WPF, SQL
   <a href="https://redis.io/" target="_blank" rel="noreferrer"> 
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original-wordmark.svg" alt="Redis" width="50" height="50"/> 
   </a>
-  <a href="https://swagger.io/" target="_blank" rel="noreferrer"> 
-    <img src="https://static-00.iconduck.com/assets.00/swagger-icon-2048x2048-rv4rge5q.png" alt="Swagger" width="50" height="50"/> 
-  </a>
   <a href="https://www.postman.com/" target="_blank" rel="noreferrer"> 
     <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="Postman" width="50" height="50"/> 
   </a>
