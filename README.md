@@ -45,7 +45,17 @@ Suggi is a robust POS (Point of Sale) system designed for seamless sale and purc
 - 🛠️ **User Management** - Role-based access control for staff.
 - 🌍 **Cloud Support** - Data synchronization and backups.
 
+🚀 Usage Instructions
 
+Login/Register as an admin or cashier.
+
+Manage Inventory - Add, update, or remove products.
+
+Process Sales - Scan products, calculate total, and generate invoices.
+
+View Reports - Access daily, weekly, and monthly sales insights.
+
+User Management - Assign roles and permissions.
 ## 📌 Contact
 📫 **Email:** hiteshpatodia1@gmail.com  
 🔗 **Portfolio:** [Hitesh's Portfolio](https://hiteshpatodiaportfolio.netlify.app/)  
