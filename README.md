@@ -1,4 +1,4 @@
-![logo](https://github.com/Hitpahack/Hitpahack/blob/main/banner.gif)
+
 
 <h1 align="center">Suggi - POS System</h1>
 <h3 align="center">A robust POS system for agricultural stores across India</h3>
@@ -26,20 +26,6 @@ Suggi is a robust POS (Point of Sale) system designed for seamless sale and purc
 - 🛠️ **User Management** - Role-based access control for staff.
 - 🌍 **Cloud Support** - Data synchronization and backups.
 
-## 📌 Installation & Setup
-```sh
-# Clone the repository
-git clone https://github.com/Hitpahack/Suggi-POS.git
-
-# Navigate to project folder
-cd Suggi-POS
-
-# Install dependencies
-npm install
-
-# Start the application
-dotnet run
-```
 
 ## 📌 Contact
 📫 **Email:** hiteshpatodia1@gmail.com  
