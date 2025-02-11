@@ -1,3 +1,4 @@
+![logo](https://pivotalbusinesssystems.com.au/wp-content/uploads/2022/09/3-1%20(1).gif)
 <h1 align="center">Suggi - POS System</h1>
 <h3 align="center">A robust POS system for agricultural stores across India</h3>
 
