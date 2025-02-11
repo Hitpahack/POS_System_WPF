@@ -1,5 +1,3 @@
-
-https://cdn.dribbble.com/users/1712260/screenshots/5842000/scene_montage_3.gif
 <h1 align="center">Suggi - POS System</h1>
 <h3 align="center">A robust POS system for agricultural stores across India</h3>
 
