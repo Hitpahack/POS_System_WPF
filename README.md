@@ -3,7 +3,7 @@ https://cdn.dribbble.com/users/1712260/screenshots/5842000/scene_montage_3.gif
 <h1 align="center">Suggi - POS System</h1>
 <h3 align="center">A robust POS system for agricultural stores across India</h3>
 
-<img align="right" alt="POS System" width="400" src="https://miro.medium.com/v2/resize:fit:1400/1*gReLR6hZjwyBxHmfLN1AVw.gif"/> 
+<img align="right" alt="POS System" width="400" src="https://cdn.dribbble.com/users/1712260/screenshots/5842000/scene_montage_3.gif"/> 
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=hitpahack&label=Profile%20views&color=0e75b6&style=flat" alt="hitpahack" /> </p>
 
