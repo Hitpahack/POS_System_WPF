@@ -13,9 +13,7 @@
 ## 🚀 Project Overview
 Suggi is a robust POS (Point of Sale) system designed for seamless sale and purchase of farming essentials such as fertilizers, pesticides, tools, and implements. It is currently used by over **100 agricultural stores across India**.
 
-Here’s your updated **Tech Stack** section with icons for **C#, .NET, WPF, SQL Server, Entity Framework, Redis, Swagger, and more**:  
-
----
+**Tech Stack**  **C#, .NET, WPF, SQL Server, Entity Framework, Redis, Swagger, and more**:  
 
 ## 🛠️ Tech Stack  
 <p align="left">
