@@ -23,9 +23,7 @@ Here’s your updated **Tech Stack** section with icons for **C#, .NET, WPF, SQL
    <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"> 
     <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="SQL Server" width="50" height="50"/> 
   </a>
-  <a href="https://learn.microsoft.com/en-us/ef/" target="_blank" rel="noreferrer"> 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png" alt="Entity Framework" width="50" height="50"/> 
-  </a>
+ 
   <a href="https://redis.io/" target="_blank" rel="noreferrer"> 
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original-wordmark.svg" alt="Redis" width="50" height="50"/> 
   </a>
