@@ -44,16 +44,20 @@ Suggi is a robust POS (Point of Sale) system designed for seamless sale and purc
 - 📊 **Sales Reports** - Generates insightful reports for business decisions.
 - 🛠️ **User Management** - Role-based access control for staff.
 - 🌍 **Cloud Support** - Data synchronization and backups.
+- 🖨️ Receipt Printing - Automatically generates receipts for every transaction.
+- 🔄 Returns & Refunds - Easily process returns and issue refunds.
+- 🛡️ Secure Payments - Integrated support for multiple payment methods, including card, cash, and digital wallets.
+- 📅 Customer Management - Maintain customer records and purchase history for personalized service.
+- 🚀 Multi-Store Support - Manage multiple store locations from a single system.
+  
 
-🚀 Usage Instructions
+📌 Future Enhancements
+    📊 AI-based Sales Predictions
+    🌍 Multi-Language Support
+    📱 Mobile App Integration
+    🏬 Multi-Store Support
 
-Login/Register as an admin or cashier.
 
-Manage Inventory - Add, update, or remove products.
-
-Process Sales - Scan products, calculate total, and generate invoices.
-
-View Reports - Access daily, weekly, and monthly sales insights.
 
 User Management - Assign roles and permissions.
 ## 📌 Contact
