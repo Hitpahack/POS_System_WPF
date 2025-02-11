@@ -6,7 +6,7 @@
   <h3>A robust POS system for agricultural stores across India</h3>
 </div>
 
-<img align="right" alt="POS System" width="400" src="https://cdn.dribbble.com/users/1712260/screenshots/5842000/scene_montage_3.gif"/> 
+<img align="right" alt="POS System" width="300" src="https://cdn.dribbble.com/users/1712260/screenshots/5842000/scene_montage_3.gif"/> 
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=hitpahack&label=Profile%20views&color=0e75b6&style=flat" alt="hitpahack" /> </p>
 
