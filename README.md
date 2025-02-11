@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/eed29533-cf18-4bd9-a7a0-863352f2f50b)
+
 <h1 align="center">Suggi - POS System</h1>
 <h3 align="center">A robust POS system for agricultural stores across India</h3>
 
