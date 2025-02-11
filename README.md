@@ -20,10 +20,7 @@ Here’s your updated **Tech Stack** section with icons for **C#, .NET, WPF, SQL
   <a href="https://learn.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noreferrer"> 
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="C#" width="50" height="50"/> 
   </a>
-  <a href="https://learn.microsoft.com/en-us/dotnet/desktop/wpf/" target="_blank" rel="noreferrer"> 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/Microsoft_WPF_Logo.png" alt="WPF" width="50" height="50"/> 
-  </a>
-  <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"> 
+   <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"> 
     <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="SQL Server" width="50" height="50"/> 
   </a>
   <a href="https://learn.microsoft.com/en-us/ef/" target="_blank" rel="noreferrer"> 
