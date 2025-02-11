@@ -1,11 +1,10 @@
 ![image](https://github.com/user-attachments/assets/eed29533-cf18-4bd9-a7a0-863352f2f50b)
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f0be104a-b2e0-460f-b014-a2054aef3546" alt="Suggi POS Logo" width="100"/>
-  <h1>Suggi - POS System</h1> 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/f0be104a-b2e0-460f-b014-a2054aef3546" alt="Suggi POS Logo" width="100">
+  <h1 style="display: inline;">Suggi - POS System</h1>
   <h3>A robust POS system for agricultural stores across India</h3>
-</p>
-
+</div>
 
 <img align="right" alt="POS System" width="400" src="https://cdn.dribbble.com/users/1712260/screenshots/5842000/scene_montage_3.gif"/> 
 
